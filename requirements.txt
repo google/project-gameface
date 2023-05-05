@@ -1,0 +1,11 @@
+flatbuffers==2.0.0
+sounddevice==0.4.6
+matplotlib
+opencv-python
+opencv-contrib-python
+psutil
+pyautogui
+customtkinter
+PyDirectInput
+pywin32
+mediapipe==0.9.3.0
