@@ -61,5 +61,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='magic_mouse',
+    name='project_gameface',
 )
