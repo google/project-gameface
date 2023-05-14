@@ -119,7 +119,7 @@ FunctionEnd
 
 Section    
     SetOutPath "$InstDir"
-    File /r dist\GameFace\*
+    File /r dist\*
     SetShellVarContext all
     ;create start-menu items
       CreateDirectory "$SMPROGRAMS\GameFace"

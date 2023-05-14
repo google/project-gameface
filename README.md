@@ -92,3 +92,13 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
     pyinstaller build.spec
 ```
 
+
+# Build installer
+
+Install [NSIS](https://nsis.sourceforge.io/Download) then 
+
+```
+    & 'C:\Program Files (x86)\NSIS\makensis.exe' .\build-installer.nsi
+```
+
+
