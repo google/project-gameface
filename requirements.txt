@@ -6,7 +6,7 @@ opencv-contrib-python
 psutil
 pyautogui
 customtkinter
-PyDirectInput
-pywin32
-pyuac
+PyDirectInput; sys_platform == 'win32'
+pywin32; sys_platform == 'win32'
+pyuac;
 mediapipe==0.9.3.0

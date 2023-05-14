@@ -58,18 +58,17 @@ class MainApp(gui.MainGui, Pipeline):
         TaskKiller().exit()
 
 
-@main_requires_admin
 if __name__ == "__main__":
     tk_root = customtkinter.CTk()
 
     logging.info("Starting main app.")
     TaskKiller().start()
 
-	if not pyuac.isUserAdmin():
+    if not pyuac.isUserAdmin():
         print("Re-launching as admin!")
         pyuac.runAsAdmin()
     else:        
-		main_app = MainApp(tk_root)
-		main_app.tk_root.mainloop()
+        main_app = MainApp(tk_root)
+        main_app.tk_root.mainloop()
 
-		main_app = None
+        main_app = None
