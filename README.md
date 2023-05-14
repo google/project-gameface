@@ -1,46 +1,19 @@
 # Project Gameface
 Project Gameface helps gamers control their mouse cursor using their head movement and facial gestures.
 
+- Control mouse cursor and keyboard shortcuts in games and other applications.
+- Intended users are people who choose to use face-gesture and head movement for gaming purposes.
 
-
-# Download
-1. Download the program from [Release section](../../releases/)
-2. Run `run_app.exe`
-
-
-
-# Model used
-MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com/mediapipe/solutions/vision/face_landmarker)  
-[MediaPipe BlazeFace Model Card](https://storage.googleapis.com/mediapipe-assets/MediaPipe%20BlazeFace%20Model%20Card%20(Short%20Range).pdf)  
-[MediaPipe FaceMesh Model Card](https://storage.googleapis.com/mediapipe-assets/Model%20Card%20MediaPipe%20Face%20Mesh%20V2.pdf)  
-[Mediapipe Blendshape V2 Model Card](https://storage.googleapis.com/mediapipe-assets/Model%20Card%20Blendshape%20V2.pdf)  
-
-
-
-# Application
-- Control mouse cursor in games.
-- Intended users are people who choose to use face-control and head movement for gaming purposes.
-
-# Out-of-Scope Applications
+## Out-of-Scope Applications
 * This project is not intended for human life-critical decisions 
 * Predicted face landmarks do not provide facial recognition or identification and do not store any unique face representation.
 
 
-# Python application
+#  Install instructions
 
-## Installation
-> Environment
->- Windows  
->- Python 3.9
-```
-pip install -r requirements.txt
-```
-
-## Quick start
-1. Run main application
-    ```
-    python run_app.py
-    ```
+1. Download the program from [Release section](../../releases/latest)
+2. Install with the Setup.exe
+3. Run "GameFace" in your Windows Start menu/Desktop shortcut
 
 
 # Configs
@@ -87,13 +60,36 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 
 
 
-# Build
+# Developer details
+
+## Model used
+MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com/mediapipe/solutions/vision/face_landmarker)  
+[MediaPipe BlazeFace Model Card](https://storage.googleapis.com/mediapipe-assets/MediaPipe%20BlazeFace%20Model%20Card%20(Short%20Range).pdf)  
+[MediaPipe FaceMesh Model Card](https://storage.googleapis.com/mediapipe-assets/Model%20Card%20MediaPipe%20Face%20Mesh%20V2.pdf)  
+[Mediapipe Blendshape V2 Model Card](https://storage.googleapis.com/mediapipe-assets/Model%20Card%20Blendshape%20V2.pdf)  
+
+
+## Installation
+> Environment
+>- Windows  
+>- Python 3.9
+```
+pip install -r requirements.txt
+```
+
+## Quick start
+1. Run main application
+    ```
+    python run_app.py
+    ```
+
+## Build
 ```
     pyinstaller build.spec
 ```
 
 
-# Build installer
+## Build installer
 
 Install [NSIS](https://nsis.sourceforge.io/Download) then 
 
