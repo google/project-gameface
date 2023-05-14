@@ -119,12 +119,11 @@ FunctionEnd
 
 Section    
     SetOutPath "$InstDir"
-    File /r dist\*
+    File /r dist\project_gameface\*
     SetShellVarContext all
     ;create start-menu items
       CreateDirectory "$SMPROGRAMS\GameFace"
-      CreateShortCut "$SMPROGRAMS\GameFace\GameFace.lnk" "$INSTDIR\GameFace-qt.exe" "" "$INSTDIR\GameFace-qt.exe" 0
-      CreateShortCut "$SMPROGRAMS\GameFace\GameFace-Config.lnk" "$INSTDIR\GameFace.cfg" "" "$INSTDIR\GameFace.cfg" 0
+      CreateShortCut "$SMPROGRAMS\GameFace\GameFace.lnk" "$INSTDIR\run_app.exe" "" "$INSTDIR\GameFace-qt.exe" 0
       CreateShortCut "$SMPROGRAMS\GameFace\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
 
     ${If} $PortableMode = 0
