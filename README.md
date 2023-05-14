@@ -5,6 +5,7 @@ Project Gameface helps gamers control their mouse cursor using their head moveme
 - Intended users are people who choose to use face-gesture and head movement for gaming purposes.
 
 ## Out-of-Scope Applications
+
 * This project is not intended for human life-critical decisions 
 * Predicted face landmarks do not provide facial recognition or identification and do not store any unique face representation.
 
@@ -12,7 +13,7 @@ Project Gameface helps gamers control their mouse cursor using their head moveme
 #  Install instructions
 
 1. Download the program from [Release section](../../releases/latest)
-2. Install with the Setup.exe
+2. Install with the 'GameFace Setup.exe'
 3. Run "GameFace" in your Windows Start menu/Desktop shortcut
 
 
