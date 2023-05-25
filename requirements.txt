@@ -5,7 +5,7 @@ opencv-python
 opencv-contrib-python
 psutil
 pyautogui
-customtkinter
+customtkinter==5.1.2
 PyDirectInput; sys_platform == 'win32'
 pywin32; sys_platform == 'win32'
 pyuac;
