@@ -8,5 +8,4 @@ customtkinter==5.1.2
 mediapipe==0.9.3.0
 PyDirectInput==1.0.4;  sys_platform == 'win32'
 pywin32==306;  sys_platform == 'win32'
-nsisinstaller; sys_platform == 'win32'
 pyuac; sys_platform == 'win32'
