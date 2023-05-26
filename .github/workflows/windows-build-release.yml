@@ -4,10 +4,12 @@
 name: Python application
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ "nsis-installer" ]
+    branches:
+      - master
+      - nsis-installer
   pull_request:
-    branches: [ "main" ]
 
 permissions:
   contents: read
