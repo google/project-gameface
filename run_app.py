@@ -20,7 +20,7 @@ import pyuac
 import src.gui as gui
 from src.task_killer import TaskKiller
 from src.pipeline import Pipeline
-
+run_as_admin = False
 
 class MainApp(gui.MainGui, Pipeline):
 
@@ -55,8 +55,7 @@ if __name__ == "__main__":
 
     logging.info("Starting main app.")
     TaskKiller().start()
-
-    if not pyuac.isUserAdmin():
+    if run_as_admin and not pyuac.isUserAdmin():
         print("Re-launching as admin!")
         pyuac.runAsAdmin()
     else:        
