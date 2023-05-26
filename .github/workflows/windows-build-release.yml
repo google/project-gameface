@@ -30,8 +30,8 @@ jobs:
         pytest
     - name: Build 
         pyinstaller build.spec
-    - name: Build Installer
-        & 'C:\Program Files (x86)\NSIS\makensis.exe' .\build-installer.nsi
+#    - name: Build Installer
+#        & 'C:\Program Files (x86)\NSIS\makensis.exe' .\build-installer.nsi
     - name: Upload exe
       uses: actions/upload-artifact@v3
       with:
