@@ -21,7 +21,7 @@ jobs:
         pip install -r requirements.txt
     - name: Build 
       run: |
-        pyinstaller build.spec
+        python -m pyinstaller build.spec
     - name: Build Installer
       run: |
         & 'C:\Program Files (x86)\NSIS\makensis.exe' .\build-installer.nsi
