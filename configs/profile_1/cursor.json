@@ -5,15 +5,16 @@
     "tracking_vert_idxs": [
         8
     ], 
-    "spd_up": 40, 
-    "spd_down": 40, 
-    "spd_left": 40, 
-    "spd_right": 40, 
+    "spd_up": 14, 
+    "spd_down": 12, 
+    "spd_left": 15, 
+    "spd_right": 15, 
     "pointer_smooth": 6, 
     "shape_smooth": 10, 
     "tick_interval_ms": 16, 
     "hold_trigger_ms": 500, 
     "auto_play": false, 
+    "enable": true, 
     "mouse_acceleration": false, 
     "use_transformation_matrix": false
 }

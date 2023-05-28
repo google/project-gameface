@@ -21,7 +21,7 @@ import numpy as np
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import MouseController, Keybinder
 from src.gui.balloon import Balloon
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
@@ -73,6 +73,44 @@ class FrameSelectGesture(SafeDisposableFrame):
         })
 
         self.load_initial_config()
+                        # Toggle label
+        self.toggle_label = customtkinter.CTkLabel(master=self,
+                                                   compound='right',
+                                                   text="Face control",
+                                                   text_color="black",
+                                                   justify=tkinter.RIGHT)
+        self.toggle_label.cget("font").configure(size=14)
+        self.toggle_label.grid(row=2,
+                               column=0,
+                               padx=(10, 0),
+                               pady=5,
+                               sticky="nw")
+
+
+        # Toggle switch
+        self.toggle_switch = customtkinter.CTkSwitch(
+            master=self,
+            text="",
+            width=200,
+            border_color="transparent",
+            switch_height=18,
+            switch_width=32,
+            command=lambda: self.cursor_toggle_callback(
+                "toggle_switch", {"switch_status": self.toggle_switch.get()}),
+            variable=MouseController().is_enabled,
+            onvalue=1,
+            offvalue=0,
+        )
+        if ConfigManager().config["auto_play"]:
+            self.toggle_switch.select()
+
+        self.toggle_switch.grid(row=2,
+                                column=1,
+                                padx=(100, 0),
+                                pady=5,
+                                sticky="nw")
+
+
 
     def load_initial_config(self):
         """Load default from config and set the UI
@@ -218,6 +256,18 @@ class FrameSelectGesture(SafeDisposableFrame):
     def inner_refresh_profile(self):
         self.load_initial_config()
 
+    def cursor_toggle_callback(self, command, args: dict):
+        logger.info(f"cursor_toggle_callback {command} with {args}")
+
+        if command == "toggle_switch":
+            self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
+
+    def set_mediapipe_mouse_enable(self, new_state: bool):
+        if new_state:
+            MouseController().set_enabled(True)
+        else:
+            MouseController().set_enabled(False)
+
 
 class PageCursor(SafeDisposableFrame):
 
@@ -241,7 +291,7 @@ class PageCursor(SafeDisposableFrame):
                             columnspan=1)
 
         # Description.
-        des_txt = "Mouse cursor moves with your head movement. Use this settings to adjust how fast your mouse moves in each direction."
+        des_txt = "Adjust how the mouse cursor responds to your head movements."
         des_label = customtkinter.CTkLabel(master=self,
                                            text=des_txt,
                                            wraplength=300,
@@ -251,7 +301,7 @@ class PageCursor(SafeDisposableFrame):
 
         # Inner frame
         self.inner_frame = FrameSelectGesture(self)
-        self.inner_frame.grid(row=2, column=0, padx=5, pady=5, sticky="nw")
+        self.inner_frame.grid(row=4, column=0, padx=5, pady=5, sticky="nw")
 
     def refresh_profile(self):
         self.inner_frame.inner_refresh_profile()
