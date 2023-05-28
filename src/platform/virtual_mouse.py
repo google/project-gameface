@@ -7,7 +7,7 @@ from pynput.mouse import *
 class VirtualMouse(PlatformDetection):
 
     def action(self):
-        if self.windows:
+        if self.__windows:
             print("Not implemented")
 
     def destroy(self):
