@@ -150,6 +150,11 @@
         "family": "Google Sans",
         "size": 14,
         "weight": "normal"
+      },
+      "FreeBSD": {
+        "family": "Google Sans",
+        "size": 14,
+        "weight": "normal"
       }
     }
   }
