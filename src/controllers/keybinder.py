@@ -16,9 +16,16 @@ import copy
 import math
 import time
 import logging
-
+import sys
 import pydirectinput
-import win32api
+
+
+
+try:
+    import win32api
+except ImportError:
+    import simplejson as json
+
 
 import src.shape_list as shape_list
 from src.config_manager import ConfigManager
