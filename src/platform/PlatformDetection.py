@@ -14,7 +14,7 @@ class PlatformDetection:
 
     def __init__(self):
         self.__platform = sys.platform
-        if self.__platform == "Windows":
+        if self.__platform == "win32":
             self.__windows = True
         if self.__platform == "darwin":
             self.__darwin = True
