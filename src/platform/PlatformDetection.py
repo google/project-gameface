@@ -6,23 +6,15 @@ class PlatformDetection:
     __windows = False
     __linux = False
     __darwin = False
-    __freebsd12 = False
-    __freebsd13 = False
-    __freebsd14 = False
+    __freebsd = False
     __xorg = False
     __wayland = False
 
     def __init__(self):
         self.__platform = sys.platform
-        if self.__platform == "win32":
-            self.__windows = True
-        if self.__platform == "darwin":
-            self.__darwin = True
-        if self.__platform == "linux":
-            self.__linux = True
-        if self.__platform == "freebsd12":
-            self.__freebsd12 = True
-        if self.__platform == "freebsd13":
-            self.__freebsd13 = True
-        if self.__platform == "freebsd14":
-            self.__freebsd14 = True
+        self.__windows = (self.__platform == "win32")
+        self.__darwin = (self.__platform == "darwin")
+        self.__linux = (self.__platform == "linux")
+        self.__freebsd = ("freebsd" in self.__platform)
+        # Need to detect wayland, X as well.
+        # May be able to simplify to just a "unix"
