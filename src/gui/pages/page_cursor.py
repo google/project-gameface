@@ -253,10 +253,27 @@ class FrameSelectGesture(SafeDisposableFrame):
     def inner_refresh_profile(self):
         self.load_initial_config()
 
+    def enable_cursor(self, new_state: bool):
+        new={}
+        if new_state:
+            for cfg_name, div in self.divs.items():
+                slider = div["slider"]
+                slider.configure(state="normal", fg_color="#D2E3FC", progress_color="#1A73E8", button_color="#1A73E8")
+                div["slider"] = slider
+                new.update({cfg_name: div})
+        else:
+            for cfg_name, div in self.divs.items():
+                slider = div["slider"]
+                slider.configure(state="disabled", fg_color="lightgray", progress_color="gray", button_color="gray")
+                div["slider"] = slider
+                new.update({cfg_name: div})
+        self.divs=new
+
     def cursor_toggle_callback(self, command, args: dict):
         logger.info(f"cursor_toggle_callback {command} with {args}")
 
         if command == "toggle_switch":
+            self.enable_cursor(new_state=args["switch_status"])
             self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
 
     def set_mediapipe_mouse_enable(self, new_state: bool):
