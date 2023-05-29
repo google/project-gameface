@@ -71,27 +71,23 @@ class FrameSelectGesture(SafeDisposableFrame):
                 1, MAX_HOLD_TRIG
             ]
         })
-
-        self.load_initial_config()
-                        # Toggle label
+        # Toggle label
         self.toggle_label = customtkinter.CTkLabel(master=self,
                                                    compound='right',
-                                                   text="Face control",
-                                                   text_color="black",
+                                                   text="Cursor control",
                                                    justify=tkinter.RIGHT)
-        self.toggle_label.cget("font").configure(size=14)
-        self.toggle_label.grid(row=2,
+        self.toggle_label.cget("font").configure(weight='bold')
+        self.toggle_label.grid(row=0,
                                column=0,
-                               padx=(10, 0),
+                               padx=(20, 0),
                                pady=5,
                                sticky="nw")
-
-
+        
         # Toggle switch
         self.toggle_switch = customtkinter.CTkSwitch(
             master=self,
             text="",
-            width=200,
+            width=20,
             border_color="transparent",
             switch_height=18,
             switch_width=32,
@@ -101,14 +97,15 @@ class FrameSelectGesture(SafeDisposableFrame):
             onvalue=1,
             offvalue=0,
         )
-        if ConfigManager().config["auto_play"]:
+        if ConfigManager().config["enable"]:
             self.toggle_switch.select()
 
-        self.toggle_switch.grid(row=2,
-                                column=1,
-                                padx=(100, 0),
+        self.toggle_switch.grid(row=0,
+                                column=0,
+                                padx=(150, 0),
                                 pady=5,
                                 sticky="nw")
+        self.load_initial_config()
 
 
 
@@ -143,7 +140,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                                            text=show_name,
                                            justify=tkinter.LEFT)
             label.cget("font").configure(weight='bold')
-            label.grid(row=idx, column=0, padx=20, pady=(10, 10), sticky="nw")
+            label.grid(row=idx+2, column=0, padx=20, pady=(10, 10), sticky="nw")
             self.shared_info_balloon.register_widget(label, balloon_text)
 
             # Slider
@@ -159,7 +156,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                         partial(self.slider_mouse_down_callback, cfg_name))
             slider.bind("<ButtonRelease-1>",
                         partial(self.slider_mouse_up_callback, cfg_name))
-            slider.grid(row=idx, column=0, padx=30, pady=(40, 10), sticky="nw")
+            slider.grid(row=idx+2, column=0, padx=30, pady=(40, 10), sticky="nw")
 
             # Number entry
             entry_var = tkinter.StringVar()
@@ -172,7 +169,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                 textvariable=entry_var,
                 #validatecommand=vcmd,
                 width=62)
-            entry.grid(row=idx,
+            entry.grid(row=idx+2,
                        column=0,
                        padx=(300, 5),
                        pady=(34, 10),
