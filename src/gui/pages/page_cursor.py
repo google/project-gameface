@@ -268,6 +268,8 @@ class FrameSelectGesture(SafeDisposableFrame):
                 div["slider"] = slider
                 new.update({cfg_name: div})
         self.divs=new
+        ConfigManager().set_temp_config(field="enable", value=new_state)
+        ConfigManager().apply_config()
 
     def cursor_toggle_callback(self, command, args: dict):
         logger.info(f"cursor_toggle_callback {command} with {args}")
