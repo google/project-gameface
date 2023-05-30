@@ -13,3 +13,8 @@ pynput==1.7.6
 attrdict3==2.0.2
 wxPython==4.2.0
 
+
+Pillow~=9.5.0
+numpy~=1.24.3
+PyDirectInput~=1.0.4
+darkdetect~=0.8.0

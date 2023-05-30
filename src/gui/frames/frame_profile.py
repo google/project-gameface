@@ -427,8 +427,8 @@ class FrameProfile(SafeDisposableFrame):
         self.float_window = customtkinter.CTkToplevel(master)
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
-        self.float_window.wm_attributes("-disabled", True)
-        self.float_window.wm_attributes('-toolwindow', 'True')
+#        self.float_window.wm_attributes("-disabled", True)
+#        self.float_window.wm_attributes('-toolwindow', 'True')
         self.float_window.grid_rowconfigure(3, weight=1)
         self.float_window.grid_columnconfigure(0, weight=1)
         self.float_window.configure(fg_color="white")
@@ -443,7 +443,7 @@ class FrameProfile(SafeDisposableFrame):
         self.shadow_window.wm_attributes("-alpha", 0.7)
         self.shadow_window.wm_overrideredirect(True)
         self.shadow_window.lift()
-        self.shadow_window.wm_attributes('-toolwindow', 'True')
+#        self.shadow_window.wm_attributes('-toolwindow', 'True')
         #self.shadow_window.attributes('-topmost', True)
         self.shadow_window.geometry(
             f"{self.master_window.winfo_width()}x{self.master_window.winfo_height()}"
@@ -581,7 +581,7 @@ class FrameProfile(SafeDisposableFrame):
 
         if self._displayed:
             logger.info("hide")
-            self.float_window.wm_attributes('-disabled', True)
+#            self.float_window.wm_attributes('-disabled', True)
             self._displayed = False
 
             self.float_window.withdraw()

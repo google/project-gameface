@@ -13,6 +13,7 @@
 # limitations under the License.
 import concurrent.futures as futures
 import logging
+import sys
 
 import cv2
 
@@ -24,12 +25,15 @@ def __open_camera_task(i):
     logger.info(f"Try openning camera: {i}")
 
     try:
-        cap = cv2.VideoCapture(cv2.CAP_DSHOW + i)
-
-        if cap.getBackendName() != "DSHOW":
+        cam_offset = 0
+        if sys.platform == "win32":
+            cam_offset = cv2.CAP_DSHOW
+        cap = cv2.VideoCapture(cam_offset + i)
+        backend_name = cap.getBackendName()
+        if cap.getBackendName() != "DSHOW" and cap.getBackendName() != "AVFOUNDATION":
             logger.info(f"Camera {i}: {cap.getBackendName()} is not supported")
             return (False, i, None)
-
+        frame_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         if cap.get(cv2.CAP_PROP_FRAME_WIDTH) <= 0:
             logger.info(f"Camera {i}: frame size error.")
             return False, i, None

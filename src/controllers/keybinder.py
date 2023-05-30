@@ -16,27 +16,16 @@ import copy
 import math
 import time
 import logging
-import sys
-import pydirectinput
-
-
-
-try:
-    import win32api
-except ImportError:
-    import simplejson as json
-
 
 import src.shape_list as shape_list
 from src.config_manager import ConfigManager
 from src.controllers.mouse_controller import MouseController
+from src.platform.display_builder import DisplayBuilder
+from src.platform.virtual_keyboard_builder import VirtualKeyboardBuilder
+from src.platform.virtual_mouse_builder import VirtualMouseBuilder
 from src.singleton_meta import Singleton
 
 logger = logging.getLogger("Keybinder")
-
-# disable lag
-pydirectinput.PAUSE = 0
-pydirectinput.FAILSAFE = False
 
 
 class Keybinder(metaclass=Singleton):
@@ -49,12 +38,15 @@ class Keybinder(metaclass=Singleton):
         self.holding = False
         self.is_started = False
         self.last_know_keybinds = {}
+        self.display = DisplayBuilder().build()
+        self.keyboard = VirtualKeyboardBuilder().build()
+        self.mouse = VirtualMouseBuilder().build()
 
     def start(self):
         if not self.is_started:
             logger.info("Start Keybinder singleton")
             self.init_states()
-            self.screen_w, self.screen_h = pydirectinput.size()
+            self.screen_w, self.screen_h = self.display.size()
             self.monitors = self.get_monitors()
             self.is_started = True
 
@@ -74,7 +66,7 @@ class Keybinder(metaclass=Singleton):
 
     def get_monitors(self) -> list[dict]:
         out_list = []
-        monitors = win32api.EnumDisplayMonitors()
+        monitors = self.display.get_displays()
         for i, (_, _, loc) in enumerate(monitors):
             mon_info = {}
             mon_info["id"] = i
@@ -90,12 +82,12 @@ class Keybinder(metaclass=Singleton):
 
     def get_curr_monitor(self):
 
-        x, y = pydirectinput.position()
+        x, y = self.mouse.position()
         for mon_id, mon in enumerate(self.monitors):
             if x >= mon["x1"] and x <= mon["x2"] and y >= mon[
-                    "y1"] and y <= mon["y2"]:
+                "y1"] and y <= mon["y2"]:
                 return mon_id
-        #raise Exception("Monitor not found")
+        # raise Exception("Monitor not found")
         return 0
 
     def mouse_action(self, val, action, thres, mode) -> None:
@@ -105,27 +97,26 @@ class Keybinder(metaclass=Singleton):
 
         if mode == "hold":
             if (val > thres) and (self.key_states[state_name] is False):
-                pydirectinput.mouseDown(action)
+                self.mouse.mouseDown(action)
 
                 self.key_states[state_name] = True
 
             elif (val < thres) and (self.key_states[state_name] is True):
-                pydirectinput.mouseUp(action)
+                self.mouse.mouseUp(action)
                 self.key_states[state_name] = False
 
         elif mode == "single":
             if (val > thres):
                 if not self.key_states[state_name]:
-                    pydirectinput.click(button=action)
+                    self.mouse.click(button=action)
                     self.start_hold_ts = time.time()
 
                 self.key_states[state_name] = True
 
                 if not self.holding and (
-                    ((time.time() - self.start_hold_ts) * 1000) >=
+                        ((time.time() - self.start_hold_ts) * 1000) >=
                         ConfigManager().config["hold_trigger_ms"]):
-
-                    pydirectinput.mouseDown(button=action)
+                    self.mouse.mouseDown(button=action)
                     self.holding = True
 
             elif (val < thres) and (self.key_states[state_name] is True):
@@ -133,7 +124,7 @@ class Keybinder(metaclass=Singleton):
                 self.key_states[state_name] = False
 
                 if self.holding:
-                    pydirectinput.mouseUp(button=action)
+                    self.mouse.mouseUp(button=action)
                     self.holding = False
                     self.start_hold_ts = math.inf
 
@@ -142,11 +133,11 @@ class Keybinder(metaclass=Singleton):
         state_name = "keyboard_" + keysym
 
         if (self.key_states[state_name] is False) and (val > thres):
-            pydirectinput.keyDown(keysym)
+            self.keyboard.keyDown(keysym)
             self.key_states[state_name] = True
 
         elif (self.key_states[state_name] is True) and (val < thres):
-            pydirectinput.keyUp(keysym)
+            self.keyboard.keyUp(keysym)
             self.key_states[state_name] = False
 
     def act(self, blendshape_values) -> dict:
@@ -163,7 +154,7 @@ class Keybinder(metaclass=Singleton):
             return
 
         if (ConfigManager().mouse_bindings |
-                ConfigManager().keyboard_bindings) != self.last_know_keybinds:
+            ConfigManager().keyboard_bindings) != self.last_know_keybinds:
             self.init_states()
 
         for shape_name, v in (ConfigManager().mouse_bindings |
@@ -202,8 +193,8 @@ class Keybinder(metaclass=Singleton):
                             if mon_id is None:
                                 return
 
-                            pydirectinput.moveTo(self.monitors[mon_id]["center_x"],
-                                             self.monitors[mon_id]["center_y"])
+                            self.mouse.moveTo(self.monitors[mon_id]["center_x"],
+                                                 self.monitors[mon_id]["center_y"])
                             self.key_states[state_name] = True
                         elif (val < thres) and (self.key_states[state_name] is
                                                 True):
@@ -215,7 +206,7 @@ class Keybinder(metaclass=Singleton):
                                               False):
                             mon_id = self.get_curr_monitor()
                             next_mon_id = (mon_id + 1) % len(self.monitors)
-                            pydirectinput.moveTo(
+                            self.mouse.moveTo(
                                 self.monitors[next_mon_id]["center_x"],
                                 self.monitors[next_mon_id]["center_y"])
                             self.key_states[state_name] = True

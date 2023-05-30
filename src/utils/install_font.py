@@ -21,11 +21,13 @@ def install_fonts(font_dir: str) -> None:
     font_dir = Path(font_dir)
     for font_file in font_dir.glob("*.ttf"):
         logging.info(f"Installing font {font_file.as_posix()}")
-        FontManagement.add_font_resource(font_file.as_posix())
+        fm = FontManagement()
+        fm.add_font_resource(font_file=font_file.as_posix())
 
 
 def remove_fonts(font_dir: str) -> None:
     font_dir = Path(font_dir)
     for font_file in font_dir.glob("*.ttf"):
         logging.info(f"Removing font {font_file.as_posix()}")
-        FontManagement.remove_fontre_source(font_file.as_posix())
+        fm = FontManagement()
+        fm.remove_font_resource(font_file=font_file.as_posix())

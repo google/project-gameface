@@ -28,11 +28,11 @@ class Balloon():
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
         self.float_window.wm_attributes("-topmost", True)
-        self.float_window.wm_attributes("-disabled", True)
-        self.float_window.wm_attributes("-transparentcolor", "white")
+        #self.float_window.wm_attributes("-disabled", True)
+        #elf.float_window.wm_attributes("-transparentcolor", "white")
 
         # Hide icon in taskbar
-        self.float_window.wm_attributes('-toolwindow', 'True')
+#        self.float_window.wm_attributes('-toolwindow', 'True')
 
         self.balloon_image = customtkinter.CTkImage(
             Image.open(image_path).resize(BALLOON_SIZE), size=BALLOON_SIZE)

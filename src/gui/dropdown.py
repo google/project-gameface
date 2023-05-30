@@ -50,7 +50,7 @@ class Dropdown():
         self.float_window.wm_attributes("-topmost", True)
         # Hide icon in taskbar
 
-        self.float_window.wm_attributes('-toolwindow', 'True')
+#        self.float_window.wm_attributes('-toolwindow', 'True')
         self.float_window.grid_rowconfigure(MAX_ROWS, weight=1)
         self.float_window.grid_columnconfigure(1, weight=1)
         #self.float_window.group(master)
@@ -203,7 +203,7 @@ class Dropdown():
             # Remove bindings and completely disable the window
             self.float_window.unbind("<ButtonRelease-1>", self.bind_id_release)
             self.float_window.unbind("<B1-Motion>", self.bind_id_motion)
-            self.float_window.wm_attributes('-disabled', True)
+#            self.float_window.wm_attributes('-disabled', True)
 
             self._displayed = False
 
