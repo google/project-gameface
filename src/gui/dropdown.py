@@ -18,6 +18,7 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
+from src.platform import PlatformDetection
 
 ITEM_HEIGHT = 48
 ICON_SIZE = (68, 48)
@@ -38,7 +39,7 @@ def mouse_in_widget(mouse_x, mouse_y, widget, expand_x=(0, 0), expand_y=(0, 0)):
         return False
 
 
-class Dropdown():
+class Dropdown(PlatformDetection):
 
     def __init__(self, master, dropdown_items: dict, width, callback: callable):
         self.master_toplevel = master.winfo_toplevel()
@@ -50,10 +51,13 @@ class Dropdown():
         self.float_window.wm_attributes("-topmost", True)
         # Hide icon in taskbar
 
-#        self.float_window.wm_attributes('-toolwindow', 'True')
+        if self.is_windows():
+            self.float_window.wm_attributes('-toolwindow', 'True')
+
         self.float_window.grid_rowconfigure(MAX_ROWS, weight=1)
         self.float_window.grid_columnconfigure(1, weight=1)
-        #self.float_window.group(master)
+        if self.is_windows():
+            self.float_window.group(master)
         self._displayed = True
 
         self.dropdown_keys = list(dropdown_items.keys())
@@ -203,7 +207,9 @@ class Dropdown():
             # Remove bindings and completely disable the window
             self.float_window.unbind("<ButtonRelease-1>", self.bind_id_release)
             self.float_window.unbind("<B1-Motion>", self.bind_id_motion)
-#            self.float_window.wm_attributes('-disabled', True)
+
+            if self.is_windows():
+                self.float_window.wm_attributes('-disabled', True)
 
             self._displayed = False
 

@@ -48,13 +48,14 @@ DIV_COLORS = {
 }
 
 
+# noinspection PyMethodMayBeStatic
 class FrameProfileItems(SafeDisposableScrollableFrame):
 
     def __init__(
-        self,
-        master,
-        refresh_master_fn,
-        **kwargs,
+            self,
+            master,
+            refresh_master_fn,
+            **kwargs,
     ):
 
         super().__init__(master, **kwargs)
@@ -76,7 +77,6 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
 
         div_id = self.get_div_id(ConfigManager().curr_profile_name.get())
         self.set_div_selected(self.divs[div_id])
-        
 
     def load_initial_profiles(self):
         """Create div according to profiles in config
@@ -185,7 +185,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         for widget in div.values():
             if isinstance(
                     widget, customtkinter.windows.widgets.core_widget_classes.
-                    CTkBaseClass):
+                            CTkBaseClass):
                 widget.grid_forget()
                 widget.destroy()
         self.refresh_scrollbar()
@@ -427,12 +427,15 @@ class FrameProfile(SafeDisposableFrame):
         self.float_window = customtkinter.CTkToplevel(master)
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
-#        self.float_window.wm_attributes("-disabled", True)
-#        self.float_window.wm_attributes('-toolwindow', 'True')
+
+        if self.is_windows():
+            self.float_window.wm_attributes("-disabled", True)
+            self.float_window.wm_attributes('-toolwindow', 'True')
+            self.float_window.attributes('-topmost', True)
+
         self.float_window.grid_rowconfigure(3, weight=1)
         self.float_window.grid_columnconfigure(0, weight=1)
         self.float_window.configure(fg_color="white")
-        #self.float_window.attributes('-topmost', True)
         self.float_window.geometry(
             f"{POPUP_SIZE[0]}x{POPUP_SIZE[1]}+{POPUP_OFFSET[0]}+{POPUP_OFFSET[1]}"
         )
@@ -443,23 +446,26 @@ class FrameProfile(SafeDisposableFrame):
         self.shadow_window.wm_attributes("-alpha", 0.7)
         self.shadow_window.wm_overrideredirect(True)
         self.shadow_window.lift()
-#        self.shadow_window.wm_attributes('-toolwindow', 'True')
-        #self.shadow_window.attributes('-topmost', True)
+
+        if self.is_windows():
+            self.shadow_window.wm_attributes('-toolwindow', 'True')
+            self.shadow_window.attributes('-topmost', True)
+
         self.shadow_window.geometry(
             f"{self.master_window.winfo_width()}x{self.master_window.winfo_height()}"
         )
 
         # Label
         top_label = customtkinter.CTkLabel(master=self.float_window,
-                                                text="User profiles")
+                                           text="User profiles")
         top_label.cget("font").configure(size=24)
         top_label.grid(row=0,
-                            column=0,
-                            padx=20,
-                            pady=20,
-                            sticky="nw",
-                            columnspan=1)
-        
+                       column=0,
+                       padx=20,
+                       pady=20,
+                       sticky="nw",
+                       columnspan=1)
+
         # Description label      
         des_label = customtkinter.CTkLabel(master=self.float_window,
                                            text="With profile manager you can create and manage multiple profiles for each usage, so that you can easily switch between them.",
@@ -468,7 +474,6 @@ class FrameProfile(SafeDisposableFrame):
         des_label.cget("font").configure(size=14)
         des_label.grid(row=1, column=0, padx=20, pady=10, sticky="nw")
 
-        
         # Close button
         self.close_icon = customtkinter.CTkImage(
             Image.open("assets/images/close.png").resize(CLOSE_ICON_SIZE),
@@ -517,7 +522,6 @@ class FrameProfile(SafeDisposableFrame):
     def add_button_callback(self):
         ConfigManager().add_profile()
         self.inner_frame.refresh_frame()
-        
 
     def lift_window(self, event):
         """Lift windows when root window get focus
@@ -540,7 +544,7 @@ class FrameProfile(SafeDisposableFrame):
         shift_x = self.master_window.winfo_rootx()
         shift_y = self.master_window.winfo_rooty()
         self.float_window.geometry(
-            f"+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}")
+            f"+{POPUP_OFFSET[0] + shift_x}+{POPUP_OFFSET[1] + shift_y}")
         self.shadow_window.geometry(f"+{shift_x}+{shift_y}")
         self.prev_event = event
 
@@ -571,7 +575,7 @@ class FrameProfile(SafeDisposableFrame):
 
             # Popup
             self.float_window.geometry(
-                f"+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}")
+                f"+{POPUP_OFFSET[0] + shift_x}+{POPUP_OFFSET[1] + shift_y}")
             self.float_window.deiconify()
             self.float_window.lift()
             self.float_window.wm_attributes('-disabled', False)
@@ -581,7 +585,8 @@ class FrameProfile(SafeDisposableFrame):
 
         if self._displayed:
             logger.info("hide")
-#            self.float_window.wm_attributes('-disabled', True)
+            if self.is_windows():
+                self.float_window.wm_attributes('-disabled', True)
             self._displayed = False
 
             self.float_window.withdraw()

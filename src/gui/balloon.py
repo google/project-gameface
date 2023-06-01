@@ -17,10 +17,12 @@ from functools import partial
 import customtkinter
 from PIL import Image
 
+from src.platform import PlatformDetection
+
 BALLOON_SIZE = (305, 80)
 
 
-class Balloon():
+class Balloon(PlatformDetection):
 
     def __init__(self, master, image_path: str):
 
@@ -28,11 +30,13 @@ class Balloon():
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
         self.float_window.wm_attributes("-topmost", True)
-        #self.float_window.wm_attributes("-disabled", True)
-        #elf.float_window.wm_attributes("-transparentcolor", "white")
+        if self.is_windows():
+            self.float_window.wm_attributes("-disabled", True)
+            self.float_window.wm_attributes("-transparentcolor", "white")
 
         # Hide icon in taskbar
-#        self.float_window.wm_attributes('-toolwindow', 'True')
+        if self.is_windows():
+            self.float_window.wm_attributes('-toolwindow', 'True')
 
         self.balloon_image = customtkinter.CTkImage(
             Image.open(image_path).resize(BALLOON_SIZE), size=BALLOON_SIZE)
