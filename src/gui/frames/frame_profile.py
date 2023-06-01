@@ -22,6 +22,7 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
+from src.platform import PlatformDetection
 from src.task_killer import TaskKiller
 from src.gui.frames.safe_disposable_frame import (SafeDisposableFrame,
                                                   SafeDisposableScrollableFrame)
@@ -419,7 +420,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         super().leave()
 
 
-class FrameProfile(SafeDisposableFrame):
+class FrameProfile(SafeDisposableFrame, PlatformDetection):
 
     def __init__(self, master, refresh_master_fn: callable, **kwargs):
         super().__init__(master, **kwargs)
