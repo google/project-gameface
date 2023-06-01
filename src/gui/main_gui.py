@@ -13,15 +13,12 @@
 # limitations under the License.
 
 import logging
-import tkinter as tk
-
 import customtkinter
-from PIL import Image
-
 import src.gui.frames as frames
 import src.gui.pages as pages
 from src.config_manager import ConfigManager
 from src.controllers import MouseController
+from src.platform import PlatformDetection
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("assets/themes/google_theme.json")
@@ -29,7 +26,7 @@ customtkinter.set_default_color_theme("assets/themes/google_theme.json")
 logger = logging.getLogger("MainGUi")
 
 
-class MainGui():
+class MainGui(PlatformDetection):
 
     def __init__(self, tk_root):
         logger.info("Init MainGui")
@@ -38,7 +35,10 @@ class MainGui():
 
         self.tk_root.geometry("1024x658")
         self.tk_root.title(f"Project Gameface {ConfigManager().version}")
-        self.tk_root.iconbitmap("assets/images/icon.ico")
+
+        if not self.is_linux():
+            self.tk_root.iconbitmap("assets/images/icon.ico")
+
         self.tk_root.resizable(width=False, height=False)
 
         self.tk_root.grid_rowconfigure(1, weight=1)
