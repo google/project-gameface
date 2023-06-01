@@ -5,7 +5,7 @@
 Name "${NAME}"
 Outfile "${NAME} setup.exe"
 ;RequestExecutionlevel highest
-RequestExecutionLevel admin ;Require admin rights on NT6+ (When UAC is turned on)
+;RequestExecutionLevel admin ;Require admin rights on NT6+ (When UAC is turned on)
 SetCompressor LZMA
 ;SetCompress Off
 
@@ -17,6 +17,12 @@ Var PortableMode
 !include FileFunc.nsh
 !include MUI2.nsh
 
+
+!define MUI_ICON "assets\images\icon.ico"
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "assets\images\icon.ico"
+!define MUI_HEADERIMAGE_RIGHT
+
 !insertmacro MUI_PAGE_WELCOME
 Page Custom PortableModePageCreate PortableModePageLeave
 !insertmacro MUI_PAGE_DIRECTORY
@@ -26,7 +32,7 @@ Page Custom PortableModePageCreate PortableModePageLeave
 
 
 Function .onInit
-    Call RequireAdmin
+    ;Call RequireAdmin
     StrCpy $NormalDestDir "${DEFAULTNORMALDESTINATON}"
     StrCpy $PortableDestDir "${DEFAULTPORTABLEDESTINATON}"
 
