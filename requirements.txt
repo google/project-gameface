@@ -10,3 +10,4 @@ PyDirectInput==1.0.4;  sys_platform == 'win32'
 pywin32==306;  sys_platform == 'win32'
 pyuac; sys_platform == 'win32'
 pyinstaller==5.11.0 
+pynput
