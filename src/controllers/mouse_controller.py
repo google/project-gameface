@@ -17,6 +17,7 @@ import threading
 import time
 from pynput.mouse import Button, Controller
 import tkinter as tk
+from screeninfo import get_monitors
 
 import numpy as np
 import numpy.typing as npt
@@ -57,7 +58,9 @@ class MouseController(metaclass=Singleton):
             self.buffer = np.zeros([N_BUFFER, 2])
             self.accel = SigmoidAccel()
             self.pool = futures.ThreadPoolExecutor(max_workers=1)
-            self.screen_w, self.screen_h = pyautogui.size()
+            m = get_monitors()
+            self.screen_w = m[0].width
+            self.screen_h = m[0].height
             self.calc_smooth_kernel()
 
             self.is_active = tk.BooleanVar()
