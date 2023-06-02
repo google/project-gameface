@@ -35,12 +35,12 @@ logger = logging.getLogger("ConfigManager")
 class ConfigManager(metaclass=Singleton):
 
     def __init__(self):
+        logger.info("Initialize ConfigManager singleton")
         self.temp_keyboard_bindings = None
         self.keyboard_bindings = None
         self.mouse_bindings = None
         self.temp_mouse_bindings = None
         self.temp_config = None
-        logger.info("Initialize ConfigManager singleton")
         self.version = VERSION
         self.unsave_configs = False
         self.unsave_mouse_bindings = False
