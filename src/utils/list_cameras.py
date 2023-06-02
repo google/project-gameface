@@ -14,26 +14,27 @@
 import concurrent.futures as futures
 import logging
 import sys
-
 import cv2
 
 logger = logging.getLogger("ListCamera")
 
 
+# TODO: Make this into a class where platform detection is applied
 def __open_camera_task(i):
-
-    logger.info(f"Try openning camera: {i}")
+    logger.debug(f"Try opening camera: {i}")
+    accepted_backends = [ 'DSHOW', 'AVFOUNDATION', 'V4L2']
 
     try:
         cam_offset = 0
         if sys.platform == "win32":
             cam_offset = cv2.CAP_DSHOW
+
         cap = cv2.VideoCapture(cam_offset + i)
-        backend_name = cap.getBackendName()
-        if cap.getBackendName() != "DSHOW" and cap.getBackendName() != "AVFOUNDATION":
-            logger.info(f"Camera {i}: {cap.getBackendName()} is not supported")
-            return (False, i, None)
-        frame_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+
+        if cap.getBackendName() not in accepted_backends:
+            logger.debug(f"Camera {i}: {cap.getBackendName()} is not supported")
+            return False, i, None
+
         if cap.get(cv2.CAP_PROP_FRAME_WIDTH) <= 0:
             logger.info(f"Camera {i}: frame size error.")
             return False, i, None
@@ -42,22 +43,22 @@ def __open_camera_task(i):
         cv2.waitKey(1)
 
         if not ret:
-            logger.info(f"Camera {i}: No frame returned")
-            return (False, i, None)
+            logger.debug(f"Camera {i}: No frame returned")
+            return False, i, None
 
         h, w, _ = frame.shape
-        logger.info(f"Camera {i}: {cap} height: {h} width: {w}")
+        logger.debug(f"Camera {i}: {cap} height: {h} width: {w}")
 
-        return (True, i, cap)
+        return True, i, cap
     except Exception as e:
-        logger.warning(f"Camera {i}: not found {e}")
-        return (False, i, None)
+        logger.debug(f"Camera {i}: not found {e}")
+        return False, i, None
 
 
 def assign_caps_unblock(caps, i):
     ret, _, cap = __open_camera_task(i)
     if not ret:
-        logger.info(f"Camera {i}: Failed to open")
+        logger.debug(f"Camera {i}: Failed to open")
     if cap is not None:
         caps[i] = cap
 
@@ -67,13 +68,12 @@ def assign_caps_unblock(caps, i):
 
 
 def assign_caps_queue(caps, done_callback: callable, max_search: int):
-
     for i in range(max_search):
 
         # block
         ret, _, cap = __open_camera_task(i)
         if not ret:
-            logger.info(f"Camera {i}: Failed to open")
+            logger.debug(f"Camera {i}: Failed to open")
         if cap is not None:
             caps[i] = cap
 
