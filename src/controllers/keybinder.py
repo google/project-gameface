@@ -35,7 +35,7 @@ class Keybinder(metaclass=Singleton):
         self.monitors = None
         self.screen_h = None
         self.screen_w = None
-        logger.info("Intialize Keybinder singleton")
+        logger.info("Initialize Keybinder singleton")
         self.top_count = 0
         self.triggered = False
         self.start_hold_ts = math.inf

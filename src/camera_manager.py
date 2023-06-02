@@ -45,7 +45,7 @@ def add_overlay(background, overlay, x, y, width, height):
 class CameraManager(metaclass=Singleton):
 
     def __init__(self):
-        logger.info("Intialize CameraManager singleton")
+        logger.info("Initialize CameraManager singleton")
         self.thread_cameras = None
 
         # Load placeholder image

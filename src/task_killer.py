@@ -29,7 +29,7 @@ class TaskKiller(metaclass=Singleton):
     """
 
     def __init__(self):
-        logger.info("Intialize TaskKiller singleton")
+        logger.info("Initialize TaskKiller singleton")
         self.is_started = False
 
     def start(self):

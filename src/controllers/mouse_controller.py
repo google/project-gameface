@@ -43,7 +43,7 @@ class MouseController(metaclass=Singleton):
         self.pool = None
         self.accel = None
         self.buffer = None
-        logger.info("Intialize MouseController singleton")
+        logger.info("Initialize MouseController singleton")
         self.prev_x = 0
         self.prev_y = 0
         self.curr_track_loc = None

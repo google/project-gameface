@@ -38,7 +38,7 @@ class FaceMesh(metaclass=Singleton):
 
     def __init__(self):
         self.smooth_kernel = None
-        logger.info("Intialize FaceMesh singleton")
+        logger.info("Initialize FaceMesh singleton")
         self.mp_landmarks = None
         self.track_loc = None
         self.blendshapes_buffer = np.zeros([BLENDS_MAX_BUFFER, N_SHAPES])

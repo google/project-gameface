@@ -31,10 +31,16 @@ BACKUP_PROFILE = Path("configs/default")
 logger = logging.getLogger("ConfigManager")
 
 
+# noinspection PyMethodMayBeStatic
 class ConfigManager(metaclass=Singleton):
 
     def __init__(self):
-        logger.info("Intialize ConfigManager singleton")
+        self.temp_keyboard_bindings = None
+        self.keyboard_bindings = None
+        self.mouse_bindings = None
+        self.temp_mouse_bindings = None
+        self.temp_config = None
+        logger.info("Initialize ConfigManager singleton")
         self.version = VERSION
         self.unsave_configs = False
         self.unsave_mouse_bindings = False
@@ -88,6 +94,7 @@ class ConfigManager(metaclass=Singleton):
         shutil.move(Path(DEFAULT_JSON.parent, old_profile_name),
                     Path(DEFAULT_JSON.parent, new_profile_name))
 
+    # noinspection PyTypeChecker
     def load_profile(self, profile_name: str) -> list[bool, Path]:
         profile_path = Path(DEFAULT_JSON.parent, profile_name)
         logger.info(f"Loading profile: {profile_path}")
@@ -224,9 +231,9 @@ class ConfigManager(metaclass=Singleton):
 
         out_keybinds = {}
         for ges, vals in self.temp_keyboard_bindings.items():
-            if (gesture == ges):
+            if gesture == ges:
                 continue
-            if (key_action == vals[1]):
+            if key_action == vals[1]:
                 continue
 
             out_keybinds[ges] = vals
