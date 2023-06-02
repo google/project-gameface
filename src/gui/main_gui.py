@@ -36,7 +36,9 @@ class MainGui(PlatformDetection):
         self.tk_root.geometry("1024x658")
         self.tk_root.title(f"Project Gameface {ConfigManager().version}")
 
-        if not self.is_linux():
+        if self.is_linux():
+            self.tk_root.iconbitmap("@assets/images/icon.xbm")
+        else:
             self.tk_root.iconbitmap("assets/images/icon.ico")
 
         self.tk_root.resizable(width=False, height=False)
