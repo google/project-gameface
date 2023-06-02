@@ -32,7 +32,9 @@ MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com
 
 ## Installation
 > Environment
->- Windows  
+>- Windows
+>- Linux
+>- Apple MacOS
 >- Python 3.9
 ```
 pip install -r requirements.txt
