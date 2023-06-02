@@ -1,11 +1,3 @@
-import sys
-
-if sys.platform == "win32":
-    import pydirectinput
-    import win32api
-    import ctypes
-
-
 class FontMeta(type):
 
     def __instancecheck__(cls, instance):
