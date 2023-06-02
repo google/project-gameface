@@ -31,6 +31,10 @@ logger = logging.getLogger("Keybinder")
 class Keybinder(metaclass=Singleton):
 
     def __init__(self) -> None:
+        self.key_states = None
+        self.monitors = None
+        self.screen_h = None
+        self.screen_w = None
         logger.info("Intialize Keybinder singleton")
         self.top_count = 0
         self.triggered = False
@@ -51,7 +55,7 @@ class Keybinder(metaclass=Singleton):
             self.is_started = True
 
     def init_states(self) -> None:
-        """Re initializes the state of the keybinder.
+        """Re-initializes the state of the keybinder.
            If new keybinds are added.
         """
         # keep states for all registered keys.
@@ -68,14 +72,15 @@ class Keybinder(metaclass=Singleton):
         out_list = []
         monitors = self.display.get_displays()
         for i, (_, _, loc) in enumerate(monitors):
-            mon_info = {}
-            mon_info["id"] = i
-            mon_info["x1"] = loc[0]
-            mon_info["y1"] = loc[1]
-            mon_info["x2"] = loc[2]
-            mon_info["y2"] = loc[3]
-            mon_info["center_x"] = (loc[0] + loc[2]) // 2
-            mon_info["center_y"] = (loc[1] + loc[3]) // 2
+            mon_info = {
+                "id": i,
+                "x1": loc[0],
+                "y1": loc[1],
+                "x2": loc[2],
+                "y2": loc[3],
+                "center_x": (loc[0] + loc[2]) // 2,
+                "center_y": (loc[1] + loc[3]) // 2
+            }
             out_list.append(mon_info)
 
         return out_list
@@ -90,6 +95,7 @@ class Keybinder(metaclass=Singleton):
         # raise Exception("Monitor not found")
         return 0
 
+    # noinspection PyUnusedLocal
     def mouse_action(self, val, action, thres, mode) -> None:
         state_name = "mouse_" + action
 
@@ -128,6 +134,7 @@ class Keybinder(metaclass=Singleton):
                     self.holding = False
                     self.start_hold_ts = math.inf
 
+    # noinspection PyUnusedLocal
     def keyboard_action(self, val, keysym, thres, mode):
 
         state_name = "keyboard_" + keysym

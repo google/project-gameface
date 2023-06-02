@@ -22,10 +22,11 @@ from src.platform import PlatformDetection
 BALLOON_SIZE = (305, 80)
 
 
+# noinspection PyUnusedLocal
 class Balloon(PlatformDetection):
 
     def __init__(self, master, image_path: str):
-
+        super().__init__()
         self.float_window = customtkinter.CTkToplevel(master)
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
@@ -45,7 +46,7 @@ class Balloon(PlatformDetection):
             self.float_window,
             text="",
             compound='center',
-            #anchor="nw",
+            # anchor="nw",
             justify='left',
             width=BALLOON_SIZE[0],
             height=BALLOON_SIZE[1],
@@ -70,7 +71,7 @@ class Balloon(PlatformDetection):
             self.label.configure(text=text)
             self._displayed = True
             self.float_window.wm_geometry(
-                f"{BALLOON_SIZE[0]}x{BALLOON_SIZE[1]}+{widget.winfo_rootx()+widget.winfo_width()}+{widget.winfo_rooty()-10}"
+                f"{BALLOON_SIZE[0]}x{BALLOON_SIZE[1]}+{widget.winfo_rootx() + widget.winfo_width()}+{widget.winfo_rooty() - 10}"
             )
 
             self.float_window.lift()
@@ -79,6 +80,5 @@ class Balloon(PlatformDetection):
     def hide_balloon(self, widget, event):
 
         if self._displayed:
-
             self._displayed = False
             self.float_window.withdraw()

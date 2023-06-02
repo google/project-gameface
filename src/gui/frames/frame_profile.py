@@ -49,7 +49,7 @@ DIV_COLORS = {
 }
 
 
-# noinspection PyMethodMayBeStatic
+# noinspection PyMethodMayBeStatic,PyUnusedLocal
 class FrameProfileItems(SafeDisposableScrollableFrame):
 
     def __init__(
@@ -179,14 +179,16 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         # Refresh values in each page
         self.refresh_master_fn()
 
+    # noinspection PyUnresolvedReferences
     def remove_div(self, div_name):
         logger.info(f"Remove {div_name}")
         div = self.divs[div_name]
 
         for widget in div.values():
             if isinstance(
-                    widget, customtkinter.windows.widgets.core_widget_classes.
-                            CTkBaseClass):
+                    widget,
+                    customtkinter.windows.widgets.core_widget_classes.CTkBaseClass
+            ):
                 widget.grid_forget()
                 widget.destroy()
         self.refresh_scrollbar()
@@ -420,6 +422,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         super().leave()
 
 
+# noinspection PyUnusedLocal
 class FrameProfile(SafeDisposableFrame, PlatformDetection):
 
     def __init__(self, master, refresh_master_fn: callable, **kwargs):
@@ -469,7 +472,8 @@ class FrameProfile(SafeDisposableFrame, PlatformDetection):
 
         # Description label      
         des_label = customtkinter.CTkLabel(master=self.float_window,
-                                           text="With profile manager you can create and manage multiple profiles for each usage, so that you can easily switch between them.",
+                                           text="With profile manager you can create and manage multiple profiles for "
+                                                "each usage, so that you can easily switch between them.",
                                            wraplength=300,
                                            justify=tk.LEFT)
         des_label.cget("font").configure(size=14)
@@ -549,6 +553,7 @@ class FrameProfile(SafeDisposableFrame, PlatformDetection):
         self.shadow_window.geometry(f"+{shift_x}+{shift_y}")
         self.prev_event = event
 
+    # noinspection PyUnresolvedReferences
     def change_profile(self, target):
         ConfigManager().switch_profile(target)
         self.pages["page_camera"].refresh_profile()
