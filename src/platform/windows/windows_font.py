@@ -1,7 +1,6 @@
-import sys
 from src.platform.interfaces.font_interface import FontInterface
-if sys.platform == "win32":
-    import ctypes
+import ctypes
+
 
 class WindowsFont(FontInterface):
 
