@@ -1,13 +1,8 @@
 # Project Gameface
 Project Gameface helps gamers control their mouse cursor using their head movement and facial gestures.
 
-
-
-# Download
-1. Download the program from [Release section](../../releases/)
-2. Run `run_app.exe`
-
-
+# This is a Multiplatform build 
+> :warning:  Still under heavy development
 
 # Model used
 MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com/mediapipe/solutions/vision/face_landmarker)  
