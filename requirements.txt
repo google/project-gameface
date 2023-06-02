@@ -2,9 +2,9 @@ flatbuffers==23.5.26
 sounddevice==0.4.6
 matplotlib==3.7.1
 opencv-contrib-python==4.7.0.72
-psutil
-pyautogui
-customtkinter
+psutil==5.9.5
+pyautogui==0.9.54
+customtkinter==5.1.3
 pywin32==306; sys_platform == 'win32'
 mediapipe==0.10.0
 tk==0.1.0
@@ -12,10 +12,10 @@ pydirectinput-rgx==2.0.7
 pynput==1.7.6
 attrdict3==2.0.2
 #wxPython==4.2.0
-Pillow
-numpy
-PyDirectInput
+Pillow==9.5.0
+numpy==1.24.3
+PyDirectInput==1.0.4
 darkdetect~=0.8.0
-pyuac; sys_platform == 'win32'
-pynput
-screeninfo
+pyuac==0.0.3; sys_platform == 'win32'
+pynput==1.7.6
+screeninfo==0.8.1
