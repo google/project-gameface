@@ -11,3 +11,6 @@ class LinuxProperties(PropertiesInterface):
 
     def get_app_icon(self) -> str:
         return "@assets/images/icon.xbm"
+
+    def get_frame_menu_width(self) -> int:
+        return 380

@@ -46,8 +46,8 @@ class MainGui(PlatformDetection):
         # Create menu frame and assign callbacks
         self.frame_menu = frames.FrameMenu(self.tk_root,
                                            self.change_frame_callback,
-                                           height=360,
-                                           width=320,
+                                           height=self.gui_properties.get_frame_menu_height(),
+                                           width=self.gui_properties.get_frame_menu_width(),
                                            logger_name="frame_menu")
         self.frame_menu.grid(row=0,
                              column=0,
