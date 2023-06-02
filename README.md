@@ -92,6 +92,6 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 
 # Build Package on Windows
 ```
-    pyinstaller build.specÏ
+    pyinstaller build.spec
 ```
 
