@@ -5,6 +5,8 @@ from src.platform.windows.windows_virtual_keyboard import WindowsVirtualKeyboard
 
 
 class VirtualKeyboardBuilder(PlatformDetection):
+    def __init__(self):
+        super().__init__()
 
     def build(self) -> keyboard_interface:
         if self.is_windows():

@@ -17,15 +17,14 @@ import logging
 import threading
 import time
 from threading import Thread
-
+# noinspection PyPackageRequirements
 import cv2
 import numpy as np
 import numpy.typing as npt
 from PIL import Image
-
-import src.utils as utils
 from src.config_manager import ConfigManager
 from src.controllers import MouseController
+from src.platform.camera_builder import CameraBuilder
 from src.singleton_meta import Singleton
 
 MAX_SEARCH_CAMS = 5
@@ -130,7 +129,7 @@ class CameraManager(metaclass=Singleton):
             return
 
         # Face not detected
-        if (track_loc is None):
+        if track_loc is None:
             self.frame_buffers["debug"] = add_overlay(
                 self.frame_buffers["debug"], self.overlay_face_not_detected, 0,
                 0, 640, 108)
@@ -160,10 +159,11 @@ class CameraManager(metaclass=Singleton):
 # ---------------------------------------------------------------------------- #
 
 
-class ThreadCameras():
+class ThreadCameras:
 
     def __init__(self, frame_buffers: dict):
-        logger.info("Intializing Threadcamera")
+        logger.info("Initializing Threadcamera")
+        self.camera = CameraBuilder().build()
         self.lock = threading.Lock()
         self.pool = futures.ThreadPoolExecutor(max_workers=8)
         self.stop_flag = threading.Event()
@@ -173,7 +173,7 @@ class ThreadCameras():
         # Open all cameras
         self.caps = {}
 
-        self.assign_exe = Thread(target=utils.assign_caps_queue,
+        self.assign_exe = Thread(target=self.camera.assign_caps_queue,
                                  args=(self.caps, self.assign_done,
                                        MAX_SEARCH_CAMS),
                                  daemon=True)
@@ -190,7 +190,7 @@ class ThreadCameras():
     def assign_done(self):
         """Set default camera after assign_caps is done
         """
-        logger.info(f"Assign cameras completed. Found {self.caps}")
+        logger.debug(f"Assign cameras completed. Found {self.caps}")
 
         init_id = ConfigManager().config["camera_id"]
 
@@ -200,7 +200,7 @@ class ThreadCameras():
         else:
             self.curr_id = init_id
 
-        logger.info(f"Try to use camera {self.curr_id}")
+        logger.debug(f"Try to use camera {self.curr_id}")
         self.pick_camera(self.curr_id)
         self.assign_done_flag.set()
 
@@ -211,17 +211,17 @@ class ThreadCameras():
             new_id (int): camera id to open
         """
 
-        logger.info(f"Pick camera {new_id}, Releasing others...")
+        logger.debug(f"Pick camera {new_id}, Releasing others...")
 
         if new_id not in self.caps:
-            logger.error(f"Camera {new_id} not found")
+            logger.debug(f"Camera {new_id} not found")
             return
 
         for cam_id, _ in self.caps.items():
             if cam_id == new_id:
                 if self.caps[new_id] is not None:
                     continue
-                utils.open_camera(self.caps, cam_id)
+                self.camera.open_camera(self.caps, cam_id)
             else:
                 if self.caps[cam_id] is not None:
                     self.caps[cam_id].release()

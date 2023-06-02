@@ -1,15 +1,18 @@
 from src.platform import PlatformDetection
-from src.platform.generic.generic_virtual_mouse import GenericVirtualMouse
+from src.platform.generic.generic_camera import GenericCamera
 from src.platform.interfaces.camera_interface import CameraInterface
-from src.platform.windows.windows_virtual_mouse import WindowsVirtualMouse
+from src.platform.windows.windows_camera import WindowsCamera
 
 
 class CameraBuilder(PlatformDetection):
 
+    def __init__(self):
+        super().__init__()
+
     def build(self) -> CameraInterface:
         if self.is_windows():
-            return WindowsVirtualMouse()
-        else:
-            return GenericVirtualMouse()
+            return WindowsCamera()
+
+        return GenericCamera()
 
 
