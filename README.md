@@ -6,7 +6,7 @@ Project Gameface helps gamers control their mouse cursor using their head moveme
 
 This will run on Windows AMD64, Apple MacOS, and Linux AMD64.
 
-> :warning:  For those using MacOS on Apple Silicon (M1, M2, and so on):
+> :warning:  For those using MacOS on Apple Silicon ( M1, M2, *NOT INTEL* ):
 
 You may need to completely reinstall Python from an official Python Package from: 
 https://www.python.org/downloads/
