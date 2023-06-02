@@ -4,7 +4,7 @@ Project Gameface helps gamers control their mouse cursor using their head moveme
 # This is a Multiplatform build 
 > :warning:  Still under heavy development and has issues!
 
-This will run on Windows, MacOS, and Linux.
+This will run on Windows AMD64, Apple MacOS, and Linux AMD64.
 
 For those using MacOS on Apple Silicon (M1, M2, and so on):
 
