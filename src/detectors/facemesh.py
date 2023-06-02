@@ -37,6 +37,7 @@ np.set_printoptions(precision=2, suppress=True)
 class FaceMesh(metaclass=Singleton):
 
     def __init__(self):
+        self.smooth_kernel = None
         logger.info("Intialize FaceMesh singleton")
         self.mp_landmarks = None
         self.track_loc = None
@@ -68,6 +69,7 @@ class FaceMesh(metaclass=Singleton):
         self.smooth_kernel = utils.calc_smooth_kernel(
             ConfigManager().config["shape_smooth"])
 
+    # noinspection PyMethodMayBeStatic,PyPep8Naming
     def calc_track_loc(self, mp_result, use_transformation_matrix=False):
         screen_w = ConfigManager().config["fix_width"]
         screen_h = ConfigManager().config["fix_height"]
@@ -101,6 +103,7 @@ class FaceMesh(metaclass=Singleton):
 
         return np.array([x_pixel, y_pixel], np.float32)
 
+    # noinspection PyUnusedLocal
     def mp_callback(self, mp_result, output_image, timestamp_ms: int):
         if len(mp_result.face_landmarks) >= 1 and len(
                 mp_result.face_blendshapes) >= 1:

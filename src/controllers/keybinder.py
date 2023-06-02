@@ -140,6 +140,7 @@ class Keybinder(metaclass=Singleton):
             self.keyboard.keyUp(keysym)
             self.key_states[state_name] = False
 
+    # noinspection PyTypeChecker
     def act(self, blendshape_values) -> dict:
         """Trigger devices action base on blendshape values
 

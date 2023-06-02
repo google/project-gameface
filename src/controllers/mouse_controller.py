@@ -38,6 +38,11 @@ N_BUFFER = 100
 class MouseController(metaclass=Singleton):
 
     def __init__(self):
+        self.screen_h = None
+        self.screen_w = None
+        self.pool = None
+        self.accel = None
+        self.buffer = None
         logger.info("Intialize MouseController singleton")
         self.prev_x = 0
         self.prev_y = 0
@@ -78,6 +83,7 @@ class MouseController(metaclass=Singleton):
         else:
             pass
 
+    # noinspection PyMethodMayBeStatic
     def asymmetry_scale(self, vel_x, vel_y):
         if vel_x > 0:
             vel_x *= ConfigManager().config["spd_right"]
