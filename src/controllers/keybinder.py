@@ -80,12 +80,12 @@ class Keybinder(metaclass=Singleton):
 
         return out_list
 
-    def get_curr_monitor(self):
+    def get_curr_monitor(self) -> int:
 
         x, y = self.mouse.position()
         for mon_id, mon in enumerate(self.monitors):
-            if x >= mon["x1"] and x <= mon["x2"] and y >= mon[
-                "y1"] and y <= mon["y2"]:
+            if mon["x1"] <= x <= mon["x2"] \
+                    and mon["y1"] <= y <= mon["y2"]:
                 return mon_id
         # raise Exception("Monitor not found")
         return 0
@@ -106,7 +106,7 @@ class Keybinder(metaclass=Singleton):
                 self.key_states[state_name] = False
 
         elif mode == "single":
-            if (val > thres):
+            if val > thres:
                 if not self.key_states[state_name]:
                     self.mouse.click(button=action)
                     self.start_hold_ts = time.time()
@@ -153,8 +153,7 @@ class Keybinder(metaclass=Singleton):
         if blendshape_values is None:
             return
 
-        if (ConfigManager().mouse_bindings |
-            ConfigManager().keyboard_bindings) != self.last_know_keybinds:
+        if (ConfigManager().mouse_bindings | ConfigManager().keyboard_bindings) != self.last_know_keybinds:
             self.init_states()
 
         for shape_name, v in (ConfigManager().mouse_bindings |
@@ -194,7 +193,7 @@ class Keybinder(metaclass=Singleton):
                                 return
 
                             self.mouse.moveTo(self.monitors[mon_id]["center_x"],
-                                                 self.monitors[mon_id]["center_y"])
+                                              self.monitors[mon_id]["center_y"])
                             self.key_states[state_name] = True
                         elif (val < thres) and (self.key_states[state_name] is
                                                 True):

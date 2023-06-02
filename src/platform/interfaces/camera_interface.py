@@ -15,7 +15,7 @@ class CameraInterface(metaclass=CameraMeta):
         self.accepted_backends = ['DSHOW', 'AVFOUNDATION', 'V4L2']
         self.logger = logging.getLogger("ListCamera")
 
-    def open_camera_task(self, i) -> any:
+    def open_camera_task(self, i) -> tuple:
         self.logger.debug(f"Try opening camera: {i}")
         accepted_backends = ['DSHOW', 'AVFOUNDATION', 'V4L2']
 
