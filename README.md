@@ -2,7 +2,14 @@
 Project Gameface helps gamers control their mouse cursor using their head movement and facial gestures.
 
 # This is a Multiplatform build 
-> :warning:  Still under heavy development
+> :warning:  Still under heavy development and has issues!
+
+This will run on Windows, MacOS, and Linux.
+
+For those using MacOS on Apple Silicon (M1, M2, and so on):
+
+You may need to completely reinstall Python from an official Python Package from: 
+https://www.python.org/downloads/
 
 # Model used
 MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com/mediapipe/solutions/vision/face_landmarker)  
