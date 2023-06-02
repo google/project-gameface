@@ -19,29 +19,26 @@ import src.gui.pages as pages
 from src.config_manager import ConfigManager
 from src.controllers import MouseController
 from src.platform import PlatformDetection
-
-customtkinter.set_appearance_mode("light")
-customtkinter.set_default_color_theme("assets/themes/google_theme.json")
-
-logger = logging.getLogger("MainGUi")
+from src.platform.properties_builder import PropertiesBuilder
 
 
 class MainGui(PlatformDetection):
 
     def __init__(self, tk_root):
-        logger.info("Init MainGui")
+        customtkinter.set_appearance_mode("light")
+        customtkinter.set_default_color_theme("assets/themes/google_theme.json")
+        self.logger = logging.getLogger("MainGUi")
+        self.logger.info("Init MainGui")
         super().__init__()
+        self.gui_properties = PropertiesBuilder().build()
         self.tk_root = tk_root
 
-        self.tk_root.geometry("1024x658")
-        self.tk_root.title(f"Project Gameface {ConfigManager().version}")
+        self.tk_root.geometry(self.gui_properties.get_tk_root_geometry())
+        self.tk_root.title(f"Project GameFace {ConfigManager().version}")
 
-        if self.is_linux():
-            self.tk_root.iconbitmap("@assets/images/icon.xbm")
-        else:
-            self.tk_root.iconbitmap("assets/images/icon.ico")
+        self.tk_root.iconbitmap(self.gui_properties.get_app_icon())
 
-        self.tk_root.resizable(width=False, height=False)
+        self.tk_root.resizable(width=True, height=True)
 
         self.tk_root.grid_rowconfigure(1, weight=1)
         self.tk_root.grid_columnconfigure(1, weight=1)
@@ -50,7 +47,7 @@ class MainGui(PlatformDetection):
         self.frame_menu = frames.FrameMenu(self.tk_root,
                                            self.change_frame_callback,
                                            height=360,
-                                           width=260,
+                                           width=320,
                                            logger_name="frame_menu")
         self.frame_menu.grid(row=0,
                              column=0,
@@ -145,21 +142,21 @@ class MainGui(PlatformDetection):
         #                  rowspan=10)
 
     def refresh_profile(self):
-        logger.info("refresh_profile")
+        self.logger.info("refresh_profile")
         self.pages["page_gestures"].refresh_profile()
         self.pages["page_camera"].refresh_profile()
         self.pages["page_cursor"].refresh_profile()
         self.pages["page_keyboard"].refresh_profile()
 
     def change_frame_callback(self, command, args: dict):
-        logger.info(f"change_frame_callback {command} with {args}")
+        self.logger.info(f"change_frame_callback {command} with {args}")
         if command == "change_page":
             self.change_page(args["target"])
 
         self.frame_menu.set_tab_active(tab_name=args["target"])
 
     def cam_preview_callback(self, command, args: dict):
-        logger.info(f"cam_preview_callback {command} with {args}")
+        self.logger.info(f"cam_preview_callback {command} with {args}")
 
         if command == "toggle_switch":
             self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
@@ -186,7 +183,7 @@ class MainGui(PlatformDetection):
                 page.leave()
 
     def del_main_gui(self):
-        logger.info("Deleting MainGui instance")
+        self.logger.info("Deleting MainGui instance")
         # try:
         self.frame_preview.leave()
         self.frame_preview.destroy()
