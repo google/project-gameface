@@ -56,7 +56,6 @@ pip install -r requirements.txt
 |-----------|---------------------------------------|
 | camera_id | Default camera index on your machine. |
 | tracking_vert_idxs | Tracking points for controlling cursor ([see](assets/images/uv_unwrap_full.png)) |
-| camera_id | Default camera index on your machine. |
 | spd_up    | Cursor speed in the upward direction  |
 | spd_down  | Cursor speed in downward direction    |
 | spd_left  | Cursor speed in left direction        |
