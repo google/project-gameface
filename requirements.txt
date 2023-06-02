@@ -6,13 +6,16 @@ psutil
 pyautogui
 customtkinter
 pywin32==306; sys_platform == 'win32'
-mediapipe
+mediapipe==0.10.0
 tk==0.1.0
 pydirectinput-rgx==2.0.7
 pynput==1.7.6
 attrdict3==2.0.2
-wxPython==4.2.0
+#wxPython==4.2.0
 Pillow
 numpy
 PyDirectInput
 darkdetect~=0.8.0
+pyuac; sys_platform == 'win32'
+pynput
+screeninfo
