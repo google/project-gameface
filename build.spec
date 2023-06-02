@@ -15,7 +15,7 @@ ctk_modules =  Path(ctk_init.parent,"modules")
 
 
 app = Analysis(
-    ['run_app.py'],
+    ['project_gameface.py'],
     pathex=[],
     binaries=[],
     datas=[(mp_modules.as_posix(), 'mediapipe/modules'),

@@ -39,7 +39,7 @@ pip install -r requirements.txt
 ## Quick start
 1. Run main application
     ```
-    python run_app.py
+    python project_gameface.py
     ```
 
 
@@ -86,9 +86,9 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 
 
 
-
-# Build
+Ï
+# Build Package on Windows
 ```
-    pyinstaller build.spec
+    pyinstaller build.specÏ
 ```
 
