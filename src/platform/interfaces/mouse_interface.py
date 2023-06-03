@@ -6,9 +6,6 @@ class MouseMeta(type):
 
 class MouseInterface(metaclass=MouseMeta):
 
-    def action(self):
-        pass
-
     def destroy(self):
         pass
 

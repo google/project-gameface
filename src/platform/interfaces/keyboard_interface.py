@@ -6,9 +6,6 @@ class KeyboardMeta(type):
 
 class KeyboardInterface(metaclass=KeyboardMeta):
 
-    def action(self):
-        pass
-
     def keyDown(self, button):
         pass
 

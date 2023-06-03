@@ -122,6 +122,14 @@ keyboard_keys = {
     "f10": "f10",
     "f11": "f11",
     "f12": "f12",
+    "f13": "f13",
+    "f14": "f14",
+    "f15": "f15",
+    "f16": "f16",
+    "f17": "f17",
+    "f18": "f18",
+    "f19": "f19",
+    "f20": "f20",
 
     # Letters
     "a": "a",
@@ -196,6 +204,7 @@ keyboard_keys = {
     "next": "pagedown",
     "prior": "pageup",
     "win_l": "win",
+    "win_r": "win",
     "caps_lock": "capslock",
     "shift_l": "shiftleft",
     "shift_r": "shiftright",
