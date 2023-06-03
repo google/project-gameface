@@ -9,5 +9,8 @@ class KeyboardInterface(metaclass=KeyboardMeta):
     def action(self):
         pass
 
-    def destroy(self):
+    def keyDown(self, button):
+        pass
+
+    def keyUp(self, button):
         pass

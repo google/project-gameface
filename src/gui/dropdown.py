@@ -33,7 +33,7 @@ def mouse_in_widget(mouse_x, mouse_y, widget, expand_x=(0, 0), expand_y=(0, 0)):
     widget_y1 = widget.winfo_rooty() - expand_y[0]
     widget_x2 = widget_x1 + widget.winfo_width() + expand_x[0] + expand_x[1]
     widget_y2 = widget_y1 + widget.winfo_height() + expand_y[0] + expand_y[1]
-    if mouse_x >= widget_x1 and mouse_x <= widget_x2 and mouse_y >= widget_y1 and mouse_y <= widget_y2:
+    if widget_x1 <= mouse_x <= widget_x2 and widget_y1 <= mouse_y <= widget_y2:
         return True
     else:
         return False
@@ -45,7 +45,8 @@ class Dropdown(PlatformDetection):
         self.master_toplevel = master.winfo_toplevel()
 
         self.float_window = customtkinter.CTkToplevel(master)
-        self.float_window.wm_overrideredirect(True)
+        if self.is_windows():
+            self.float_window.wm_overrideredirect(True)
 
         self.float_window.lift()
         self.float_window.wm_attributes("-topmost", True)
@@ -56,8 +57,10 @@ class Dropdown(PlatformDetection):
 
         self.float_window.grid_rowconfigure(MAX_ROWS, weight=1)
         self.float_window.grid_columnconfigure(1, weight=1)
+
         if self.is_windows():
             self.float_window.group(master)
+
         self._displayed = True
 
         self.dropdown_keys = list(dropdown_items.keys())
@@ -195,7 +198,8 @@ class Dropdown(PlatformDetection):
                 "<ButtonRelease-1>", self.mouse_release)
             self.bind_id_motion = self.float_window.bind_all(
                 "<B1-Motion>", self.mouse_motion)
-            self.float_window.wm_attributes('-disabled', False)
+            if self.is_windows():
+                self.float_window.wm_attributes('-disabled', False)
 
             # Set current user
             self.current_user = name
@@ -210,6 +214,9 @@ class Dropdown(PlatformDetection):
 
             if self.is_windows():
                 self.float_window.wm_attributes('-disabled', True)
+            else:
+                self._displayed=False
+                self.float_window.iconify()
 
             self._displayed = False
 

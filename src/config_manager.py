@@ -185,7 +185,7 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_mouse_bindings = True
 
     def apply_mouse_bindings(self):
-        logger.info("Applying keybinds")
+        logger.info("Applying mouse bindings")
         self.mouse_bindings = copy.deepcopy(self.temp_mouse_bindings)
         self.write_mouse_bindings_file()
         self.unsave_mouse_bindings = False
@@ -193,7 +193,7 @@ class ConfigManager(metaclass=Singleton):
     def write_mouse_bindings_file(self):
         mouse_bindings_file = Path(self.curr_profile_path,
                                    "mouse_bindings.json")
-        logger.info(f"Writing keybinds file {mouse_bindings_file}")
+        logger.info(f"Writing mouse bindings file {mouse_bindings_file}")
 
         with open(mouse_bindings_file, 'w') as f:
             out_json = dict(sorted(self.mouse_bindings.items()))

@@ -38,9 +38,9 @@ BALLOON_TXT = "Set how prominent your gesture has\nto be in order to trigger the
 class FrameSelectGesture(SafeDisposableFrame):
 
     def __init__(
-        self,
-        master,
-        **kwargs,
+            self,
+            master,
+            **kwargs,
     ):
         super().__init__(master, **kwargs)
         self.is_active = False
@@ -240,43 +240,46 @@ class FrameSelectGesture(SafeDisposableFrame):
         ConfigManager().apply_mouse_bindings()
 
     def dropdown_callback(self, caller_name: str, target_gesture: str):
-        div = self.divs[caller_name]
+        try:
+            div = self.divs[caller_name]
 
-        # Release old item
-        if div["selected_gesture"] != target_gesture:
-            self.shared_dropdown.enable_item(div["selected_gesture"])
-        div["selected_gesture"] = target_gesture
-        div["combobox"].set(target_gesture)
+            # Release old item
+            if div["selected_gesture"] != target_gesture:
+                self.shared_dropdown.enable_item(div["selected_gesture"])
+            div["selected_gesture"] = target_gesture
+            div["combobox"].set(target_gesture)
 
-        # Set keybind
-        target_device, target_action = shape_list.available_actions[caller_name]
+            # Set keybind
+            target_device, target_action = shape_list.available_actions[caller_name]
 
-        # get float [0,1] value
-        if target_gesture != "None":
-            div["slider"].configure(state="normal")
-            div["slider"].grid()
-            div["volume_bar"].grid()
-            div["tips_label"].grid()
-            div["subtle_label"].grid()
-            thres_value = div["slider"].get() / 100
-            ConfigManager().set_temp_mouse_binding(
-                target_gesture,
-                device=target_device,
-                action=target_action,
-                threshold=thres_value,
-                trigger_type=DEFAULT_TRIGGER_TYPE)
+            # get float [0,1] value
+            if target_gesture != "None":
+                div["slider"].configure(state="normal")
+                div["slider"].grid()
+                div["volume_bar"].grid()
+                div["tips_label"].grid()
+                div["subtle_label"].grid()
+                thres_value = div["slider"].get() / 100
+                ConfigManager().set_temp_mouse_binding(
+                    target_gesture,
+                    device=target_device,
+                    action=target_action,
+                    threshold=thres_value,
+                    trigger_type=DEFAULT_TRIGGER_TYPE)
 
-        # Remove keybind if "None"
-        else:
-            div["slider"].configure(state="disabled")
-            div["slider"].grid_remove()
-            div["volume_bar"].grid_remove()
-            div["tips_label"].grid_remove()
-            div["subtle_label"].grid_remove()
-            ConfigManager().remove_temp_mouse_binding(device=target_device,
-                                                      action=target_action)
+            # Remove keybind if "None"
+            else:
+                div["slider"].configure(state="disabled")
+                div["slider"].grid_remove()
+                div["volume_bar"].grid_remove()
+                div["tips_label"].grid_remove()
+                div["subtle_label"].grid_remove()
+                ConfigManager().remove_temp_mouse_binding(device=target_device,
+                                                          action=target_action)
 
-        ConfigManager().apply_mouse_bindings()
+            ConfigManager().apply_mouse_bindings()
+        except:
+            print("")
 
     def update_volume_preview(self):
 
@@ -313,7 +316,7 @@ class FrameSelectGesture(SafeDisposableFrame):
 
     def enter(self):
         super().enter()
-        #self.load_initial_keybinds()
+        # self.load_initial_keybinds()
         self.after(1, self.frame_loop)
 
     def leave(self):
