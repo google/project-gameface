@@ -182,13 +182,12 @@ class Keybinder(metaclass=Singleton):
                         return
 
                     self.toggle_active()
-                    #MouseController().toggle_active()
 
                     self.key_states[state_name] = True
                 elif (val < thres) and (self.key_states[state_name] is True):
                     self.key_states[state_name] = False
 
-            elif self.is_active:
+            elif self.is_active.get():
 
                 if device == "mouse":
 
