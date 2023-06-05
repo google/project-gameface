@@ -9,14 +9,29 @@ if sys.platform == "win32":
 
 class WindowsDisplay(DisplayInterface):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self) -> DisplayInterface:
+        monitors = win32api.EnumDisplayMonitors()
+        self.num_displays = len(enumerate(monitors))
+        for i, (_, _, loc) in enumerate(monitors):
+            cur_display = {
+                "id": i,
+                "x1": loc[0],
+                "y1": loc[1],
+                "x2": loc[2],
+                "y2": loc[3],
+                "center_x": (loc[0] + loc[2]) // 2,
+                "center_y": (loc[1] + loc[3]) // 2
+            }
+            self.displays.append(cur_display)
+
+    def get_displays(self) -> []:
+        return self.displays
+
+    def get_current_display(self, mouse) -> tuple[int, object]:
+        return super().get_current_display(mouse)
 
     def size(self) -> tuple[int, int]:
         return pydirectinput.size()
 
-    def get_displays(self):
-        return win32api.EnumDisplayMonitors()
 
-    def get_current_display(self):
-        print("Not Implemented yet")
+

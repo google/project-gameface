@@ -8,14 +8,14 @@ customtkinter==5.1.3
 pywin32==306; sys_platform == 'win32'
 mediapipe==0.10.0
 tk==0.1.0
-pydirectinput-rgx==2.0.7
+pydirectinput-rgx==2.0.7; sys_platform == 'win32'
 pynput==1.7.6
 attrdict3==2.0.2
-#wxPython==4.2.0
+wxpython==4.2.0; sys_platform != 'win32'
 Pillow==9.5.0
 numpy==1.24.3
-PyDirectInput==1.0.4
+PyDirectInput==1.0.4; sys_platform == 'win32'
 darkdetect~=0.8.0
 pyuac==0.0.3; sys_platform == 'win32'
 pynput==1.7.6
-screeninfo==0.8.1
+screeninfo==0.8.1; sys_platform != 'win32'
