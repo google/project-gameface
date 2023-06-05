@@ -14,7 +14,7 @@ sounddevice==0.4.6
 tk==0.1.0
 wxpython==4.2.0; sys_platform != 'win32'
 PyDirectInput==1.0.4; sys_platform == 'win32'
-pydirectinput-rgx==2.0.7; sys_platform == 'win32'
+# pydirectinput-rgx==2.0.7; sys_platform == 'win32'
 pyuac==0.0.3; sys_platform == 'win32'
 pywin32==306; sys_platform == 'win32'
 
