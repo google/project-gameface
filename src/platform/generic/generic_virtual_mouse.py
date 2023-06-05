@@ -35,7 +35,7 @@ class GenericVirtualMouse(MouseInterface):
         self.mouse.mouseRight(self.mouseButton[button])
 
     def position(self) -> tuple:
-        return self.mouse.position()
+        return self.mouse.position
 
     def moveTo(self, x: int, y: int) -> tuple:
-        return self.mouse.moveTo(x, y)
+        self.mouse.position = [x, y]

@@ -14,9 +14,14 @@ class GenericDisplay(DisplayInterface):
             display = wx.Display(i)
             xStart = 0
             yStart = 0
+            x = display.GetGeometry().GetSize().x
+            y = display.GetGeometry().GetSize().y
             xEnd = display.GetGeometry().GetSize().x
             yEnd = display.GetGeometry().GetSize().y
             cur_display = {
+                "id": i,
+                "x": x,
+                "y": y,
                 "x1": xStart,
                 "y1": yStart,
                 "x2": xEnd,
@@ -28,11 +33,3 @@ class GenericDisplay(DisplayInterface):
         # We no longer need this
         del app
 
-    def get_displays(self) -> []:
-        return self.displays
-
-    def get_current_display(self, mouse) -> tuple[int, object]:
-        return super().get_current_display(mouse)
-
-    def size(self) -> tuple[int, int]:
-        return [110, 100]

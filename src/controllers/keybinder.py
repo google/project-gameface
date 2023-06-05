@@ -50,7 +50,7 @@ class Keybinder(metaclass=Singleton):
         if not self.is_started:
             logger.info("Start Keybinder singleton")
             self.init_states()
-            self.screen_w, self.screen_h = self.display.size()
+            self.screen_w, self.screen_h = self.display.get_current_display_size(self.mouse)
             self.monitors = self.get_monitors()
             self.is_started = True
 
@@ -181,6 +181,8 @@ class Keybinder(metaclass=Singleton):
                             if mon_id is None:
                                 return
 
+                            x = self.monitors[mon_id]["center_x"]
+                            y = self.monitors[mon_id]["center_y"]
                             self.mouse.moveTo(self.monitors[mon_id]["center_x"],
                                               self.monitors[mon_id]["center_y"])
                             self.key_states[state_name] = True

@@ -11,7 +11,7 @@ class DisplayInterface(metaclass=DisplayMeta):
         self.displays = []
 
     def get_displays(self) -> []:
-        pass
+        return self.displays
 
     def get_current_display(self, mouse) -> tuple[int, object]:
         x, y = mouse.position()
@@ -21,5 +21,9 @@ class DisplayInterface(metaclass=DisplayMeta):
                 return [mon_id, mon]
         return 0, None
 
-    def size(self) -> tuple[int, int]:
-        pass
+    def get_current_display_size(self, mouse) -> tuple[int, int]:
+        display_id, display = self.get_current_display(mouse)
+        return [
+            display["x"],
+            display["y"]
+        ]

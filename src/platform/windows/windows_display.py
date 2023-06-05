@@ -3,7 +3,6 @@ import sys
 from src.platform.interfaces.display_interface import DisplayInterface
 
 if sys.platform == "win32":
-    import pydirectinput
     import win32api
 
 
@@ -15,6 +14,8 @@ class WindowsDisplay(DisplayInterface):
         for i, (_, _, loc) in enumerate(monitors):
             cur_display = {
                 "id": i,
+                "x": loc[2],
+                "y": loc[3],
                 "x1": loc[0],
                 "y1": loc[1],
                 "x2": loc[2],
@@ -24,14 +25,6 @@ class WindowsDisplay(DisplayInterface):
             }
             self.displays.append(cur_display)
 
-    def get_displays(self) -> []:
-        return self.displays
-
-    def get_current_display(self, mouse) -> tuple[int, object]:
-        return super().get_current_display(mouse)
-
-    def size(self) -> tuple[int, int]:
-        return pydirectinput.size()
 
 
 
