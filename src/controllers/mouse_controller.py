@@ -15,8 +15,9 @@ import concurrent.futures as futures
 import logging
 import threading
 import time
-import pyautogui
+from pynput.mouse import Button, Controller
 import tkinter as tk
+from screeninfo import get_monitors
 
 import numpy as np
 import numpy.typing as npt
@@ -28,15 +29,14 @@ from src.singleton_meta import Singleton
 
 logger = logging.getLogger("MouseController")
 
-pyautogui.PAUSE = 0
-pyautogui.FAILSAFE = False
+# pyautogui.PAUSE = 0
+# pyautogui.FAILSAFE = False
 
 # Max buffer number for apply smoothing.
 N_BUFFER = 100
 
 
 class MouseController(metaclass=Singleton):
-
     def __init__(self):
         logger.info("Intialize MouseController singleton")
         self.prev_x = 0
@@ -49,6 +49,7 @@ class MouseController(metaclass=Singleton):
         self.is_destroyed = False
         self.stop_flag = None
         self.is_active = None
+        mouse = Controller()
 
     def start(self):
         if not self.is_started:
@@ -57,7 +58,9 @@ class MouseController(metaclass=Singleton):
             self.buffer = np.zeros([N_BUFFER, 2])
             self.accel = SigmoidAccel()
             self.pool = futures.ThreadPoolExecutor(max_workers=1)
-            self.screen_w, self.screen_h = pyautogui.size()
+            m = get_monitors()
+            self.screen_w = m[0].width
+            self.screen_h = m[0].height
             self.calc_smooth_kernel()
 
             self.is_active = tk.BooleanVar()
@@ -95,12 +98,11 @@ class MouseController(metaclass=Singleton):
         self.curr_track_loc = track_loc
 
     def main_loop(self) -> None:
-        """ Separate thread for mouse controller          
-        """
+        """Separate thread for mouse controller"""
 
         if self.is_destroyed:
             return
-        
+
         while not self.stop_flag.is_set():
             if not self.is_active.get():
                 time.sleep(0.001)
@@ -111,7 +113,8 @@ class MouseController(metaclass=Singleton):
 
             # Get latest x, y and smooth.
             smooth_px, smooth_py = utils.apply_smoothing(
-                self.buffer, self.smooth_kernel)
+                self.buffer, self.smooth_kernel
+            )
 
             vel_x = smooth_px - self.prev_x
             vel_y = smooth_py - self.prev_y
@@ -132,7 +135,7 @@ class MouseController(metaclass=Singleton):
                 vel_y *= self.accel(vel_y)
 
             # pydirectinput is not working here
-            pyautogui.move(xOffset=vel_x, yOffset=vel_y)            
+            mouse.move(xOffset=vel_x, yOffset=vel_y)
 
             time.sleep(ConfigManager().config["tick_interval_ms"] / 1000)
 
