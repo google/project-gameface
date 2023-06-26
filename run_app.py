@@ -53,13 +53,13 @@ if __name__ == "__main__":
 
     logging.info("Starting main app.")
     TaskKiller().start()
-	FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
-	logging.basicConfig(format=FORMAT,
-				level=logging.INFO,
-				handlers=[
-					logging.FileHandler("log.txt", mode='w'),
-					logging.StreamHandler(sys.stdout)
-				])
+    FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
+    logging.basicConfig(format=FORMAT,
+                level=logging.INFO,
+                handlers=[
+                    logging.FileHandler("log.txt", mode='w'),
+                    logging.StreamHandler(sys.stdout)
+                ])
         
         main_app = MainApp(tk_root)
         main_app.tk_root.mainloop()
