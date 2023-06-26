@@ -20,8 +20,8 @@ import src.gui as gui
 from src.task_killer import TaskKiller
 from src.pipeline import Pipeline
 
-class MainApp(gui.MainGui, Pipeline):
 
+class MainApp(gui.MainGui, Pipeline):
     def __init__(self, tk_root):
         super().__init__(tk_root)
         # Wait for window drawing.
@@ -54,14 +54,14 @@ if __name__ == "__main__":
     logging.info("Starting main app.")
     TaskKiller().start()
     FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
-    logging.basicConfig(format=FORMAT,
-                level=logging.INFO,
-                handlers=[
-                    logging.FileHandler("log.txt", mode='w'),
-                    logging.StreamHandler(sys.stdout)
-                ])
-        
-        main_app = MainApp(tk_root)
-        main_app.tk_root.mainloop()
-
-        main_app = None
+    logging.basicConfig(
+        format=FORMAT,
+        level=logging.INFO,
+        handlers=[
+            logging.FileHandler("log.txt", mode="w"),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
+    main_app = MainApp(tk_root)
+    main_app.tk_root.mainloop()
+    main_app = None
