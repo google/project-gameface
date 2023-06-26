@@ -20,6 +20,16 @@ import src.gui as gui
 from src.task_killer import TaskKiller
 from src.pipeline import Pipeline
 
+FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
+logging.basicConfig(
+    format=FORMAT,
+    level=logging.INFO,
+    handlers=[
+        logging.FileHandler("C:\Temp\log.txt", mode="w"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+
 
 class MainApp(gui.MainGui, Pipeline):
     def __init__(self, tk_root):
@@ -53,15 +63,8 @@ if __name__ == "__main__":
 
     logging.info("Starting main app.")
     TaskKiller().start()
-    FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
-    logging.basicConfig(
-        format=FORMAT,
-        level=logging.INFO,
-        handlers=[
-            logging.FileHandler("c:\temp\gameface-log.txt", mode="w"),
-            logging.StreamHandler(sys.stdout),
-        ],
-    )
+
     main_app = MainApp(tk_root)
     main_app.tk_root.mainloop()
+
     main_app = None
