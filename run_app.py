@@ -58,7 +58,7 @@ if __name__ == "__main__":
         format=FORMAT,
         level=logging.INFO,
         handlers=[
-            logging.FileHandler("log.txt", mode="w"),
+            logging.FileHandler("c:\temp\gameface-log.txt", mode="w"),
             logging.StreamHandler(sys.stdout),
         ],
     )
