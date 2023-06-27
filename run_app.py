@@ -14,6 +14,7 @@
 
 import logging
 import sys
+import os
 import customtkinter
 
 import src.gui as gui
@@ -21,16 +22,21 @@ from src.task_killer import TaskKiller
 from src.pipeline import Pipeline
 
 FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
-logging.basicConfig(format=FORMAT,
-                    level=logging.INFO,
-                    handlers=[
-                        logging.FileHandler("log.txt", mode='w'),
-                        logging.StreamHandler(sys.stdout)
-                    ])
+
+if not os.path.isdir("C:\\Temp\\"):
+    os.mkdir("C:\\Temp\\")
+
+logging.basicConfig(
+    format=FORMAT,
+    level=logging.INFO,
+    handlers=[
+        logging.FileHandler("C:\Temp\log.txt", mode="w"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
 
 
 class MainApp(gui.MainGui, Pipeline):
-
     def __init__(self, tk_root):
         super().__init__(tk_root)
         # Wait for window drawing.
