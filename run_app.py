@@ -23,14 +23,15 @@ from src.pipeline import Pipeline
 
 FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
 
-if not os.path.isdir("C:\\Temp\\"):
-    os.mkdir("C:\\Temp\\")
+log_path = os.environ['USERPROFILE']+'\Gameface'
+if not os.path.isdir(log_path):
+    os.mkdir(log_path)
 
 logging.basicConfig(
     format=FORMAT,
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("C:\Temp\log.txt", mode="w"),
+        logging.FileHandler(log_path+'\log.txt", mode="w"),
         logging.StreamHandler(sys.stdout),
     ],
 )
