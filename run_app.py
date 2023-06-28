@@ -31,7 +31,7 @@ logging.basicConfig(
     format=FORMAT,
     level=logging.INFO,
     handlers=[
-        logging.FileHandler(log_path+'\log.txt", mode="w"),
+        logging.FileHandler(log_path+'\log.txt', mode="w"),
         logging.StreamHandler(sys.stdout),
     ],
 )
