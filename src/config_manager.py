@@ -18,6 +18,7 @@ import logging
 import tkinter as tk
 import time
 import shutil
+import os
 from pathlib import Path
 
 from src.singleton_meta import Singleton
@@ -25,10 +26,18 @@ from src.task_killer import TaskKiller
 
 VERSION = "0.3.30"
 
-DEFAULT_JSON = Path("configs/default.json")
-BACKUP_PROFILE = Path("configs/default")
+DEFAULT_JSON = Path(f"C:/Users/{os.getlogin()}/Gameface/configs/default.json")
+BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Gameface/configs/default")
 
 logger = logging.getLogger("ConfigManager")
+
+
+if not os.path.isdir(f"C:/Users/{os.getlogin()}/Gameface/configs/"):
+    shutil.copytree("configs", f"C:/Users/{os.getlogin()}/Gameface/configs/")
+    os.mkdir(f"C:/Users/{os.getlogin()}/configs/")
+
+if not os.path.isdir(f"C:/Users/{os.getlogin()}/Gameface/configs/default"):
+    os.mkdir(f"C:/Users/{os.getlogin()}/Gameface/configs/default")
 
 
 class ConfigManager(metaclass=Singleton):
