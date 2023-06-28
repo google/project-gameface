@@ -48,6 +48,7 @@ exe_app = EXE(
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
+    icon='assets/images/icon.ico',
     codesign_identity=None,
     entitlements_file=None,
 )
