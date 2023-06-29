@@ -43,4 +43,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: 'Windows Release'
-        path: '\a\project-gameface\project-gameface\GameFacePortable.exe'
+        path: '\a\project-gameface\project-gameface\GameFacePortable.zip'
