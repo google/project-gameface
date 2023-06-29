@@ -21,12 +21,21 @@ jobs:
         pip install -r requirements.txt
     - name: Build 
       run: |
-        pyinstaller build-portable.spec
+        pyinstaller --distpath dist-portable build-portable.spec
+        Copy-Item -Path assets -Destination dist-portable\ -Recurse
+        Copy-Item -Path configs -Destination dist-portable\ -Recurse
+        Compress-Archive -Path dist-portable -DestinationPath GameFaceInstaller.zip
+        pyinstaller build.spec 
     - name: Build Installer
       run: |
          iscc installer.iss
-    - name: Upload exe
+    - name: Upload installer
       uses: actions/upload-artifact@v3
       with:
         name: 'Windows Release'
         path: '\a\project-gameface\project-gameface\Output\GameFace Installer.exe'
+    - name: Upload portable
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'Windows Release'
+        path: '\a\project-gameface\project-gameface\GameFacePortable.exe'
