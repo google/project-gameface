@@ -24,7 +24,7 @@ jobs:
         pyinstaller --distpath dist-portable build-portable.spec
         Copy-Item -Path assets -Destination dist-portable\ -Recurse
         Copy-Item -Path configs -Destination dist-portable\ -Recurse
-        Compress-Archive -Path dist-portable -DestinationPath GameFaceInstaller.zip
+        Compress-Archive -Path dist-portable -DestinationPath GameFacePortable.zip
         pyinstaller build.spec 
     - name: Build Installer
       run: |
