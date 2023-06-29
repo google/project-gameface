@@ -22,10 +22,12 @@ jobs:
     - name: Build 
       run: |
         pyinstaller --distpath dist-portable build-portable.spec
+        pyinstaller build.spec 
+    - name: Zip Portable 
+      run: |
         Copy-Item -Path assets -Destination dist-portable\ -Recurse
         Copy-Item -Path configs -Destination dist-portable\ -Recurse
         Compress-Archive -Path dist-portable -DestinationPath GameFacePortable.zip
-        pyinstaller build.spec 
     - name: Build Installer
       run: |
          iscc installer.iss
