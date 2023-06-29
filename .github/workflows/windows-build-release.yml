@@ -37,10 +37,10 @@ jobs:
     - name: Upload installer
       uses: actions/upload-artifact@v3
       with:
-        name: 'Windows Release'
+        name: 'Windows Installer Release'
         path: '\a\project-gameface\project-gameface\Output\GameFace Installer.exe'
     - name: Upload portable
       uses: actions/upload-artifact@v3
       with:
-        name: 'Windows Release'
+        name: 'Windows Portable Release'
         path: '\a\project-gameface\project-gameface\GameFacePortable.zip'
