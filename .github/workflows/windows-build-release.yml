@@ -21,13 +21,13 @@ jobs:
         pip install -r requirements.txt
     - name: Freeze Installer
       run: |
-        pyinstaller --distpath dist-portable build-portable.spec
+        pyinstaller build.spec 
     - name: Build Installer
       run: |
-         iscc installer.iss
-    - name: Freeze portable
+        iscc installer.iss
+    - name: Freeze Portable
       run: |
-          pyinstaller build.spec 
+        pyinstaller --distpath dist-portable build-portable.spec
     - name: Zip Portable 
       shell: pwsh
       run: |
