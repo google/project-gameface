@@ -3,10 +3,19 @@ Project Gameface helps gamers control their mouse cursor using their head moveme
 
 
 
-# Download
+# Download 
+
+## Single portable directory
+
 1. Download the program from [Release section](../../releases/)
 2. Run `run_app.exe`
 
+
+## Installer 
+
+1. Download the Gameface-Installer.exe from [Release section](../../releases/)
+2. Install it 
+3. Run from your Windows shortucts/desktop
 
 
 # Model used
@@ -88,7 +97,13 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 
 
 # Build
+
+## Pyinstaller / Frozen app
 ```
     pyinstaller build.spec
 ```
 
+# Build Installer
+
+1. Install [inno6](https://jrsoftware.org/isdl.php#stable)
+2. Build using the `installer.iss` file  
