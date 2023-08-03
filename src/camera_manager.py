@@ -262,8 +262,16 @@ class ThreadCameras():
 
             frame.flags.writeable = False
             h, w, _ = frame.shape
+
+            # Trim image
             if h != ConfigManager().config["fix_height"] or w != ConfigManager(
             ).config["fix_width"]:
+                target_width = int(h * 4 / 3)
+                if w > target_width:
+                    trim_width = w - target_width
+                    trim_left = trim_width // 2
+                    trim_right = trim_width - trim_left
+                    frame = frame[:, trim_left:-trim_right, :]
                 frame = cv2.resize(frame,
                                    (ConfigManager().config["fix_width"],
                                     ConfigManager().config["fix_height"]))

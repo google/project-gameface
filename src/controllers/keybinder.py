@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import copy
+import logging
 import math
 import time
-import logging
 
 import pydirectinput
 import win32api
@@ -195,8 +195,9 @@ class Keybinder(metaclass=Singleton):
                             if mon_id is None:
                                 return
 
-                            pydirectinput.moveTo(self.monitors[mon_id]["center_x"],
-                                             self.monitors[mon_id]["center_y"])
+                            pydirectinput.moveTo(
+                                self.monitors[mon_id]["center_x"],
+                                self.monitors[mon_id]["center_y"])
                             self.key_states[state_name] = True
                         elif (val < thres) and (self.key_states[state_name] is
                                                 True):

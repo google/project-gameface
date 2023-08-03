@@ -15,11 +15,11 @@ import concurrent.futures as futures
 import logging
 import threading
 import time
-import pyautogui
 import tkinter as tk
 
 import numpy as np
 import numpy.typing as npt
+import pyautogui
 
 import src.utils as utils
 from src.accel_graph import SigmoidAccel
@@ -100,7 +100,7 @@ class MouseController(metaclass=Singleton):
 
         if self.is_destroyed:
             return
-        
+
         while not self.stop_flag.is_set():
             if not self.is_active.get():
                 time.sleep(0.001)
@@ -132,7 +132,7 @@ class MouseController(metaclass=Singleton):
                 vel_y *= self.accel(vel_y)
 
             # pydirectinput is not working here
-            pyautogui.move(xOffset=vel_x, yOffset=vel_y)            
+            pyautogui.move(xOffset=vel_x, yOffset=vel_y)
 
             time.sleep(ConfigManager().config["tick_interval_ms"] / 1000)
 

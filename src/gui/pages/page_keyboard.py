@@ -25,8 +25,7 @@ from src.config_manager import ConfigManager
 from src.detectors import FaceMesh
 from src.gui.balloon import Balloon
 from src.gui.dropdown import Dropdown
-from src.gui.frames.safe_disposable_frame import (SafeDisposableFrame,
-                                                  SafeDisposableScrollableFrame)
+from src.gui.frames.safe_disposable_frame import SafeDisposableFrame, SafeDisposableScrollableFrame
 
 logger = logging.getLogger("PageKeyboard")
 
@@ -178,6 +177,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                                                 image=self.bin_image,
                                                 fg_color="white",
                                                 anchor="e",
+                                                cursor="hand2",
                                                 width=25)
 
         remove_button.cget("font").configure(size=18)
@@ -192,13 +192,12 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
 
         # Key entry
         field_txt = "" if key_action == "None" else key_action
-        entry_field = customtkinter.CTkLabel(
-            master=self,
-            text=field_txt,
-            image=self.a_button_image,
-            width=A_BUTTON_SIZE[0],
-            height=A_BUTTON_SIZE[1],
-        )
+        entry_field = customtkinter.CTkLabel(master=self,
+                                             text=field_txt,
+                                             image=self.a_button_image,
+                                             width=A_BUTTON_SIZE[0],
+                                             height=A_BUTTON_SIZE[1],
+                                             cursor="hand2")
         entry_field.cget("font").configure(size=17)
 
         entry_field.bind(

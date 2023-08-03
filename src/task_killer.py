@@ -56,9 +56,9 @@ class TaskKiller(metaclass=Singleton):
     def exit(self):
         logger.info("Exit program")
 
+        from src.camera_manager import CameraManager
         from src.controllers import Keybinder, MouseController
         from src.detectors import FaceMesh
-        from src.camera_manager import CameraManager
 
         CameraManager().destroy()
         MouseController().destroy()
