@@ -27,7 +27,7 @@ HOME_IM_SIZE = (441, 215)
 
 class PageHome(SafeDisposableFrame):
 
-    def __init__(self, master, master_callback: callable, **kwargs):
+    def __init__(self, master, root_callback: callable, **kwargs):
         super().__init__(master, **kwargs)
         logging.info("Create PageHome")
 
@@ -86,8 +86,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_camera_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_camera"}))
         page_camera_btn.grid(row=3, column=0, padx=80, pady=10, sticky="nw")
 
@@ -100,8 +100,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_cursor_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_cursor"}))
         page_cursor_btn.grid(row=4, column=0, padx=80, pady=10, sticky="nw")
 
@@ -114,8 +114,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_gestures_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_gestures"}))
         page_gestures_btn.grid(row=5, column=0, padx=80, pady=10, sticky="nw")
 
@@ -128,8 +128,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_keyboard_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_keyboard"}))
         page_keyboard_btn.grid(row=6, column=0, padx=80, pady=10, sticky="nw")
 

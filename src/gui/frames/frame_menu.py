@@ -17,10 +17,12 @@ from functools import partial
 import customtkinter
 from PIL import Image
 
+from src.config_manager import ConfigManager
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
 LIGHT_BLUE = "#F9FBFE"
 BTN_SIZE = 225, 48
+PROF_DROP_SIZE = 220, 40
 
 
 class FrameMenu(SafeDisposableFrame):
@@ -28,7 +30,7 @@ class FrameMenu(SafeDisposableFrame):
     def __init__(self, master, master_callback: callable, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.grid_rowconfigure(11, weight=1)
+        self.grid_rowconfigure(6, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_propagate(False)
         self.configure(fg_color=LIGHT_BLUE)
@@ -38,8 +40,7 @@ class FrameMenu(SafeDisposableFrame):
         self.menu_btn_images = {
             "page_home": [
                 customtkinter.CTkImage(
-                    Image.open("assets/images/menu_btn_home.png").resize(
-                        BTN_SIZE, resample=Image.ANTIALIAS),
+                    Image.open("assets/images/menu_btn_home.png"),
                     size=BTN_SIZE),
                 customtkinter.CTkImage(
                     Image.open("assets/images/menu_btn_home_selected.png"),
@@ -79,10 +80,35 @@ class FrameMenu(SafeDisposableFrame):
             ]
         }
 
-        self.btns = {}
-        self.btns = self.create_tab_btn(self.menu_btn_images)
+        # Profile button
+        prof_drop = customtkinter.CTkImage(
+            Image.open("assets/images/prof_drop_head.png"), size=PROF_DROP_SIZE)
+        profile_btn = customtkinter.CTkLabel(
+            master=self,
+            textvariable=ConfigManager().curr_profile_name,
+            image=prof_drop,
+            height=42,
+            compound="center",
+            anchor="w",
+            cursor="hand2",
+        )
+        profile_btn.bind("<Button-1>",
+                         partial(self.master_callback, "show_profile_switcher"))
 
-    def create_tab_btn(self, btns: dict):
+        profile_btn.grid(row=0,
+                         column=0,
+                         padx=35,
+                         pady=10,
+                         ipadx=0,
+                         ipady=0,
+                         sticky="nw",
+                         columnspan=1,
+                         rowspan=1)
+
+        self.btns = {}
+        self.btns = self.create_tab_btn(self.menu_btn_images, offset=1)
+
+    def create_tab_btn(self, btns: dict, offset):
 
         out_dict = {}
         for idx, (k, im_paths) in enumerate(btns.items()):
@@ -94,11 +120,12 @@ class FrameMenu(SafeDisposableFrame):
                                           hover=False,
                                           corner_radius=0,
                                           text="",
-                                          command=partial(self.master_callback,
-                                                          command="change_page",
-                                                          args={"target": k}))
+                                          command=partial(
+                                              self.master_callback,
+                                              function_name="change_page",
+                                              args={"target": k}))
 
-            btn.grid(row=idx,
+            btn.grid(row=idx + offset,
                      column=0,
                      padx=(0, 0),
                      pady=0,
