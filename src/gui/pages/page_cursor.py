@@ -52,10 +52,10 @@ class FrameSelectGesture(SafeDisposableFrame):
 
         # Slider divs
         self.divs = self.create_divs({
-            "Move up": ["spd_up", "", 1, 100],
-            "Move down": ["spd_down", "", 1, 100],
-            "Move right": ["spd_right", "", 1, 100],
-            "Move left": ["spd_left", "", 1, 100],
+            "Move up": ["spd_up", "", 0, 100],
+            "Move down": ["spd_down", "", 0, 100],
+            "Move right": ["spd_right", "", 0, 100],
+            "Move left": ["spd_left", "", 0, 100],
             "(Advanced) Smooth pointer": [
                 "pointer_smooth",
                 "Controls the smoothness of the\nmouse cursor. Enables the user\nto reduce jitteriness",
