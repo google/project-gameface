@@ -92,3 +92,5 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
     pyinstaller build.spec
 ```
 
+# Inspiration and Acknowledgements
+* Special thanks to [@ozramos](https://github.com/ozramos) for his work and inspiration to improve accessibility in his projects [Handsfree](https://github.com/ozramos/handsfree) and [Midiblocks](https://github.com/ozramos/midiblocks)
