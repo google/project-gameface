@@ -1,16 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 import concurrent.futures as futures
 import logging
 import threading
@@ -48,7 +35,8 @@ class MouseController(metaclass=Singleton):
         self.is_started = False
         self.is_destroyed = False
         self.stop_flag = None
-        self.is_active = None
+        self.is_active = tk.BooleanVar()
+        self.is_enabled = None
 
     def start(self):
         if not self.is_started:
@@ -60,8 +48,8 @@ class MouseController(metaclass=Singleton):
             self.screen_w, self.screen_h = pyautogui.size()
             self.calc_smooth_kernel()
 
-            self.is_active = tk.BooleanVar()
-            self.is_active.set(ConfigManager().config["auto_play"])
+            self.is_enabled = tk.BooleanVar()
+            self.is_enabled.set(ConfigManager().config["enable"])
 
             self.stop_flag = threading.Event()
             self.pool.submit(self.main_loop)
@@ -102,7 +90,7 @@ class MouseController(metaclass=Singleton):
             return
 
         while not self.stop_flag.is_set():
-            if not self.is_active.get():
+            if not self.is_active.get() or not self.is_enabled.get():
                 time.sleep(0.001)
                 continue
 
@@ -135,6 +123,11 @@ class MouseController(metaclass=Singleton):
             pyautogui.move(xOffset=vel_x, yOffset=vel_y)
 
             time.sleep(ConfigManager().config["tick_interval_ms"] / 1000)
+
+    def set_enabled(self, flag: bool) -> None:
+        self.is_enabled.set(flag)
+        if flag:
+            self.delay_count = 0
 
     def set_active(self, flag: bool) -> None:
         self.is_active.set(flag)

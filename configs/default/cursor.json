@@ -14,6 +14,7 @@
     "tick_interval_ms": 16, 
     "hold_trigger_ms": 500, 
     "auto_play": false, 
+    "enable": 1, 
     "mouse_acceleration": false, 
     "use_transformation_matrix": false
 }

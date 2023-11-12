@@ -1,16 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import logging
 import tkinter as tk
@@ -21,7 +8,7 @@ from PIL import Image
 import src.gui.frames as frames
 import src.gui.pages as pages
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import Keybinder, MouseController
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("assets/themes/google_theme.json")
@@ -37,7 +24,7 @@ class MainGui():
         self.tk_root = tk_root
 
         self.tk_root.geometry("1024x658")
-        self.tk_root.title(f"Project Gameface {ConfigManager().version}")
+        self.tk_root.title(f"Grimassist {ConfigManager().version}")
         self.tk_root.iconbitmap("assets/images/icon.ico")
         self.tk_root.resizable(width=False, height=False)
 
@@ -154,10 +141,13 @@ class MainGui():
         if function_name == "toggle_switch":
             self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
 
+
     def set_mediapipe_mouse_enable(self, new_state: bool):
         if new_state:
+            Keybinder().set_active(True)
             MouseController().set_active(True)
         else:
+            Keybinder().set_active(False)
             MouseController().set_active(False)
 
     def change_page(self, target_page_name: str):
