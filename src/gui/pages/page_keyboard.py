@@ -1,16 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import logging
 import tkinter as tk
@@ -25,8 +12,7 @@ from src.config_manager import ConfigManager
 from src.detectors import FaceMesh
 from src.gui.balloon import Balloon
 from src.gui.dropdown import Dropdown
-from src.gui.frames.safe_disposable_frame import (SafeDisposableFrame,
-                                                  SafeDisposableScrollableFrame)
+from src.gui.frames.safe_disposable_frame import SafeDisposableFrame, SafeDisposableScrollableFrame
 
 logger = logging.getLogger("PageKeyboard")
 
@@ -178,6 +164,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                                                 image=self.bin_image,
                                                 fg_color="white",
                                                 anchor="e",
+                                                cursor="hand2",
                                                 width=25)
 
         remove_button.cget("font").configure(size=18)
@@ -192,13 +179,12 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
 
         # Key entry
         field_txt = "" if key_action == "None" else key_action
-        entry_field = customtkinter.CTkLabel(
-            master=self,
-            text=field_txt,
-            image=self.a_button_image,
-            width=A_BUTTON_SIZE[0],
-            height=A_BUTTON_SIZE[1],
-        )
+        entry_field = customtkinter.CTkLabel(master=self,
+                                             text=field_txt,
+                                             image=self.a_button_image,
+                                             width=A_BUTTON_SIZE[0],
+                                             height=A_BUTTON_SIZE[1],
+                                             cursor="hand2")
         entry_field.cget("font").configure(size=17)
 
         entry_field.bind(

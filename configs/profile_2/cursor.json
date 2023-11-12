@@ -5,11 +5,11 @@
     "tracking_vert_idxs": [
         8
     ], 
-    "spd_up": 40, 
-    "spd_down": 40, 
-    "spd_left": 40, 
-    "spd_right": 40, 
-    "pointer_smooth": 6, 
+    "spd_up": 42, 
+    "spd_down": 42, 
+    "spd_left": 42, 
+    "spd_right": 42, 
+    "pointer_smooth": 15, 
     "shape_smooth": 10, 
     "tick_interval_ms": 16, 
     "hold_trigger_ms": 500, 

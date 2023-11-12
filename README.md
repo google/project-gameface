@@ -1,5 +1,5 @@
-# Project Gameface
-Project Gameface helps gamers control their mouse cursor using their head movement and facial gestures.
+# Grimassist
+Grimassist helps gamers control their mouse cursor using their head movement and facial gestures.
 
 
 

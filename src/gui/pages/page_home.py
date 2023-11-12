@@ -1,16 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import logging
 import tkinter
@@ -27,7 +14,7 @@ HOME_IM_SIZE = (441, 215)
 
 class PageHome(SafeDisposableFrame):
 
-    def __init__(self, master, master_callback: callable, **kwargs):
+    def __init__(self, master, root_callback: callable, **kwargs):
         super().__init__(master, **kwargs)
         logging.info("Create PageHome")
 
@@ -39,7 +26,7 @@ class PageHome(SafeDisposableFrame):
 
         # Top text
         top_label = customtkinter.CTkLabel(
-            master=self, text="Project Gameface Gesture Settings")
+            master=self, text="Grimassist Gesture Settings")
         top_label.cget("font").configure(size=24)
         top_label.grid(row=0,
                        column=0,
@@ -49,7 +36,7 @@ class PageHome(SafeDisposableFrame):
                        columnspan=2)
 
         # Description
-        des_txt = "Project Gameface helps gamers control their mouse cursor using their head movement and facial gestures."
+        des_txt = "Grimassist helps gamers control their mouse cursor using their head movement and facial gestures."
         des_label = customtkinter.CTkLabel(master=self,
                                            text=des_txt,
                                            wraplength=400,
@@ -63,7 +50,7 @@ class PageHome(SafeDisposableFrame):
                        columnspan=2)
 
         # Disclaimer
-        disc_txt = "Disclaimer: Project Gameface is not intended for medical use."
+        disc_txt = "Disclaimer: Grimassist is not intended for medical use."
         disc_label = customtkinter.CTkLabel(master=self,
                                             text=disc_txt,
                                             wraplength=700,
@@ -86,8 +73,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_camera_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_camera"}))
         page_camera_btn.grid(row=3, column=0, padx=80, pady=10, sticky="nw")
 
@@ -100,8 +87,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_cursor_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_cursor"}))
         page_cursor_btn.grid(row=4, column=0, padx=80, pady=10, sticky="nw")
 
@@ -114,8 +101,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_gestures_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_gestures"}))
         page_gestures_btn.grid(row=5, column=0, padx=80, pady=10, sticky="nw")
 
@@ -128,8 +115,8 @@ class PageHome(SafeDisposableFrame):
             border_width=0,
             corner_radius=12,
             image=page_keyboard_btn_im,
-            command=partial(master_callback,
-                            command="change_page",
+            command=partial(root_callback,
+                            function_name="change_page",
                             args={"target": "page_keyboard"}))
         page_keyboard_btn.grid(row=6, column=0, padx=80, pady=10, sticky="nw")
 

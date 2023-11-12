@@ -1,16 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import logging
 import tkinter as tk
@@ -37,7 +24,7 @@ class MainGui():
         self.tk_root = tk_root
 
         self.tk_root.geometry("1024x658")
-        self.tk_root.title(f"Project Gameface {ConfigManager().version}")
+        self.tk_root.title(f"Grimassist {ConfigManager().version}")
         self.tk_root.iconbitmap("assets/images/icon.ico")
         self.tk_root.resizable(width=False, height=False)
 
@@ -46,7 +33,7 @@ class MainGui():
 
         # Create menu frame and assign callbacks
         self.frame_menu = frames.FrameMenu(self.tk_root,
-                                           self.change_frame_callback,
+                                           self.root_function_callback,
                                            height=360,
                                            width=260,
                                            logger_name="frame_menu")
@@ -75,7 +62,7 @@ class MainGui():
             "page_home":
                 pages.PageHome(master=self.tk_root,
                                logger_name="page_home",
-                               master_callback=self.change_frame_callback),
+                               root_callback=self.root_function_callback),
             "page_camera":
                 pages.PageSelectCamera(
                     master=self.tk_root,
@@ -121,45 +108,37 @@ class MainGui():
 
         self.change_page("page_home")
 
-        self.frame_profile = frames.FrameProfile(
-            self.tk_root, refresh_master_fn=self.refresh_profile)
+        # Profile UI
+        self.frame_profile_switcher = frames.FrameProfileSwitcher(
+            self.tk_root, main_gui_callback=self.root_function_callback)
+        self.frame_profile_editor = frames.FrameProfileEditor(
+            self.tk_root, main_gui_callback=self.root_function_callback)
 
-        # Profile button      
-        profile_btn = customtkinter.CTkButton(
-            master=self.tk_root,
-            textvariable=ConfigManager().curr_profile_name,
-            border_width=1,
-            corner_radius=4,        
-            compound="right",
-            border_color="gray70",
-            anchor="e",
-            command=self.frame_profile.show_window)
-        # profile_btn.grid(row=0,
-        #                  column=0,
-        #                  padx=10,
-        #                  pady=10,
-        #                  sticky="ne",
-        #                  columnspan=10,
-        #                  rowspan=10)
+    def root_function_callback(self, function_name, args: dict = {}, **kwargs):
+        logger.info(f"root_function_callback {function_name} with {args}")
 
-    def refresh_profile(self):
-        logger.info("refresh_profile")
-        self.pages["page_gestures"].refresh_profile()
-        self.pages["page_camera"].refresh_profile()
-        self.pages["page_cursor"].refresh_profile()
-        self.pages["page_keyboard"].refresh_profile()
-
-    def change_frame_callback(self, command, args: dict):
-        logger.info(f"change_frame_callback {command} with {args}")
-        if command == "change_page":
+        # Basic page navigate
+        if function_name == "change_page":
             self.change_page(args["target"])
+            self.frame_menu.set_tab_active(tab_name=args["target"])
 
-        self.frame_menu.set_tab_active(tab_name=args["target"])
+        # Profiles
+        elif function_name == "show_profile_switcher":
+            self.frame_profile_switcher.enter()
+        elif function_name == "show_profile_editor":
+            self.frame_profile_editor.enter()
 
-    def cam_preview_callback(self, command, args: dict):
-        logger.info(f"cam_preview_callback {command} with {args}")
+        elif function_name == "refresh_profiles":
+            logger.info("refresh_profile")
+            self.pages["page_gestures"].refresh_profile()
+            self.pages["page_camera"].refresh_profile()
+            self.pages["page_cursor"].refresh_profile()
+            self.pages["page_keyboard"].refresh_profile()
 
-        if command == "toggle_switch":
+    def cam_preview_callback(self, function_name, args: dict, **kwargs):
+        logger.info(f"cam_preview_callback {function_name} with {args}")
+
+        if function_name == "toggle_switch":
             self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
 
 

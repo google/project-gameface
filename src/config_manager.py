@@ -1,29 +1,15 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import copy
 import json
 import logging
-import tkinter as tk
-import time
 import shutil
+import time
+import tkinter as tk
 from pathlib import Path
 
 from src.singleton_meta import Singleton
 from src.task_killer import TaskKiller
 
-VERSION = "0.3.30"
+VERSION = "0.3.33"
 
 DEFAULT_JSON = Path("configs/default.json")
 BACKUP_PROFILE = Path("configs/default")
@@ -45,6 +31,8 @@ class ConfigManager(metaclass=Singleton):
         self.curr_profile_path = None
         self.curr_profile_name = tk.StringVar()
         self.is_started = False
+
+        self.profiles = self.list_profile()
 
     def start(self):
         if not self.is_started:
@@ -75,6 +63,8 @@ class ConfigManager(metaclass=Singleton):
     def remove_profile(self, profile_name):
         logger.info(f"Remove profile {profile_name}")
         shutil.rmtree(Path(DEFAULT_JSON.parent, profile_name))
+        self.profiles.remove(profile_name)
+        logger.info(f"Current profiles: {self.profiles}")
 
     def add_profile(self):
         # Random name base on local timestamp
@@ -82,11 +72,20 @@ class ConfigManager(metaclass=Singleton):
         logger.info(f"Add profile {new_profile_name}")
         shutil.copytree(BACKUP_PROFILE,
                         Path(DEFAULT_JSON.parent, new_profile_name))
+        self.profiles.append(new_profile_name)
+        logger.info(f"Current profiles: {self.profiles}")
 
     def rename_profile(self, old_profile_name, new_profile_name):
         logger.info(f"Rename profile {old_profile_name} to {new_profile_name}")
         shutil.move(Path(DEFAULT_JSON.parent, old_profile_name),
                     Path(DEFAULT_JSON.parent, new_profile_name))
+        self.profiles.remove(old_profile_name)
+        self.profiles.append(new_profile_name)
+
+        if self.curr_profile_name.get() == old_profile_name:
+            self.curr_profile_name.set(new_profile_name)
+
+
 
     def load_profile(self, profile_name: str) -> list[bool, Path]:
         profile_path = Path(DEFAULT_JSON.parent, profile_name)

@@ -14,11 +14,12 @@
 
 import logging
 import sys
+
 import customtkinter
 
 import src.gui as gui
-from src.task_killer import TaskKiller
 from src.pipeline import Pipeline
+from src.task_killer import TaskKiller
 
 FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
 logging.basicConfig(format=FORMAT,
