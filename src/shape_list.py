@@ -85,7 +85,9 @@ available_gestures = {
     "Open mouth": "assets/images/dropdowns/Open mouth.png",
     "Mouth left": "assets/images/dropdowns/Mouth left.png",
     "Mouth right": "assets/images/dropdowns/Mouth right.png",
+    "Roll lower mouth": "assets/images/dropdowns/Roll lower mouth.png",
     "Raise left eyebrow": "assets/images/dropdowns/Raise left eyebrow.png",
+    "Lower left eyebrow": "assets/images/dropdowns/Lower left eyebrow.png",
     "Raise right eyebrow": "assets/images/dropdowns/Raise right eyebrow.png",
     "Lower right eyebrow": "assets/images/dropdowns/Lower right eyebrow.png",
 }
