@@ -38,9 +38,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: 'Windows Installer Release'
-        path: '\a\grimassist\grimassist\Output\grimassist Installer.exe'
+        path: '\a\grimassist\grimassist\Output\Grimassist Installer.exe'
     - name: Upload portable
       uses: actions/upload-artifact@v3
       with:
         name: 'Windows Portable Release'
-        path: '\a\grimassist\grimassist\grimassistPortable.zip'
+        path: '\a\grimassist\grimassist\GrimassistPortable.zip'
