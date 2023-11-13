@@ -34,7 +34,7 @@ logger = logging.getLogger("ConfigManager")
 
 if not os.path.isdir(f"C:/Users/{os.getlogin()}/Gameface/configs/"):
     shutil.copytree("configs", f"C:/Users/{os.getlogin()}/Gameface/configs/")
-    os.mkdir(f"C:/Users/{os.getlogin()}/configs/")
+    os.mkdir(f"C:/Users/{os.getlogin()}/Gameface/configs/")
 
 if not os.path.isdir(f"C:/Users/{os.getlogin()}/Gameface/configs/default"):
     os.mkdir(f"C:/Users/{os.getlogin()}/Gameface/configs/default")
