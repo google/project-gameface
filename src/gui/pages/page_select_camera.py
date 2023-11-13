@@ -41,7 +41,7 @@ class PageSelectCamera(SafeDisposableFrame):
         self.label.grid(row=1, column=0, padx=10, pady=(20, 10), sticky="nw")
 
         # Empty radio buttons
-        self.radio_var = tkinter.IntVar(self, 0)
+        self.radio_var = tkinter.IntVar(value=0)
         self.prev_radio_value = None
         self.radios = []
 

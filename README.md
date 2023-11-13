@@ -3,10 +3,19 @@ Grimassist helps gamers control their mouse cursor using their head movement and
 
 
 
-# Download
-1. Download the program from [Release section](../../releases/)
-2. Run `run_app.exe`
+# Download 
 
+## Single portable directory
+
+1. Download the program from [Release section](../../releases/)
+2. Run `grimassist.exe`
+
+
+## Installer 
+
+1. Download the Grimassist-Installer.exe from [Release section](../../releases/)
+2. Install it 
+3. Run from your Windows shortucts/desktop
 
 
 # Model used
@@ -31,7 +40,7 @@ MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com
 ## Installation
 > Environment
 >- Windows  
->- Python 3.9
+>- Python 3.10
 ```
 pip install -r requirements.txt
 ```
@@ -39,7 +48,7 @@ pip install -r requirements.txt
 ## Quick start
 1. Run main application
     ```
-    python run_app.py
+    python grimassist.py
     ```
 
 
@@ -88,7 +97,13 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 
 
 # Build
+
+## Pyinstaller / Frozen app
 ```
     pyinstaller build.spec
 ```
 
+# Build Installer
+
+1. Install [inno6](https://jrsoftware.org/isdl.php#stable)
+2. Build using the `installer.iss` file  
