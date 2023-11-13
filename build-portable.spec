@@ -34,33 +34,24 @@ app = Analysis(
 )
 pyz_app = PYZ(app.pure, app.zipped_data, cipher=block_cipher)
 
-exe_app = EXE(
+exe = EXE(
     pyz_app,
     app.scripts,
+    app.binaries,
+    app.zipfiles,
+    app.datas,
     [],
-    exclude_binaries=True,
     name='run_app',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
+    runtime_tmpdir=None,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
-    icon='assets/images/icon.ico',
     codesign_identity=None,
     entitlements_file=None,
-)
-
-
-coll = COLLECT(
-    exe_app,
-    app.binaries,
-    app.zipfiles,
-    app.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='project_gameface',
+    icon='assets/images/icon.ico',
 )
