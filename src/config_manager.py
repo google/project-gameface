@@ -12,18 +12,18 @@ from src.task_killer import TaskKiller
 
 VERSION = "0.3.33"
 
-DEFAULT_JSON = Path(f"C:/Users/{os.getlogin()}/Gameface/configs/default.json")
-BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Gameface/configs/default")
+DEFAULT_JSON = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default.json")
+BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
 
 logger = logging.getLogger("ConfigManager")
 
 
-if not os.path.isdir(f"C:/Users/{os.getlogin()}/Gameface/configs/"):
-    shutil.copytree("configs", f"C:/Users/{os.getlogin()}/Gameface/configs/")
-    os.mkdir(f"C:/Users/{os.getlogin()}/Gameface/configs/")
+if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/"):
+    shutil.copytree("configs", f"C:/Users/{os.getlogin()}/Grimassist/configs/")
+    os.mkdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/")
 
-if not os.path.isdir(f"C:/Users/{os.getlogin()}/Gameface/configs/default"):
-    os.mkdir(f"C:/Users/{os.getlogin()}/Gameface/configs/default")
+if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default"):
+    os.mkdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
 
 
 class ConfigManager(metaclass=Singleton):

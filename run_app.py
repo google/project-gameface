@@ -23,7 +23,7 @@ from src.task_killer import TaskKiller
 
 FORMAT = "%(asctime)s %(levelname)s %(name)s: %(funcName)s: %(message)s"
 
-log_path = os.environ['USERPROFILE']+'\Gameface'
+log_path = os.environ['USERPROFILE']+'\Grimassist'
 if not os.path.isdir(log_path):
     os.mkdir(log_path)
 

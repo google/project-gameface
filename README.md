@@ -13,7 +13,7 @@ Grimassist helps gamers control their mouse cursor using their head movement and
 
 ## Installer 
 
-1. Download the Gameface-Installer.exe from [Release section](../../releases/)
+1. Download the Grimassist-Installer.exe from [Release section](../../releases/)
 2. Install it 
 3. Run from your Windows shortucts/desktop
 

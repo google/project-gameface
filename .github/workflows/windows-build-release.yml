@@ -33,14 +33,14 @@ jobs:
       run: |
         Copy-Item -Path assets -Destination dist-portable\ -Recurse
         Copy-Item -Path configs -Destination dist-portable\ -Recurse
-        Compress-Archive -Path dist-portable -DestinationPath GameFacePortable.zip
+        Compress-Archive -Path dist-portable -DestinationPath GrimassistPortable.zip
     - name: Upload installer
       uses: actions/upload-artifact@v3
       with:
         name: 'Windows Installer Release'
-        path: '\a\project-gameface\project-gameface\Output\GameFace Installer.exe'
+        path: '\a\grimassist\grimassist\Output\Grimassist Installer.exe'
     - name: Upload portable
       uses: actions/upload-artifact@v3
       with:
         name: 'Windows Portable Release'
-        path: '\a\project-gameface\project-gameface\GameFacePortable.zip'
+        path: '\a\grimassist\grimassist\GrimassistPortable.zip'
