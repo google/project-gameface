@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import MouseController, Keybinder
 from src.gui.balloon import Balloon
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
@@ -58,8 +58,43 @@ class FrameSelectGesture(SafeDisposableFrame):
                 1, MAX_HOLD_TRIG
             ]
         })
+        # Toggle label
+        self.toggle_label = customtkinter.CTkLabel(master=self,
+                                                   compound='right',
+                                                   text="Cursor control",
+                                                   justify=tkinter.RIGHT)
+        self.toggle_label.cget("font").configure(weight='bold')
+        self.toggle_label.grid(row=0,
+                               column=0,
+                               padx=(20, 0),
+                               pady=5,
+                               sticky="nw")
+        
+        # Toggle switch
+        self.toggle_switch = customtkinter.CTkSwitch(
+            master=self,
+            text="",
+            width=20,
+            border_color="transparent",
+            switch_height=18,
+            switch_width=32,
+            command=lambda: self.cursor_toggle_callback(
+                "toggle_switch", {"switch_status": self.toggle_switch.get()}),
+            variable=MouseController().is_enabled,
+            onvalue=1,
+            offvalue=0,
+        )
+        if ConfigManager().config["enable"]:
+            self.toggle_switch.select()
 
+        self.toggle_switch.grid(row=0,
+                                column=0,
+                                padx=(150, 0),
+                                pady=5,
+                                sticky="nw")
         self.load_initial_config()
+
+
 
     def load_initial_config(self):
         """Load default from config and set the UI
@@ -92,7 +127,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                                            text=show_name,
                                            justify=tkinter.LEFT)
             label.cget("font").configure(weight='bold')
-            label.grid(row=idx, column=0, padx=20, pady=(10, 10), sticky="nw")
+            label.grid(row=idx+2, column=0, padx=20, pady=(10, 10), sticky="nw")
             self.shared_info_balloon.register_widget(label, balloon_text)
 
             # Slider
@@ -108,7 +143,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                         partial(self.slider_mouse_down_callback, cfg_name))
             slider.bind("<ButtonRelease-1>",
                         partial(self.slider_mouse_up_callback, cfg_name))
-            slider.grid(row=idx, column=0, padx=30, pady=(40, 10), sticky="nw")
+            slider.grid(row=idx+2, column=0, padx=30, pady=(40, 10), sticky="nw")
 
             # Number entry
             entry_var = tkinter.StringVar()
@@ -121,7 +156,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                 textvariable=entry_var,
                 #validatecommand=vcmd,
                 width=62)
-            entry.grid(row=idx,
+            entry.grid(row=idx+2,
                        column=0,
                        padx=(300, 5),
                        pady=(34, 10),
@@ -205,6 +240,37 @@ class FrameSelectGesture(SafeDisposableFrame):
     def inner_refresh_profile(self):
         self.load_initial_config()
 
+    def enable_cursor(self, new_state: bool):
+        new={}
+        if new_state:
+            for cfg_name, div in self.divs.items():
+                slider = div["slider"]
+                slider.configure(state="normal", fg_color="#D2E3FC", progress_color="#1A73E8", button_color="#1A73E8")
+                div["slider"] = slider
+                new.update({cfg_name: div})
+        else:
+            for cfg_name, div in self.divs.items():
+                slider = div["slider"]
+                slider.configure(state="disabled", fg_color="lightgray", progress_color="gray", button_color="gray")
+                div["slider"] = slider
+                new.update({cfg_name: div})
+        self.divs=new
+        ConfigManager().set_temp_config(field="enable", value=new_state)
+        ConfigManager().apply_config()
+
+    def cursor_toggle_callback(self, command, args: dict):
+        logger.info(f"cursor_toggle_callback {command} with {args}")
+
+        if command == "toggle_switch":
+            self.enable_cursor(new_state=args["switch_status"])
+            self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
+
+    def set_mediapipe_mouse_enable(self, new_state: bool):
+        if new_state:
+            MouseController().set_enabled(True)
+        else:
+            MouseController().set_enabled(False)
+
 
 class PageCursor(SafeDisposableFrame):
 
@@ -228,7 +294,7 @@ class PageCursor(SafeDisposableFrame):
                             columnspan=1)
 
         # Description.
-        des_txt = "Mouse cursor moves with your head movement. Use this settings to adjust how fast your mouse moves in each direction."
+        des_txt = "Adjust how the mouse cursor responds to your head movements."
         des_label = customtkinter.CTkLabel(master=self,
                                            text=des_txt,
                                            wraplength=300,
@@ -238,7 +304,7 @@ class PageCursor(SafeDisposableFrame):
 
         # Inner frame
         self.inner_frame = FrameSelectGesture(self)
-        self.inner_frame.grid(row=2, column=0, padx=5, pady=5, sticky="nw")
+        self.inner_frame.grid(row=4, column=0, padx=5, pady=5, sticky="nw")
 
     def refresh_profile(self):
         self.inner_frame.inner_refresh_profile()

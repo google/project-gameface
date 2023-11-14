@@ -8,7 +8,7 @@ from PIL import Image
 import src.gui.frames as frames
 import src.gui.pages as pages
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import Keybinder, MouseController
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("assets/themes/google_theme.json")
@@ -141,10 +141,13 @@ class MainGui():
         if function_name == "toggle_switch":
             self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
 
+
     def set_mediapipe_mouse_enable(self, new_state: bool):
         if new_state:
+            Keybinder().set_active(True)
             MouseController().set_active(True)
         else:
+            Keybinder().set_active(False)
             MouseController().set_active(False)
 
     def change_page(self, target_page_name: str):

@@ -11,7 +11,7 @@ from PIL import Image
 
 import src.utils as utils
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import Keybinder
 from src.singleton_meta import Singleton
 
 MAX_SEARCH_CAMS = 5
@@ -109,7 +109,7 @@ class CameraManager(metaclass=Singleton):
         self.frame_buffers["debug"] = self.frame_buffers["raw"].copy()
 
         # Disabled
-        if not MouseController().is_active.get():
+        if not Keybinder().is_active.get():
             self.frame_buffers["debug"] = add_overlay(
                 self.frame_buffers["debug"], self.overlay_disabled, 0, 0, 640,
                 108)

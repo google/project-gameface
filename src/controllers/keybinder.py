@@ -6,10 +6,10 @@ import time
 
 import pydirectinput
 import win32api
+import tkinter as tk
 
 import src.shape_list as shape_list
 from src.config_manager import ConfigManager
-from src.controllers.mouse_controller import MouseController
 from src.singleton_meta import Singleton
 
 logger = logging.getLogger("Keybinder")
@@ -29,6 +29,7 @@ class Keybinder(metaclass=Singleton):
         self.holding = False
         self.is_started = False
         self.last_know_keybinds = {}
+        self.is_active = None
 
     def start(self):
         if not self.is_started:
@@ -37,6 +38,9 @@ class Keybinder(metaclass=Singleton):
             self.screen_w, self.screen_h = pydirectinput.size()
             self.monitors = self.get_monitors()
             self.is_started = True
+
+            self.is_active = tk.BooleanVar()
+            self.is_active.set(ConfigManager().config["auto_play"])
 
     def init_states(self) -> None:
         """Re initializes the state of the keybinder.
@@ -164,13 +168,13 @@ class Keybinder(metaclass=Singleton):
                     if mon_id is None:
                         return
 
-                    MouseController().toggle_active()
+                    self.toggle_active()
 
                     self.key_states[state_name] = True
                 elif (val < thres) and (self.key_states[state_name] is True):
                     self.key_states[state_name] = False
 
-            elif MouseController().is_active.get():
+            elif self.is_active.get():
 
                 if device == "mouse":
 
@@ -209,6 +213,16 @@ class Keybinder(metaclass=Singleton):
 
                 elif device == "keyboard":
                     self.keyboard_action(val, action, thres, mode)
+
+    def set_active(self, flag: bool) -> None:
+        self.is_active.set(flag)
+        if flag:
+            self.delay_count = 0
+
+    def toggle_active(self):
+        logging.info("Toggle active")
+        curr_state = self.is_active.get()
+        self.set_active(not curr_state)
 
     def destroy(self):
         """Destroy the keybinder"""

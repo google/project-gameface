@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 
 from src.camera_manager import CameraManager
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import Keybinder
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
 CANVAS_WIDTH = 216
@@ -59,7 +59,7 @@ class FrameCamPreview(SafeDisposableFrame):
             border_color="transparent",
             switch_height=18,
             switch_width=32,
-            variable=MouseController().is_active,
+            variable=Keybinder().is_active,
             command=lambda: master_callback(
                 "toggle_switch", {"switch_status": self.toggle_switch.get()}),
             onvalue=1,
@@ -74,7 +74,7 @@ class FrameCamPreview(SafeDisposableFrame):
                                 pady=5,
                                 sticky="nw")
 
-        # Toggle label
+        # Toggle description label
         self.toggle_label = customtkinter.CTkLabel(
             master=self,
             compound='right',
