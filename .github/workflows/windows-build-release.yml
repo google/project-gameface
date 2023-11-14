@@ -2,8 +2,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
-      - inno6-installer
+      - main
   pull_request:
 
 jobs:
