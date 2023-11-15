@@ -17,6 +17,17 @@ BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
 
 logger = logging.getLogger("ConfigManager")
 
+config_dir = f"C:/Users/{os.getlogin()}/Grimassist/configs/"
+default_dir = os.path.join(config_dir, "default")
+
+# Create the main config directory if it doesn't exist
+if not os.path.isdir(config_dir):
+    os.makedirs(config_dir, exist_ok=True)
+    shutil.copytree("configs", config_dir, dirs_exist_ok=True)
+
+# Create the default directory inside the config directory if it doesn't exist
+if not os.path.isdir(default_dir):
+    os.mkdir(default_dir)
 
 if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/"):
     shutil.copytree("configs", f"C:/Users/{os.getlogin()}/Grimassist/configs/")
