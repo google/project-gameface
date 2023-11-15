@@ -1,35 +1,33 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import copy
 import json
 import logging
 import shutil
 import time
 import tkinter as tk
+import os
 from pathlib import Path
 
 from src.singleton_meta import Singleton
 from src.task_killer import TaskKiller
 
-VERSION = "0.3.33"
+VERSION = "0.3.34"
 
-DEFAULT_JSON = Path("configs/default.json")
-BACKUP_PROFILE = Path("configs/default")
+DEFAULT_JSON = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default.json")
+BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
 
 logger = logging.getLogger("ConfigManager")
 
+config_dir = f"C:/Users/{os.getlogin()}/Grimassist/configs/"
+default_dir = os.path.join(config_dir, "default")
+
+# Create the main config directory if it doesn't exist
+if not os.path.isdir(config_dir):
+    os.makedirs(config_dir, exist_ok=True)
+    shutil.copytree("configs", config_dir, dirs_exist_ok=True)
+
+# Create the default directory inside the config directory if it doesn't exist
+if not os.path.isdir(default_dir):
+    os.mkdir(default_dir)
 
 class ConfigManager(metaclass=Singleton):
 
