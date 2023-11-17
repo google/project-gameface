@@ -106,7 +106,7 @@ class MainGui():
                           rowspan=2,
                           columnspan=1)
 
-        self.change_page("page_home")
+        self.change_page("page_camera")
 
         # Profile UI
         self.frame_profile_switcher = frames.FrameProfileSwitcher(

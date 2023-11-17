@@ -71,40 +71,42 @@ class PageSelectCamera(SafeDisposableFrame):
     def load_initial_config(self):
         """ Update radio buttons to match CameraManager
         """
-        logger.info("Refresh radio buttons")
-        for old_radio in self.radios:
-            old_radio.destroy()
-
         new_camera_list = CameraManager().get_camera_list()
-        logger.info(f"Get camera list {new_camera_list}")
-        radios = []
-        for row_i, cam_id in enumerate(new_camera_list):
+        if len(self.latest_camera_list) != len(new_camera_list):
+            self.latest_camera_list = new_camera_list
+            logger.info("Refresh radio buttons")
+            for old_radio in self.radios:
+                old_radio.destroy()
 
-            radio = customtkinter.CTkRadioButton(master=self,
-                                                 text=f"Camera {cam_id}",
-                                                 command=self.radiobutton_event,
-                                                 variable=self.radio_var,
-                                                 value=cam_id)
+            logger.info(f"Get camera list {new_camera_list}")
+            radios = []
+            for row_i, cam_id in enumerate(new_camera_list):
 
-            radio.grid(row=row_i + 2, column=0, padx=50, pady=10, sticky="w")
-            radios.append(radio)
+                radio = customtkinter.CTkRadioButton(master=self,
+                                                     text=f"Camera {cam_id}",
+                                                     command=self.radiobutton_event,
+                                                     variable=self.radio_var,
+                                                     value=cam_id)
 
-        # Set radio select
-        target_id = ConfigManager().config["camera_id"]
-        self.radios = radios
-        for radio in self.radios:
-            if f"Camera {target_id}" == radio.cget("text"):
-                radio.select()
-                self.prev_radio_value = self.radio_var.get()
-                logger.info(f"Set initial camera to {target_id}")
-                break
+                radio.grid(row=row_i + 2, column=0, padx=50, pady=10, sticky="w")
+                radios.append(radio)
+
+            # Set radio select
+            target_id = ConfigManager().config["camera_id"]
+            self.radios = radios
+            for radio in self.radios:
+                if f"Camera {target_id}" == radio.cget("text"):
+                    radio.select()
+                    self.prev_radio_value = self.radio_var.get()
+                    logger.info(f"Set initial camera to {target_id}")
+                    break
 
     def radiobutton_event(self):
         # Open new camera.
         new_radio_value = self.radio_var.get()
         if new_radio_value == self.prev_radio_value:
             return
-        logger.info(f"Change cameara: {new_radio_value}")
+        logger.info(f"Change camera: {new_radio_value}")
         CameraManager().pick_camera(new_radio_value)
         ConfigManager().set_temp_config("camera_id", new_radio_value)
         ConfigManager().apply_config()
@@ -123,7 +125,7 @@ class PageSelectCamera(SafeDisposableFrame):
                                                          CANVAS_HEIGHT)))
             self.canvas.itemconfig(self.canvas_im, image=self.new_photo)
             self.canvas.update()
-
+            self.load_initial_config()
             self.after(ConfigManager().config["tick_interval_ms"],
                        self.page_loop)
 
