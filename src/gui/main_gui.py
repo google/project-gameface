@@ -1,4 +1,3 @@
-
 import logging
 import tkinter as tk
 
@@ -59,10 +58,6 @@ class MainGui():
 
         # Create all wizard pages and grid them.
         self.pages = {
-            "page_home":
-                pages.PageHome(master=self.tk_root,
-                               logger_name="page_home",
-                               root_callback=self.root_function_callback),
             "page_camera":
                 pages.PageSelectCamera(
                     master=self.tk_root,
@@ -88,23 +83,13 @@ class MainGui():
         self.page_names = list(self.pages.keys())
         self.curr_page_name = None
         for name, page in self.pages.items():
-            # Page home extended full window
-            if name == "page_home":
-                page.grid(row=0,
-                          column=0,
-                          padx=5,
-                          pady=5,
-                          sticky="nsew",
-                          rowspan=2,
-                          columnspan=2)
-            else:
-                page.grid(row=0,
-                          column=1,
-                          padx=5,
-                          pady=5,
-                          sticky="nsew",
-                          rowspan=2,
-                          columnspan=1)
+            page.grid(row=0,
+                      column=1,
+                      padx=5,
+                      pady=5,
+                      sticky="nsew",
+                      rowspan=2,
+                      columnspan=1)
 
         self.change_page("page_camera")
 
@@ -140,7 +125,6 @@ class MainGui():
 
         if function_name == "toggle_switch":
             self.set_mediapipe_mouse_enable(new_state=args["switch_status"])
-
 
     def set_mediapipe_mouse_enable(self, new_state: bool):
         if new_state:

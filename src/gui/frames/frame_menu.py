@@ -25,14 +25,6 @@ class FrameMenu(SafeDisposableFrame):
         self.master_callback = master_callback
 
         self.menu_btn_images = {
-            "page_home": [
-                customtkinter.CTkImage(
-                    Image.open("assets/images/menu_btn_home.png"),
-                    size=BTN_SIZE),
-                customtkinter.CTkImage(
-                    Image.open("assets/images/menu_btn_home_selected.png"),
-                    size=BTN_SIZE)
-            ],
             "page_camera": [
                 customtkinter.CTkImage(
                     Image.open("assets/images/menu_btn_camera.png"),
@@ -94,6 +86,7 @@ class FrameMenu(SafeDisposableFrame):
 
         self.btns = {}
         self.btns = self.create_tab_btn(self.menu_btn_images, offset=1)
+        self.set_tab_active("page_camera")
 
     def create_tab_btn(self, btns: dict, offset):
 
