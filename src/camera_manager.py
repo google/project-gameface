@@ -32,7 +32,7 @@ def add_overlay(background, overlay, x, y, width, height):
 class CameraManager(metaclass=Singleton):
 
     def __init__(self):
-        logger.info("Intialize CameraManager singleton")
+        logger.info("Initialize CameraManager singleton")
         self.thread_cameras = None
 
         # Load placeholder image
@@ -149,7 +149,7 @@ class CameraManager(metaclass=Singleton):
 class ThreadCameras():
 
     def __init__(self, frame_buffers: dict):
-        logger.info("Intializing Threadcamera")
+        logger.info("Initializing ThreadCamera")
         self.lock = threading.Lock()
         self.pool = futures.ThreadPoolExecutor(max_workers=8)
         self.stop_flag = threading.Event()
@@ -223,7 +223,7 @@ class ThreadCameras():
                 self.caps[cam_id] = None
 
     def read_camera_loop(self, stop_flag) -> None:
-        logger.info("Threadcamera main_loop started.")
+        logger.info("ThreadCamera main_loop started.")
 
         while not stop_flag.is_set():
             if self.curr_id is None:
@@ -270,7 +270,7 @@ class ThreadCameras():
         pass
 
     def destroy(self):
-        logger.info("Destroying Threadcamera")
+        logger.info("Destroying ThreadCamera")
         self.stop_flag.set()
         self.assign_exe.join()
         self.loop_exe.join()
@@ -280,4 +280,4 @@ class ThreadCameras():
         self.frame_buffers = None
         self.caps = None
 
-        logger.info("Threadcamera destroyed")
+        logger.info("ThreadCamera destroyed")

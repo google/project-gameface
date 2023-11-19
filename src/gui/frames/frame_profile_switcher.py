@@ -365,7 +365,7 @@ class FrameProfileSwitcher():
         self.float_window.grid_columnconfigure(0, weight=1)
         self.float_window.configure(fg_color="white")
         self._displayed = True
-        # Rounded corder
+        # Rounded corner
         self.float_window.config(background='#000000')
         self.float_window.attributes("-transparentcolor", "#000000")
 

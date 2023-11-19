@@ -190,7 +190,7 @@ class FrameSelectGesture(SafeDisposableFrame):
 
     def entry_changed_callback(self, div_name, slider_min, slider_max, var,
                                index, mode):
-        """Update value with entery text 
+        """Update value with entry text
         """
         is_valid_input = True
         div = self.divs[div_name]

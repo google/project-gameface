@@ -82,9 +82,9 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
 
         # Divs
         self.divs = {}
-        self.load_initial_keybinds()
+        self.load_initial_keybindings()
 
-    def load_initial_keybinds(self):
+    def load_initial_keybindings(self):
         """Load default from config and set the UI
         """
         for gesture_name, bind_info in ConfigManager().keyboard_bindings.items(
@@ -367,7 +367,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
     def button_click_callback(self, div_name, entry_button, event):
         """Start wait_for_key after clicked the button      
         """
-        # Cancel old waiting funciontion
+        # Cancel old waiting function
         if self.waiting_div is not None:
             self.wait_for_key(self.waiting_div, self.waiting_button, "cancel")
 
@@ -463,7 +463,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
         self.divs = {}
 
         # Create new divs form the new profile
-        self.load_initial_keybinds()
+        self.load_initial_keybindings()
 
     def enter(self):
         super().enter()
@@ -510,7 +510,7 @@ class PageKeyboard(SafeDisposableFrame):
             self, logger_name="FrameSelectKeyboard")
         self.inner_frame.grid(row=3, column=0, padx=5, pady=5, sticky="nswe")
 
-        # Add binding butotn
+        # Add binding button
         self.add_binding_button = customtkinter.CTkButton(
             master=self,
             text="+ Add binding",

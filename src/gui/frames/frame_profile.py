@@ -478,7 +478,7 @@ class FrameProfile(SafeDisposableFrame):
                        columnspan=1,
                        rowspan=1)
 
-        # Add  butotn
+        # Add  button
         add_button = customtkinter.CTkButton(master=self.float_window,
                                              text="+ Add profile",
                                              fg_color="white",

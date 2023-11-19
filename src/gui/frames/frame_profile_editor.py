@@ -389,7 +389,7 @@ class FrameProfileEditor():
                        columnspan=1,
                        rowspan=1)
 
-        # Add  butotn
+        # Add  button
         add_prof_image = customtkinter.CTkImage(
             Image.open("assets/images/add_prof.png"), size=(16, 12))
         add_button = customtkinter.CTkButton(master=self.float_window,

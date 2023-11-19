@@ -25,7 +25,7 @@ N_BUFFER = 100
 class MouseController(metaclass=Singleton):
 
     def __init__(self):
-        logger.info("Intialize MouseController singleton")
+        logger.info("Initialize MouseController singleton")
         self.prev_x = 0
         self.prev_y = 0
         self.curr_track_loc = None
@@ -41,7 +41,7 @@ class MouseController(metaclass=Singleton):
     def start(self):
         if not self.is_started:
             logger.info("Start MouseController singleton")
-            # Trackpoint buffer x, y
+            # Track-point buffer x, y
             self.buffer = np.zeros([N_BUFFER, 2])
             self.accel = SigmoidAccel()
             self.pool = futures.ThreadPoolExecutor(max_workers=1)

@@ -14,7 +14,7 @@ class Pipeline:
 
         frame_rgb = CameraManager().get_raw_frame()
 
-        # Detect landmarks (async) and save in it's buffer
+        # Detect landmarks (async) and save in its buffer
         FaceMesh().detect_frame(frame_rgb)
 
         # Get facial landmarks

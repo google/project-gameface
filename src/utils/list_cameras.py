@@ -8,7 +8,7 @@ logger = logging.getLogger("ListCamera")
 
 def __open_camera_task(i):
 
-    logger.info(f"Try openning camera: {i}")
+    logger.info(f"Try opening camera: {i}")
 
     try:
         cap = cv2.VideoCapture(cv2.CAP_DSHOW + i)

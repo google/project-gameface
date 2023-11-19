@@ -40,7 +40,7 @@ if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default"):
 class ConfigManager(metaclass=Singleton):
 
     def __init__(self):
-        logger.info("Intialize ConfigManager singleton")
+        logger.info("Initialize ConfigManager singleton")
         self.version = VERSION
         self.unsave_configs = False
         self.unsave_mouse_bindings = False
@@ -176,7 +176,7 @@ class ConfigManager(metaclass=Singleton):
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger_type: %s",
             gesture, device, action, threshold, trigger_type)
 
-        # Remove duplicate keybinds
+        # Remove duplicate keybindings
         self.remove_temp_mouse_binding(device, action)
 
         # Assign
@@ -188,16 +188,16 @@ class ConfigManager(metaclass=Singleton):
     def remove_temp_mouse_binding(self, device: str, action: str):
         logger.info(
             f"remove_temp_mouse_binding for device: {device}, key: {action}")
-        out_keybinds = {}
+        out_keybindings = {}
         for key, vals in self.temp_mouse_bindings.items():
             if (device == vals[0]) and (action == vals[1]):
                 continue
-            out_keybinds[key] = vals
-        self.temp_mouse_bindings = out_keybinds
+            out_keybindings[key] = vals
+        self.temp_mouse_bindings = out_keybindings
         self.unsave_mouse_bindings = True
 
     def apply_mouse_bindings(self):
-        logger.info("Applying keybinds")
+        logger.info("Applying keybindings")
         self.mouse_bindings = copy.deepcopy(self.temp_mouse_bindings)
         self.write_mouse_bindings_file()
         self.unsave_mouse_bindings = False
@@ -205,7 +205,7 @@ class ConfigManager(metaclass=Singleton):
     def write_mouse_bindings_file(self):
         mouse_bindings_file = Path(self.curr_profile_path,
                                    "mouse_bindings.json")
-        logger.info(f"Writing keybinds file {mouse_bindings_file}")
+        logger.info(f"Writing keybindings file {mouse_bindings_file}")
 
         with open(mouse_bindings_file, 'w') as f:
             out_json = dict(sorted(self.mouse_bindings.items()))
@@ -220,7 +220,7 @@ class ConfigManager(metaclass=Singleton):
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger_type: %s",
             gesture, device, key_action, threshold, trigger_type)
 
-        # Remove duplicate keybinds
+        # Remove duplicate keybindings
         self.remove_temp_keyboard_binding(device, key_action, gesture)
 
         # Assign
@@ -241,16 +241,16 @@ class ConfigManager(metaclass=Singleton):
             f"remove_temp_keyboard_binding for device: {device}, key: {key_action} or gesture {gesture}"
         )
 
-        out_keybinds = {}
+        out_keybindings = {}
         for ges, vals in self.temp_keyboard_bindings.items():
             if (gesture == ges):
                 continue
             if (key_action == vals[1]):
                 continue
 
-            out_keybinds[ges] = vals
+            out_keybindings[ges] = vals
 
-        self.temp_keyboard_bindings = out_keybinds
+        self.temp_keyboard_bindings = out_keybindings
 
         self.unsave_keyboard_bindings = True
         return
@@ -278,4 +278,4 @@ class ConfigManager(metaclass=Singleton):
         self.apply_keyboard_bindings()
 
     def destroy(self):
-        logger.info("Destory")
+        logger.info("Destroy")

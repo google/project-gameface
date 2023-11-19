@@ -12,11 +12,11 @@ logger = logging.getLogger("TaskKiller")
 
 
 class TaskKiller(metaclass=Singleton):
-    """Singleton class for saftly killing the process and free the memory
+    """Singleton class for softly killing the process and freeing the memory
     """
 
     def __init__(self):
-        logger.info("Intialize TaskKiller singleton")
+        logger.info("Initialize TaskKiller singleton")
         self.is_started = False
 
     def start(self):
