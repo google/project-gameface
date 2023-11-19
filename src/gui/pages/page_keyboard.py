@@ -1,4 +1,3 @@
-
 import logging
 import tkinter as tk
 import uuid

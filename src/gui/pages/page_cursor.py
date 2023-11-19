@@ -1,4 +1,3 @@
-
 import logging
 import tkinter
 from functools import partial
