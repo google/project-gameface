@@ -307,6 +307,7 @@ class FrameSelectGesture(SafeDisposableFrame):
 
 
 class PageSelectGestures(SafeDisposableFrame):
+    name = "gestures"
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)

@@ -68,7 +68,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                                padx=(20, 0),
                                pady=5,
                                sticky="nw")
-        
+
         # Toggle switch
         self.toggle_switch = customtkinter.CTkSwitch(
             master=self,
@@ -272,6 +272,7 @@ class FrameSelectGesture(SafeDisposableFrame):
 
 
 class PageCursor(SafeDisposableFrame):
+    name = "cursor"
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)

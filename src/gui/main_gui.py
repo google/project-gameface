@@ -8,6 +8,7 @@ import src.gui.frames as frames
 import src.gui.pages as pages
 from src.config_manager import ConfigManager
 from src.controllers import Keybinder, MouseController
+from src.gui.pages import PageSelectCamera, PageCursor, PageSelectGestures, PageKeyboard
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("assets/themes/google_theme.json")
@@ -58,29 +59,28 @@ class MainGui():
 
         # Create all wizard pages and grid them.
         self.pages = {
-            "page_camera":
-                pages.PageSelectCamera(
+            PageSelectCamera.name:
+                PageSelectCamera(
                     master=self.tk_root,
                     logger_name="page_camera",
                 ),
-            "page_cursor":
+            PageCursor.name:
                 pages.PageCursor(
                     master=self.tk_root,
                     logger_name="page_cursor",
                 ),
-            "page_gestures":
-                pages.PageSelectGestures(
+            PageSelectGestures.name:
+                PageSelectGestures(
                     master=self.tk_root,
                     logger_name="page_gestures",
                 ),
-            "page_keyboard":
-                pages.PageKeyboard(
+            PageKeyboard.name:
+                PageKeyboard(
                     master=self.tk_root,
                     logger_name="page_keyboard",
                 )
         }
 
-        self.page_names = list(self.pages.keys())
         self.curr_page_name = None
         for name, page in self.pages.items():
             page.grid(row=0,
@@ -91,7 +91,7 @@ class MainGui():
                       rowspan=2,
                       columnspan=1)
 
-        self.change_page("page_camera")
+        self.change_page(PageSelectCamera.name)
 
         # Profile UI
         self.frame_profile_switcher = frames.FrameProfileSwitcher(
@@ -115,10 +115,10 @@ class MainGui():
 
         elif function_name == "refresh_profiles":
             logger.info("refresh_profile")
-            self.pages["page_gestures"].refresh_profile()
-            self.pages["page_camera"].refresh_profile()
-            self.pages["page_cursor"].refresh_profile()
-            self.pages["page_keyboard"].refresh_profile()
+            self.pages[PageSelectGestures.name].refresh_profile()
+            self.pages[PageSelectCamera.name].refresh_profile()
+            self.pages[PageCursor.name].refresh_profile()
+            self.pages[PageKeyboard.name].refresh_profile()
 
     def cam_preview_callback(self, function_name, args: dict, **kwargs):
         logger.info(f"cam_preview_callback {function_name} with {args}")
