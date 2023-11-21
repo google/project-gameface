@@ -12,7 +12,8 @@ HOME_IM_SIZE = (441, 215)
 
 
 class PageHome(SafeDisposableFrame):
-    name = "home"
+    name = "page_home"
+
     def __init__(self, master, root_callback: callable, **kwargs):
         super().__init__(master, **kwargs)
         logging.info("Create PageHome")

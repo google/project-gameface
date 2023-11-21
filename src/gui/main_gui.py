@@ -62,22 +62,22 @@ class MainGui():
             PageSelectCamera.name:
                 PageSelectCamera(
                     master=self.tk_root,
-                    logger_name="page_camera",
+                    logger_name=PageSelectCamera.name,
                 ),
             PageCursor.name:
                 pages.PageCursor(
                     master=self.tk_root,
-                    logger_name="page_cursor",
+                    logger_name=PageCursor.name,
                 ),
             PageSelectGestures.name:
                 PageSelectGestures(
                     master=self.tk_root,
-                    logger_name="page_gestures",
+                    logger_name=PageSelectGestures.name,
                 ),
             PageKeyboard.name:
                 PageKeyboard(
                     master=self.tk_root,
-                    logger_name="page_keyboard",
+                    logger_name=PageKeyboard.name,
                 )
         }
 
