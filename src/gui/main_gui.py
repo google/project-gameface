@@ -58,31 +58,27 @@ class MainGui():
         self.frame_preview.enter()
 
         # Create all wizard pages and grid them.
-        self.pages = {
-            PageSelectCamera.name:
+        self.pages = [
                 PageSelectCamera(
                     master=self.tk_root,
                     logger_name=PageSelectCamera.name,
                 ),
-            PageCursor.name:
-                pages.PageCursor(
+                PageCursor(
                     master=self.tk_root,
                     logger_name=PageCursor.name,
                 ),
-            PageSelectGestures.name:
                 PageSelectGestures(
                     master=self.tk_root,
                     logger_name=PageSelectGestures.name,
                 ),
-            PageKeyboard.name:
                 PageKeyboard(
                     master=self.tk_root,
                     logger_name=PageKeyboard.name,
                 )
-        }
+        ]
 
         self.curr_page_name = None
-        for name, page in self.pages.items():
+        for page in self.pages:
             page.grid(row=0,
                       column=1,
                       padx=5,
@@ -115,10 +111,8 @@ class MainGui():
 
         elif function_name == "refresh_profiles":
             logger.info("refresh_profile")
-            self.pages[PageSelectGestures.name].refresh_profile()
-            self.pages[PageSelectCamera.name].refresh_profile()
-            self.pages[PageCursor.name].refresh_profile()
-            self.pages[PageKeyboard.name].refresh_profile()
+            for page in self.pages:
+                page.refresh_profile()
 
     def cam_preview_callback(self, function_name, args: dict, **kwargs):
         logger.info(f"cam_preview_callback {function_name} with {args}")
@@ -139,11 +133,11 @@ class MainGui():
         if self.curr_page_name == target_page_name:
             return
 
-        for name, page in self.pages.items():
-            if name == target_page_name:
+        for page in self.pages:
+            if page.name == target_page_name:
                 page.grid()
-                self.pages[target_page_name].enter()
-                self.curr_page_name = target_page_name
+                page.enter()
+                self.curr_page_name = page.name
 
             else:
                 page.grid_remove()
@@ -156,7 +150,7 @@ class MainGui():
         self.frame_preview.destroy()
         self.frame_menu.leave()
         self.frame_menu.destroy()
-        for page in self.pages.values():
+        for page in self.pages:
             page.leave()
             page.destroy()
 
