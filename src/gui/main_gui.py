@@ -1,11 +1,7 @@
 import logging
-import tkinter as tk
-
 import customtkinter
-from PIL import Image
 
-import src.gui.frames as frames
-import src.gui.pages as pages
+from src.gui import frames
 from src.config_manager import ConfigManager
 from src.controllers import Keybinder, MouseController
 from src.gui.pages import PageSelectCamera, PageCursor, PageSelectGestures, PageKeyboard
@@ -61,19 +57,15 @@ class MainGui():
         self.pages = [
                 PageSelectCamera(
                     master=self.tk_root,
-                    logger_name=PageSelectCamera.name,
                 ),
                 PageCursor(
                     master=self.tk_root,
-                    logger_name=PageCursor.name,
                 ),
                 PageSelectGestures(
                     master=self.tk_root,
-                    logger_name=PageSelectGestures.name,
                 ),
                 PageKeyboard(
                     master=self.tk_root,
-                    logger_name=PageKeyboard.name,
                 )
         ]
 
@@ -87,7 +79,7 @@ class MainGui():
                       rowspan=2,
                       columnspan=1)
 
-        self.change_page(PageSelectCamera.name)
+        self.change_page(PageSelectCamera.__name__)
 
         # Profile UI
         self.frame_profile_switcher = frames.FrameProfileSwitcher(
@@ -134,10 +126,10 @@ class MainGui():
             return
 
         for page in self.pages:
-            if page.name == target_page_name:
+            if page.__class__.__name__ == target_page_name:
                 page.grid()
                 page.enter()
-                self.curr_page_name = page.name
+                self.curr_page_name = page.__class__.__name__
 
             else:
                 page.grid_remove()

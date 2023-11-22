@@ -17,7 +17,6 @@ MAX_ROWS = 10
 
 
 class PageSelectCamera(SafeDisposableFrame):
-    name = "page_camera"
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)

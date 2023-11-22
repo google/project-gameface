@@ -4,6 +4,7 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
+from src.gui.pages import PageSelectCamera, PageCursor, PageSelectGestures, PageKeyboard
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
 LIGHT_BLUE = "#F9FBFE"
@@ -24,7 +25,7 @@ class FrameMenu(SafeDisposableFrame):
         self.master_callback = master_callback
 
         self.menu_btn_images = {
-            "page_camera": [
+            PageSelectCamera.__name__: [
                 customtkinter.CTkImage(
                     Image.open("assets/images/menu_btn_camera.png"),
                     size=BTN_SIZE),
@@ -32,7 +33,7 @@ class FrameMenu(SafeDisposableFrame):
                     Image.open("assets/images/menu_btn_camera_selected.png"),
                     size=BTN_SIZE)
             ],
-            "page_cursor": [
+            PageCursor.__name__: [
                 customtkinter.CTkImage(
                     Image.open("assets/images/menu_btn_cursor.png"),
                     size=BTN_SIZE),
@@ -40,7 +41,7 @@ class FrameMenu(SafeDisposableFrame):
                     Image.open("assets/images/menu_btn_cursor_selected.png"),
                     size=BTN_SIZE)
             ],
-            "page_gestures": [
+            PageSelectGestures.__name__: [
                 customtkinter.CTkImage(
                     Image.open("assets/images/menu_btn_gestures.png"),
                     size=BTN_SIZE),
@@ -48,7 +49,7 @@ class FrameMenu(SafeDisposableFrame):
                     Image.open("assets/images/menu_btn_gestures_selected.png"),
                     size=BTN_SIZE)
             ],
-            "page_keyboard": [
+            PageKeyboard.__name__: [
                 customtkinter.CTkImage(
                     Image.open("assets/images/menu_btn_keyboard.png"),
                     size=BTN_SIZE),
