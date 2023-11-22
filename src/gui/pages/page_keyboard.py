@@ -11,7 +11,7 @@ from src.config_manager import ConfigManager
 from src.detectors import FaceMesh
 from src.gui.balloon import Balloon
 from src.gui.dropdown import Dropdown
-from src.gui.frames.safe_disposable_frame import SafeDisposableFrame, SafeDisposableScrollableFrame
+from src.gui.frames import SafeDisposableFrame, SafeDisposableScrollableFrame
 
 logger = logging.getLogger("PageKeyboard")
 

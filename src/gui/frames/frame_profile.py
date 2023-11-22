@@ -9,8 +9,7 @@ from PIL import Image
 
 from src.config_manager import ConfigManager
 from src.task_killer import TaskKiller
-from src.gui.frames.safe_disposable_frame import (SafeDisposableFrame,
-                                                  SafeDisposableScrollableFrame)
+from src.gui.frames import SafeDisposableFrame, SafeDisposableScrollableFrame
 
 logger = logging.getLogger("FrameProfile")
 
