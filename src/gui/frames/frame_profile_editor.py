@@ -8,7 +8,7 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.gui.frames import SafeDisposableScrollableFrame
+from src.gui.frames.safe_disposable_scrollable_frame import SafeDisposableScrollableFrame
 from src.task_killer import TaskKiller
 
 logger = logging.getLogger("FrameProfileEditor")

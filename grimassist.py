@@ -3,7 +3,7 @@ import sys
 import os
 import customtkinter
 
-import src.gui as gui
+from src.gui import MainGui
 from src.pipeline import Pipeline
 from src.task_killer import TaskKiller
 
@@ -23,7 +23,7 @@ logging.basicConfig(
 )
 
 
-class MainApp(gui.MainGui, Pipeline):
+class MainApp(MainGui, Pipeline):
     def __init__(self, tk_root):
         super().__init__(tk_root)
         # Wait for window drawing.
