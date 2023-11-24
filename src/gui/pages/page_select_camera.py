@@ -68,7 +68,7 @@ class PageSelectCamera(SafeDisposableFrame):
         self.new_photo = None
         self.latest_camera_list = []
 
-    def load_initial_config(self):
+    def update_radio_buttons(self):
         """ Update radio buttons to match CameraManager
         """
         new_camera_list = CameraManager().get_camera_list()
@@ -131,16 +131,16 @@ class PageSelectCamera(SafeDisposableFrame):
                                                          CANVAS_HEIGHT)))
             self.canvas.itemconfig(self.canvas_im, image=self.new_photo)
             self.canvas.update()
-            self.load_initial_config()
+            self.update_radio_buttons()
             self.after(ConfigManager().config["tick_interval_ms"],
                        self.page_loop)
 
     def enter(self):
         super().enter()
-        self.load_initial_config()
+        self.update_radio_buttons()
         self.after(1, self.page_loop)
 
     def refresh_profile(self):
-        self.load_initial_config()
+        self.update_radio_buttons()
         new_camera_id = ConfigManager().config["camera_id"]
         CameraManager().pick_camera(new_camera_id)
