@@ -1,7 +1,11 @@
 import concurrent.futures as futures
 import logging
+import platform
 
 import cv2
+
+if platform.system() == "Windows":
+    import pygrabber.dshow_graph
 
 logger = logging.getLogger("ListCamera")
 
@@ -68,3 +72,10 @@ def open_camera(caps, i):
     """
     pool = futures.ThreadPoolExecutor(max_workers=1)
     pool.submit(assign_caps_unblock, caps, i)
+
+
+def get_camera_name(i: int) -> str | None:
+    if platform.system() == "Windows":
+        return str(pygrabber.dshow_graph.FilterGraph().get_input_devices()[i])
+    else:
+        return None

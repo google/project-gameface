@@ -1,6 +1,7 @@
 import logging
 import tkinter
 
+from src import utils
 import customtkinter
 from PIL import Image, ImageTk
 
@@ -74,15 +75,19 @@ class PageSelectCamera(SafeDisposableFrame):
         if len(self.latest_camera_list) != len(new_camera_list):
             self.latest_camera_list = new_camera_list
             logger.info("Refresh radio buttons")
-            for old_radio in self.radios:
-                old_radio.destroy()
+            old_radios = self.radios
 
             logger.info(f"Get camera list {new_camera_list}")
             radios = []
             for row_i, cam_id in enumerate(new_camera_list):
+                radio_text = f"Camera {cam_id}"
+
+                cam_name = utils.get_camera_name(cam_id)
+                if cam_name is not None:
+                    radio_text = f"{radio_text}: {cam_name}"
 
                 radio = customtkinter.CTkRadioButton(master=self,
-                                                     text=f"Camera {cam_id}",
+                                                     text=radio_text,
                                                      command=self.radiobutton_event,
                                                      variable=self.radio_var,
                                                      value=cam_id)
@@ -99,6 +104,8 @@ class PageSelectCamera(SafeDisposableFrame):
                     self.prev_radio_value = self.radio_var.get()
                     logger.info(f"Set initial camera to {target_id}")
                     break
+            for old_radio in old_radios:
+                old_radio.destroy()
 
     def radiobutton_event(self):
         # Open new camera.
