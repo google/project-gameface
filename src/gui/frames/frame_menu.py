@@ -64,7 +64,7 @@ class FrameMenu(SafeDisposableFrame):
             Image.open("assets/images/prof_drop_head.png"), size=PROF_DROP_SIZE)
         profile_btn = customtkinter.CTkLabel(
             master=self,
-            textvariable=ConfigManager().curr_profile_name,
+            textvariable=ConfigManager().current_profile_name,
             image=prof_drop,
             height=42,
             compound="center",
@@ -84,9 +84,9 @@ class FrameMenu(SafeDisposableFrame):
                          columnspan=1,
                          rowspan=1)
 
-        self.btns = {}
-        self.btns = self.create_tab_btn(self.menu_btn_images, offset=1)
-        self.set_tab_active("page_camera")
+        self.buttons = {}
+        self.buttons = self.create_tab_btn(self.menu_btn_images, offset=1)
+        self.set_tab_active(PageSelectCamera.__name__)
 
     def create_tab_btn(self, btns: dict, offset):
 
@@ -117,7 +117,7 @@ class FrameMenu(SafeDisposableFrame):
         return out_dict
 
     def set_tab_active(self, tab_name: str):
-        for k, btn in self.btns.items():
+        for k, btn in self.buttons.items():
             im_normal, im_active = self.menu_btn_images[k]
             if k == tab_name:
                 btn.configure(image=im_active)

@@ -1,11 +1,16 @@
 import logging
 import time
+from typing import Any
 
 import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
+from mediapipe.framework.formats.landmark_pb2 import NormalizedLandmark
+from mediapipe.python._framework_bindings import image as mediapipe_image
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
+from mediapipe.tasks.python.vision import FaceLandmarkerResult
+from numpy import ndarray, dtype
 
 import src.utils as utils
 from src.config_manager import ConfigManager
@@ -23,9 +28,10 @@ np.set_printoptions(precision=2, suppress=True)
 class FaceMesh(metaclass=Singleton):
 
     def __init__(self):
+        self.smooth_kernel = None
         logger.info("Initialize FaceMesh singleton")
         self.mp_landmarks = None
-        self.track_loc = None
+        self.tracking_location = None
         self.blendshapes_buffer = np.zeros([BLENDS_MAX_BUFFER, N_SHAPES])
         self.smooth_blendshapes = None
         self.model = None
@@ -54,7 +60,7 @@ class FaceMesh(metaclass=Singleton):
         self.smooth_kernel = utils.calc_smooth_kernel(
             ConfigManager().config["shape_smooth"])
 
-    def calc_track_loc(self, mp_result, use_transformation_matrix=False):
+    def calculate_tracking_location(self, mp_result, use_transformation_matrix=False) -> ndarray[Any, dtype[Any]]:
         screen_w = ConfigManager().config["fix_width"]
         screen_h = ConfigManager().config["fix_height"]
         landmarks = mp_result.face_landmarks[0]
@@ -87,12 +93,12 @@ class FaceMesh(metaclass=Singleton):
 
         return np.array([x_pixel, y_pixel], np.float32)
 
-    def mp_callback(self, mp_result, output_image, timestamp_ms: int):
+    def mp_callback(self, mp_result: FaceLandmarkerResult, output_image: mediapipe_image.Image, timestamp_ms: int) -> None:
         if len(mp_result.face_landmarks) >= 1 and len(
                 mp_result.face_blendshapes) >= 1:
             self.mp_landmarks = mp_result.face_landmarks[0]
             # Point for moving pointer
-            self.track_loc = self.calc_track_loc(
+            self.tracking_location = self.calculate_tracking_location(
                 mp_result,
                 use_transformation_matrix=ConfigManager(
                 ).config["use_transformation_matrix"])
@@ -107,7 +113,7 @@ class FaceMesh(metaclass=Singleton):
 
         else:
             self.mp_landmarks = None
-            self.track_loc = None
+            self.tracking_location = None
 
     def detect_frame(self, frame_np: npt.ArrayLike):
 
@@ -119,13 +125,13 @@ class FaceMesh(metaclass=Singleton):
         self.model.detect_async(frame_mp, t_ms)
         self.latest_time_ms = t_ms
 
-    def get_landmarks(self):
+    def get_landmarks(self) -> list[NormalizedLandmark]:
         return self.mp_landmarks
 
-    def get_track_loc(self):
-        return self.track_loc
+    def get_tracking_location(self) -> ndarray:
+        return self.tracking_location
 
-    def get_blendshapes(self):
+    def get_blendshapes(self) -> npt.ArrayLike:
         return self.smooth_blendshapes
 
     def destroy(self):

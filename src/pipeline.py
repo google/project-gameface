@@ -20,16 +20,16 @@ class Pipeline:
         # Get facial landmarks
         landmarks = FaceMesh().get_landmarks()
         if (landmarks is None):
-            CameraManager().draw_overlay(track_loc=None)
+            CameraManager().draw_overlay(tracking_location=None)
             return
 
         # Control mouse position
-        track_loc = FaceMesh().get_track_loc()
-        MouseController().act(track_loc)
+        tracking_location = FaceMesh().get_tracking_location()
+        MouseController().act(tracking_location)
 
         # Control keyboard
         blendshape_values = FaceMesh().get_blendshapes()
         Keybinder().act(blendshape_values)
 
         # Draw frame overlay
-        CameraManager().draw_overlay(track_loc)
+        CameraManager().draw_overlay(tracking_location)

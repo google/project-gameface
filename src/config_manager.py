@@ -40,6 +40,11 @@ if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default"):
 class ConfigManager(metaclass=Singleton):
 
     def __init__(self):
+        self.temp_keyboard_bindings = None
+        self.temp_mouse_bindings = None
+        self.temp_config = None
+        self.keyboard_bindings = None
+        self.mouse_bindings = None
         logger.info("Initialize ConfigManager singleton")
         self.version = VERSION
         self.unsave_configs = False
@@ -48,8 +53,8 @@ class ConfigManager(metaclass=Singleton):
         self.config = None
 
         # Load config
-        self.curr_profile_path = None
-        self.curr_profile_name = tk.StringVar()
+        self.current_profile_path = None
+        self.current_profile_name = tk.StringVar()
         self.is_started = False
 
         self.profiles = self.list_profile()
@@ -102,12 +107,12 @@ class ConfigManager(metaclass=Singleton):
         self.profiles.remove(old_profile_name)
         self.profiles.append(new_profile_name)
 
-        if self.curr_profile_name.get() == old_profile_name:
-            self.curr_profile_name.set(new_profile_name)
+        if self.current_profile_name.get() == old_profile_name:
+            self.current_profile_name.set(new_profile_name)
 
 
 
-    def load_profile(self, profile_name: str) -> list[bool, Path]:
+    def load_profile(self, profile_name: str):
         profile_path = Path(DEFAULT_JSON.parent, profile_name)
         logger.info(f"Loading profile: {profile_path}")
 
@@ -139,8 +144,8 @@ class ConfigManager(metaclass=Singleton):
         self.temp_mouse_bindings = copy.deepcopy(self.mouse_bindings)
         self.temp_keyboard_bindings = copy.deepcopy(self.keyboard_bindings)
 
-        self.curr_profile_path = profile_path
-        self.curr_profile_name.set(profile_name)
+        self.current_profile_path = profile_path
+        self.current_profile_name.set(profile_name)
 
     def switch_profile(self, profile_name: str):
         logger.info(f"Switching to profile: {profile_name}")
@@ -156,7 +161,7 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_configs = True
 
     def write_config_file(self):
-        cursor_config_file = Path(self.curr_profile_path, "cursor.json")
+        cursor_config_file = Path(self.current_profile_path, "cursor.json")
         logger.info(f"Writing config file {cursor_config_file}")
         with open(cursor_config_file, 'w') as f:
             json.dump(self.config, f, indent=4, separators=(', ', ': '))
@@ -203,7 +208,7 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_mouse_bindings = False
 
     def write_mouse_bindings_file(self):
-        mouse_bindings_file = Path(self.curr_profile_path,
+        mouse_bindings_file = Path(self.current_profile_path,
                                    "mouse_bindings.json")
         logger.info(f"Writing keybindings file {mouse_bindings_file}")
 
@@ -243,9 +248,9 @@ class ConfigManager(metaclass=Singleton):
 
         out_keybindings = {}
         for ges, vals in self.temp_keyboard_bindings.items():
-            if (gesture == ges):
+            if gesture == ges:
                 continue
-            if (key_action == vals[1]):
+            if key_action == vals[1]:
                 continue
 
             out_keybindings[ges] = vals
@@ -263,7 +268,7 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_keyboard_bindings = False
 
     def write_keyboard_bindings_file(self):
-        keyboard_bindings_file = Path(self.curr_profile_path,
+        keyboard_bindings_file = Path(self.current_profile_path,
                                       "keyboard_bindings.json")
         logger.info(f"Writing keyboard bindings file {keyboard_bindings_file}")
 

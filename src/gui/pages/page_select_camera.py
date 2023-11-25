@@ -43,7 +43,7 @@ class PageSelectCamera(SafeDisposableFrame):
         # Empty radio buttons
         self.radio_var = tkinter.IntVar(value=0)
         self.prev_radio_value = None
-        self.radios = []
+        self.radio_buttons = []
 
         # Camera canvas
         self.placeholder_im = Image.open(
@@ -69,16 +69,16 @@ class PageSelectCamera(SafeDisposableFrame):
         self.latest_camera_list = []
 
     def update_radio_buttons(self):
-        """ Update radio buttons to match CameraManager
+        """ Update radio_buttons to match CameraManager
         """
         new_camera_list = CameraManager().get_camera_list()
         if len(self.latest_camera_list) != len(new_camera_list):
             self.latest_camera_list = new_camera_list
-            logger.info("Refresh radio buttons")
-            old_radios = self.radios
+            logger.info("Refresh radio_buttons")
+            old_radios = self.radio_buttons
 
             logger.info(f"Get camera list {new_camera_list}")
-            radios = []
+            radio_buttons = []
             for row_i, cam_id in enumerate(new_camera_list):
                 radio_text = f"Camera {cam_id}"
 
@@ -86,21 +86,21 @@ class PageSelectCamera(SafeDisposableFrame):
                 if cam_name is not None:
                     radio_text = f"{radio_text}: {cam_name}"
 
-                radio = customtkinter.CTkRadioButton(master=self,
+                radio_button = customtkinter.CTkRadioButton(master=self,
                                                      text=radio_text,
                                                      command=self.radiobutton_event,
                                                      variable=self.radio_var,
                                                      value=cam_id)
 
-                radio.grid(row=row_i + 2, column=0, padx=50, pady=10, sticky="w")
-                radios.append(radio)
+                radio_button.grid(row=row_i + 2, column=0, padx=50, pady=10, sticky="w")
+                radio_buttons.append(radio_button)
 
-            # Set radio select
+            # Set selected radio_button
             target_id = ConfigManager().config["camera_id"]
-            self.radios = radios
-            for radio in self.radios:
-                if f"Camera {target_id}" == radio.cget("text"):
-                    radio.select()
+            self.radio_buttons = radio_buttons
+            for radio_button in self.radio_buttons:
+                if f"Camera {target_id}" == radio_button.cget("text"):
+                    radio_button.select()
                     self.prev_radio_value = self.radio_var.get()
                     logger.info(f"Set initial camera to {target_id}")
                     break

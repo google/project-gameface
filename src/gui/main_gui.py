@@ -69,7 +69,7 @@ class MainGui():
                 )
         ]
 
-        self.curr_page_name = None
+        self.current_page_name = None
         for page in self.pages:
             page.grid(row=0,
                       column=1,
@@ -122,14 +122,14 @@ class MainGui():
 
     def change_page(self, target_page_name: str):
 
-        if self.curr_page_name == target_page_name:
+        if self.current_page_name == target_page_name:
             return
 
         for page in self.pages:
             if page.__class__.__name__ == target_page_name:
                 page.grid()
                 page.enter()
-                self.curr_page_name = page.__class__.__name__
+                self.current_page_name = page.__class__.__name__
 
             else:
                 page.grid_remove()

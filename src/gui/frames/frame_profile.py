@@ -61,7 +61,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().curr_profile_name.get())
+        div_id = self.get_div_id(ConfigManager().current_profile_name.get())
         self.set_div_selected(self.divs[div_id])
         
 
@@ -197,7 +197,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         # Delete all divs and re-create
         self.clear_divs()
         self.divs = self.load_initial_profiles()
-        current_profile = ConfigManager().curr_profile_name.get()
+        current_profile = ConfigManager().current_profile_name.get()
 
         # Check if selected profile exist
         new_name_list = [div["profile_name"] for _, div in self.divs.items()]
@@ -273,7 +273,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
 
     def remove_button_callback(self, div):
         ConfigManager().remove_profile(div["profile_name"])
-        if div["profile_name"] == ConfigManager().curr_profile_name.get():
+        if div["profile_name"] == ConfigManager().current_profile_name.get():
             default_div_id = self.get_div_id(BACKUP_PROFILE_NAME)
             self.set_div_selected(self.divs[default_div_id])
 

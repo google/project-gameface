@@ -25,10 +25,15 @@ N_BUFFER = 100
 class MouseController(metaclass=Singleton):
 
     def __init__(self):
+        self.screen_h = None
+        self.screen_w = None
+        self.pool = None
+        self.accel = None
+        self.buffer = None
         logger.info("Initialize MouseController singleton")
         self.prev_x = 0
         self.prev_y = 0
-        self.curr_track_loc = None
+        self.current_tracking_location = None
         self.smooth_kernel = None
         self.delay_count = 0
         self.top_count = 0
@@ -66,7 +71,7 @@ class MouseController(metaclass=Singleton):
         else:
             pass
 
-    def asymmetry_scale(self, vel_x, vel_y):
+    def asymmetry_scale(self, vel_x, vel_y) -> tuple[int, int]:
         if vel_x > 0:
             vel_x *= ConfigManager().config["spd_right"]
         else:
@@ -79,8 +84,8 @@ class MouseController(metaclass=Singleton):
 
         return vel_x, vel_y
 
-    def act(self, track_loc: npt.ArrayLike):
-        self.curr_track_loc = track_loc
+    def act(self, tracking_location: npt.ArrayLike):
+        self.current_tracking_location = tracking_location
 
     def main_loop(self) -> None:
         """ Separate thread for mouse controller          
@@ -95,7 +100,7 @@ class MouseController(metaclass=Singleton):
                 continue
 
             self.buffer = np.roll(self.buffer, shift=-1, axis=0)
-            self.buffer[-1] = self.curr_track_loc
+            self.buffer[-1] = self.current_tracking_location
 
             # Get latest x, y and smooth.
             smooth_px, smooth_py = utils.apply_smoothing(
@@ -136,8 +141,8 @@ class MouseController(metaclass=Singleton):
 
     def toggle_active(self):
         logging.info("Toggle active")
-        curr_state = self.is_active.get()
-        self.set_active(not curr_state)
+        current_state = self.is_active.get()
+        self.set_active(not current_state)
 
     def destroy(self):
         if self.is_active is not None:

@@ -15,17 +15,17 @@ def __open_camera_task(i):
     logger.info(f"Try opening camera: {i}")
 
     try:
-        cap = cv2.VideoCapture(cv2.CAP_DSHOW + i)
+        camera = cv2.VideoCapture(cv2.CAP_DSHOW + i)
 
-        if cap.getBackendName() != "DSHOW":
-            logger.info(f"Camera {i}: {cap.getBackendName()} is not supported")
+        if camera.getBackendName() != "DSHOW":
+            logger.info(f"Camera {i}: {camera.getBackendName()} is not supported")
             return (False, i, None)
 
-        if cap.get(cv2.CAP_PROP_FRAME_WIDTH) <= 0:
+        if camera.get(cv2.CAP_PROP_FRAME_WIDTH) <= 0:
             logger.info(f"Camera {i}: frame size error.")
             return False, i, None
 
-        ret, frame = cap.read()
+        ret, frame = camera.read()
         cv2.waitKey(1)
 
         if not ret:
@@ -33,45 +33,45 @@ def __open_camera_task(i):
             return (False, i, None)
 
         h, w, _ = frame.shape
-        logger.info(f"Camera {i}: {cap} height: {h} width: {w}")
+        logger.info(f"Camera {i}: {camera} height: {h} width: {w}")
 
-        return (True, i, cap)
+        return (True, i, camera)
     except Exception as e:
         logger.warning(f"Camera {i}: not found {e}")
         return (False, i, None)
 
 
-def assign_caps_unblock(caps, i):
-    ret, _, cap = __open_camera_task(i)
+def assign_cameras_unblock(cameras, i):
+    ret, _, camera = __open_camera_task(i)
     if not ret:
         logger.info(f"Camera {i}: Failed to open")
-    if cap is not None:
-        caps[i] = cap
+    if camera is not None:
+        cameras[i] = camera
 
     else:
-        if i in caps:
-            del caps[i]
+        if i in cameras:
+            del cameras[i]
 
 
-def assign_caps_queue(caps, done_callback: callable, max_search: int):
+def assign_cameras_queue(cameras, done_callback: callable, max_search: int):
 
     for i in range(max_search):
 
         # block
-        ret, _, cap = __open_camera_task(i)
+        ret, _, camera = __open_camera_task(i)
         if not ret:
             logger.info(f"Camera {i}: Failed to open")
-        if cap is not None:
-            caps[i] = cap
+        if camera is not None:
+            cameras[i] = camera
 
     done_callback()
 
 
-def open_camera(caps, i):
+def open_camera(cameras, i):
     """For swapping camera
     """
     pool = futures.ThreadPoolExecutor(max_workers=1)
-    pool.submit(assign_caps_unblock, caps, i)
+    pool.submit(assign_cameras_unblock, cameras, i)
 
 
 def get_camera_name(i: int) -> str | None:
