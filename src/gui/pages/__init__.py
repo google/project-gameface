@@ -1,4 +1,3 @@
-
 from .page_cursor import *
 from .page_home import *
 from .page_keyboard import *

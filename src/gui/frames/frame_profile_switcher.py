@@ -1,4 +1,3 @@
-
 import logging
 import re
 import time
@@ -59,7 +58,7 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().curr_profile_name.get())
+        div_id = self.get_div_id(ConfigManager().current_profile_name.get())
         # self.set_div_selected(self.divs[div_id])
 
         # Custom border
@@ -169,7 +168,7 @@ class ItemProfileSwitcher(SafeDisposableFrame):
         # Delete all divs and re-create
         self.clear_divs()
         self.divs = self.load_initial_profiles()
-        current_profile = ConfigManager().curr_profile_name.get()
+        current_profile = ConfigManager().current_profile_name.get()
 
         # Check if selected profile exist
         new_name_list = [div["profile_name"] for _, div in self.divs.items()]
@@ -365,7 +364,7 @@ class FrameProfileSwitcher():
         self.float_window.grid_columnconfigure(0, weight=1)
         self.float_window.configure(fg_color="white")
         self._displayed = True
-        # Rounded corder
+        # Rounded corner
         self.float_window.config(background='#000000')
         self.float_window.attributes("-transparentcolor", "#000000")
 

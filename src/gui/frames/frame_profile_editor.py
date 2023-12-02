@@ -1,4 +1,3 @@
-
 import logging
 import re
 import time
@@ -9,7 +8,7 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.gui.frames.safe_disposable_frame import SafeDisposableScrollableFrame
+from src.gui.frames.safe_disposable_scrollable_frame import SafeDisposableScrollableFrame
 from src.task_killer import TaskKiller
 
 logger = logging.getLogger("FrameProfileEditor")
@@ -61,7 +60,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().curr_profile_name.get())
+        div_id = self.get_div_id(ConfigManager().current_profile_name.get())
 
     def load_initial_profiles(self):
         """Create div according to profiles in config
@@ -123,7 +122,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         # Delete all divs and re-create
         self.clear_divs()
         self.divs = self.load_initial_profiles()
-        current_profile = ConfigManager().curr_profile_name.get()
+        current_profile = ConfigManager().current_profile_name.get()
 
         # Check if selected profile exist
         new_name_list = [div["profile_name"] for _, div in self.divs.items()]
@@ -189,7 +188,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         ConfigManager().remove_profile(div["profile_name"])
 
         # If user remove an active profile, roll back to default
-        if div["profile_name"] == ConfigManager().curr_profile_name.get():
+        if div["profile_name"] == ConfigManager().current_profile_name.get():
             logger.warning(f"Removing active profile, rollback to default")
 
             ConfigManager().switch_profile(BACKUP_PROFILE_NAME)
@@ -389,7 +388,7 @@ class FrameProfileEditor():
                        columnspan=1,
                        rowspan=1)
 
-        # Add  butotn
+        # Add  button
         add_prof_image = customtkinter.CTkImage(
             Image.open("assets/images/add_prof.png"), size=(16, 12))
         add_button = customtkinter.CTkButton(master=self.float_window,

@@ -15,7 +15,7 @@ Grimassist helps gamers control their mouse cursor using their head movement and
 
 1. Download the Grimassist-Installer.exe from [Release section](../../releases/)
 2. Install it 
-3. Run from your Windows shortucts/desktop
+3. Run from your Windows shortcuts/desktop
 
 
 # Model used
@@ -74,7 +74,7 @@ pip install -r requirements.txt
 | use_transformation_matrix  | Control cursor using head direction (tracking_vert_idxs will be ignored)   |
  
 
-## Keybinds configs
+## Keybinding configs
 >[mouse_bindings.json](configs/default/mouse_bindings.json)  
 >[keyboard_bindings.json](configs/default/keyboard_bindings.json) 
 
