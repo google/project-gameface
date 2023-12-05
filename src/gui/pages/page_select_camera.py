@@ -131,6 +131,8 @@ class PageSelectCamera(SafeDisposableFrame):
                                                          CANVAS_HEIGHT)))
             self.canvas.itemconfig(self.canvas_im, image=self.new_photo)
             self.canvas.update()
+            
+            CameraManager().thread_cameras.assign_done_flag.wait()
             self.update_radio_buttons()
             self.after(ConfigManager().config["tick_interval_ms"],
                        self.page_loop)
