@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.controllers import MouseController, Keybinder
+from src.controllers import MouseController
 from src.gui.balloon import Balloon
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
@@ -202,7 +202,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             is_valid_input = False
         else:
             new_value = int(entry_value)
-            if not new_value in range(slider_min, slider_max):
+            if new_value not in range(slider_min, slider_max):
                 is_valid_input = False
 
         # Update slider and config

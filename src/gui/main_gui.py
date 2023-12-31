@@ -1,9 +1,7 @@
 
 import logging
-import tkinter as tk
 
 import customtkinter
-from PIL import Image
 
 import src.gui.frames as frames
 import src.gui.pages as pages

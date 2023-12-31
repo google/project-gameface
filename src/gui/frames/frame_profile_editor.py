@@ -190,7 +190,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         # If user remove an active profile, roll back to default
         if div["profile_name"] == ConfigManager().curr_profile_name.get():
-            logger.warning(f"Removing active profile, rollback to default")
+            logger.warning("Removing active profile, rollback to default")
 
             ConfigManager().switch_profile(BACKUP_PROFILE_NAME)
             # Refresh values in each page

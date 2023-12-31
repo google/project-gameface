@@ -1,6 +1,5 @@
 
 import logging
-import re
 import time
 import tkinter as tk
 from functools import partial
