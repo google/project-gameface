@@ -1,15 +1,42 @@
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    tags:
-      - v[0-9]+.[0-9]+.[0-9]+
-  pull_request:
+  workflow_run:
+    workflows: ["Lint"]
+    branches: [main]
+    types:
+      - completed
 
 jobs:
+
+  guard:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check Tag
+      id: check-tag
+      run: |
+        if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "match=true" >> $GITHUB_OUTPUT
+        fi
+    - name: guard
+      if: steps.check-tag.outputs.match == 'true'
+      run: |
+        echo "Tag matches"
+
+  variables:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get version from tag regex
+      id: get-version
+      run: |
+        if [[ ${{ github.event.ref }} =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+        fi
+
+
   build:
-    runs-on: windows-latest      
+    runs-on: windows-latest
+    needs: [guard, variables]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -34,14 +61,21 @@ jobs:
       run: |
         Copy-Item -Path assets -Destination dist-portable\ -Recurse
         Copy-Item -Path configs -Destination dist-portable\ -Recurse
-        Compress-Archive -Path dist-portable -DestinationPath GrimassistPortable.zip
-    - name: Upload installer
-      uses: actions/upload-artifact@v3
+        Compress-Archive -Path dist-portable -DestinationPath Grimassist-${{env.version}}-Portable.zip
+    - name: rename installer
+      run: |
+        Move-Item -Path Output\GrimassistInstaller.exe -Destination Output\Grimassist-${{env.version}}-Installer.exe
+    
+    - name: release
+      uses: softprops/action-gh-release@v1
       with:
-        name: 'Windows Installer Release'
-        path: '\a\grimassist\grimassist\Output\Grimassist Installer.exe'
-    - name: Upload portable
-      uses: actions/upload-artifact@v3
-      with:
-        name: 'Windows Portable Release'
-        path: '\a\grimassist\grimassist\GrimassistPortable.zip'
+        files: |
+          Output\Grimassist-${{env.version}}-Installer.exe
+          Grimassist-${{env.version}}-Portable.zip
+        tag_name: github.ref_name
+        body: |
+          Grimassist ${{env.version}}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

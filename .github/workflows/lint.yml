@@ -1,10 +1,10 @@
-name: Pylint
+name: Lint
 
 on:
   push:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
-    - name: Analysing the code with pylint
+        pip install ruff
+    - name: Analysing the code with ruff
       run: |
-        pylint $(git ls-files '*.py')
+        ruff $(git ls-files '*.py') check
