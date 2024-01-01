@@ -1,5 +1,4 @@
 import logging
-import re
 import time
 import tkinter as tk
 from functools import partial
@@ -58,7 +57,6 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().current_profile_name.get())
         # self.set_div_selected(self.divs[div_id])
 
         # Custom border

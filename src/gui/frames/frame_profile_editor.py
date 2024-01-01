@@ -60,7 +60,6 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().current_profile_name.get())
 
     def load_initial_profiles(self):
         """Create div according to profiles in config
@@ -188,8 +187,8 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         ConfigManager().remove_profile(div["profile_name"])
 
         # If user remove an active profile, roll back to default
-        if div["profile_name"] == ConfigManager().current_profile_name.get():
-            logger.warning(f"Removing active profile, rollback to default")
+        if div["profile_name"] == ConfigManager().curr_profile_name.get():
+            logger.warning("Removing active profile, rollback to default")
 
             ConfigManager().switch_profile(BACKUP_PROFILE_NAME)
             # Refresh values in each page
@@ -299,7 +298,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         if edit_button is not None:
             edit_button.configure(
                 command=partial(self.rename_button_callback, div))
-        entry_var_trace_id = entry_var.trace(
+        entry_var.trace(
             "w", partial(self.check_profile_name_valid, div))
         entry.bind('<Return>', command=partial(self.finish_rename, div))
 

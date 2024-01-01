@@ -391,7 +391,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         if edit_button is not None:
             edit_button.configure(
                 command=partial(self.rename_button_callback, div))
-        entry_var_trace_id = entry_var.trace(
+        entry_var.trace(
             "w", partial(self.check_profile_name_valid, div))
         entry.bind('<Return>', command=partial(self.finish_rename, div))
 
