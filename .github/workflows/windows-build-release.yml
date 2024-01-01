@@ -27,6 +27,7 @@ jobs:
   # The build job runs on a Windows machine and performs various build steps.
   build:
     runs-on: windows-latest
+    needs: check
     steps:    
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -63,5 +64,3 @@ jobs:
         tag_name: github.ref_name
         draft: false
         prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
