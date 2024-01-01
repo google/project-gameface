@@ -1,17 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import tkinter as tk
 from functools import partial
 
@@ -38,9 +24,9 @@ BALLOON_TXT = "Set how prominent your gesture has\nto be in order to trigger the
 class FrameSelectGesture(SafeDisposableFrame):
 
     def __init__(
-        self,
-        master,
-        **kwargs,
+            self,
+            master,
+            **kwargs,
     ):
         super().__init__(master, **kwargs)
         self.is_active = False
@@ -64,7 +50,7 @@ class FrameSelectGesture(SafeDisposableFrame):
         # Divs
         self.divs = self.create_divs(shape_list.available_actions_keys,
                                      shape_list.available_gestures_keys)
-        self.load_initial_keybinds()
+        self.load_initial_keybindings()
         self.slider_dragging = False
 
     def set_div_inactive(self, div):
@@ -88,7 +74,7 @@ class FrameSelectGesture(SafeDisposableFrame):
         div["slider"].grid()
         div["volume_bar"].grid()
 
-    def load_initial_keybinds(self):
+    def load_initial_keybindings(self):
         """Load default from config and set the UI
         """
 
@@ -309,11 +295,11 @@ class FrameSelectGesture(SafeDisposableFrame):
 
     def inner_refresh_profile(self):
         # Create new divs form the new profile
-        self.load_initial_keybinds()
+        self.load_initial_keybindings()
 
     def enter(self):
         super().enter()
-        #self.load_initial_keybinds()
+        # self.load_initial_keybindings()
         self.after(1, self.frame_loop)
 
     def leave(self):

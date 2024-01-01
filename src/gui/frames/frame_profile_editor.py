@@ -1,17 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import logging
 import re
 import time
@@ -22,7 +8,7 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.gui.frames.safe_disposable_frame import SafeDisposableScrollableFrame
+from src.gui.frames.safe_disposable_scrollable_frame import SafeDisposableScrollableFrame
 from src.task_killer import TaskKiller
 
 logger = logging.getLogger("FrameProfileEditor")
@@ -74,7 +60,6 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().curr_profile_name.get())
 
     def load_initial_profiles(self):
         """Create div according to profiles in config
@@ -136,7 +121,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         # Delete all divs and re-create
         self.clear_divs()
         self.divs = self.load_initial_profiles()
-        current_profile = ConfigManager().curr_profile_name.get()
+        current_profile = ConfigManager().current_profile_name.get()
 
         # Check if selected profile exist
         new_name_list = [div["profile_name"] for _, div in self.divs.items()]
@@ -203,7 +188,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         # If user remove an active profile, roll back to default
         if div["profile_name"] == ConfigManager().curr_profile_name.get():
-            logger.warning(f"Removing active profile, rollback to default")
+            logger.warning("Removing active profile, rollback to default")
 
             ConfigManager().switch_profile(BACKUP_PROFILE_NAME)
             # Refresh values in each page
@@ -313,7 +298,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         if edit_button is not None:
             edit_button.configure(
                 command=partial(self.rename_button_callback, div))
-        entry_var_trace_id = entry_var.trace(
+        entry_var.trace(
             "w", partial(self.check_profile_name_valid, div))
         entry.bind('<Return>', command=partial(self.finish_rename, div))
 
@@ -402,7 +387,7 @@ class FrameProfileEditor():
                        columnspan=1,
                        rowspan=1)
 
-        # Add  butotn
+        # Add  button
         add_prof_image = customtkinter.CTkImage(
             Image.open("assets/images/add_prof.png"), size=(16, 12))
         add_button = customtkinter.CTkButton(master=self.float_window,

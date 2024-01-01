@@ -1,17 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import time
 import logging
 import tkinter as tk
@@ -23,8 +9,9 @@ from PIL import Image
 
 from src.config_manager import ConfigManager
 from src.task_killer import TaskKiller
-from src.gui.frames.safe_disposable_frame import (SafeDisposableFrame,
-                                                  SafeDisposableScrollableFrame)
+from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
+from src.gui.frames.safe_disposable_scrollable_frame import SafeDisposableScrollableFrame
+
 
 logger = logging.getLogger("FrameProfile")
 
@@ -74,7 +61,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
 
         self.divs = self.load_initial_profiles()
 
-        div_id = self.get_div_id(ConfigManager().curr_profile_name.get())
+        div_id = self.get_div_id(ConfigManager().current_profile_name.get())
         self.set_div_selected(self.divs[div_id])
         
 
@@ -210,7 +197,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         # Delete all divs and re-create
         self.clear_divs()
         self.divs = self.load_initial_profiles()
-        current_profile = ConfigManager().curr_profile_name.get()
+        current_profile = ConfigManager().current_profile_name.get()
 
         # Check if selected profile exist
         new_name_list = [div["profile_name"] for _, div in self.divs.items()]
@@ -286,7 +273,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
 
     def remove_button_callback(self, div):
         ConfigManager().remove_profile(div["profile_name"])
-        if div["profile_name"] == ConfigManager().curr_profile_name.get():
+        if div["profile_name"] == ConfigManager().current_profile_name.get():
             default_div_id = self.get_div_id(BACKUP_PROFILE_NAME)
             self.set_div_selected(self.divs[default_div_id])
 
@@ -404,7 +391,7 @@ class FrameProfileItems(SafeDisposableScrollableFrame):
         if edit_button is not None:
             edit_button.configure(
                 command=partial(self.rename_button_callback, div))
-        entry_var_trace_id = entry_var.trace(
+        entry_var.trace(
             "w", partial(self.check_profile_name_valid, div))
         entry.bind('<Return>', command=partial(self.finish_rename, div))
 
@@ -491,7 +478,7 @@ class FrameProfile(SafeDisposableFrame):
                        columnspan=1,
                        rowspan=1)
 
-        # Add  butotn
+        # Add  button
         add_button = customtkinter.CTkButton(master=self.float_window,
                                              text="+ Add profile",
                                              fg_color="white",

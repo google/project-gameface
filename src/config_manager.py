@@ -1,40 +1,51 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import copy
 import json
 import logging
 import shutil
 import time
 import tkinter as tk
+import os
 from pathlib import Path
 
 from src.singleton_meta import Singleton
 from src.task_killer import TaskKiller
 
-VERSION = "0.3.33"
+VERSION = "0.4.0"
 
-DEFAULT_JSON = Path("configs/default.json")
-BACKUP_PROFILE = Path("configs/default")
+DEFAULT_JSON = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default.json")
+BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
 
 logger = logging.getLogger("ConfigManager")
+
+config_dir = f"C:/Users/{os.getlogin()}/Grimassist/configs/"
+default_dir = os.path.join(config_dir, "default")
+
+# Create the main config directory if it doesn't exist
+if not os.path.isdir(config_dir):
+    os.makedirs(config_dir, exist_ok=True)
+    shutil.copytree("configs", config_dir, dirs_exist_ok=True)
+
+# Create the default directory inside the config directory if it doesn't exist
+if not os.path.isdir(default_dir):
+    os.mkdir(default_dir)
+
+if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/"):
+    shutil.copytree("configs", f"C:/Users/{os.getlogin()}/Grimassist/configs/")
+    os.mkdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/")
+
+if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default"):
+    os.mkdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
 
 
 class ConfigManager(metaclass=Singleton):
 
     def __init__(self):
-        logger.info("Intialize ConfigManager singleton")
+        self.temp_keyboard_bindings = None
+        self.temp_mouse_bindings = None
+        self.temp_config = None
+        self.keyboard_bindings = None
+        self.mouse_bindings = None
+        logger.info("Initialize ConfigManager singleton")
         self.version = VERSION
         self.unsave_configs = False
         self.unsave_mouse_bindings = False
@@ -42,8 +53,8 @@ class ConfigManager(metaclass=Singleton):
         self.config = None
 
         # Load config
-        self.curr_profile_path = None
-        self.curr_profile_name = tk.StringVar()
+        self.current_profile_path = None
+        self.current_profile_name = tk.StringVar()
         self.is_started = False
 
         self.profiles = self.list_profile()
@@ -96,12 +107,12 @@ class ConfigManager(metaclass=Singleton):
         self.profiles.remove(old_profile_name)
         self.profiles.append(new_profile_name)
 
-        if self.curr_profile_name.get() == old_profile_name:
-            self.curr_profile_name.set(new_profile_name)
+        if self.current_profile_name.get() == old_profile_name:
+            self.current_profile_name.set(new_profile_name)
 
 
 
-    def load_profile(self, profile_name: str) -> list[bool, Path]:
+    def load_profile(self, profile_name: str):
         profile_path = Path(DEFAULT_JSON.parent, profile_name)
         logger.info(f"Loading profile: {profile_path}")
 
@@ -133,8 +144,8 @@ class ConfigManager(metaclass=Singleton):
         self.temp_mouse_bindings = copy.deepcopy(self.mouse_bindings)
         self.temp_keyboard_bindings = copy.deepcopy(self.keyboard_bindings)
 
-        self.curr_profile_path = profile_path
-        self.curr_profile_name.set(profile_name)
+        self.current_profile_path = profile_path
+        self.current_profile_name.set(profile_name)
 
     def switch_profile(self, profile_name: str):
         logger.info(f"Switching to profile: {profile_name}")
@@ -150,7 +161,7 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_configs = True
 
     def write_config_file(self):
-        cursor_config_file = Path(self.curr_profile_path, "cursor.json")
+        cursor_config_file = Path(self.current_profile_path, "cursor.json")
         logger.info(f"Writing config file {cursor_config_file}")
         with open(cursor_config_file, 'w') as f:
             json.dump(self.config, f, indent=4, separators=(', ', ': '))
@@ -170,7 +181,7 @@ class ConfigManager(metaclass=Singleton):
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger_type: %s",
             gesture, device, action, threshold, trigger_type)
 
-        # Remove duplicate keybinds
+        # Remove duplicate keybindings
         self.remove_temp_mouse_binding(device, action)
 
         # Assign
@@ -182,24 +193,24 @@ class ConfigManager(metaclass=Singleton):
     def remove_temp_mouse_binding(self, device: str, action: str):
         logger.info(
             f"remove_temp_mouse_binding for device: {device}, key: {action}")
-        out_keybinds = {}
+        out_keybindings = {}
         for key, vals in self.temp_mouse_bindings.items():
             if (device == vals[0]) and (action == vals[1]):
                 continue
-            out_keybinds[key] = vals
-        self.temp_mouse_bindings = out_keybinds
+            out_keybindings[key] = vals
+        self.temp_mouse_bindings = out_keybindings
         self.unsave_mouse_bindings = True
 
     def apply_mouse_bindings(self):
-        logger.info("Applying keybinds")
+        logger.info("Applying keybindings")
         self.mouse_bindings = copy.deepcopy(self.temp_mouse_bindings)
         self.write_mouse_bindings_file()
         self.unsave_mouse_bindings = False
 
     def write_mouse_bindings_file(self):
-        mouse_bindings_file = Path(self.curr_profile_path,
+        mouse_bindings_file = Path(self.current_profile_path,
                                    "mouse_bindings.json")
-        logger.info(f"Writing keybinds file {mouse_bindings_file}")
+        logger.info(f"Writing keybindings file {mouse_bindings_file}")
 
         with open(mouse_bindings_file, 'w') as f:
             out_json = dict(sorted(self.mouse_bindings.items()))
@@ -214,7 +225,7 @@ class ConfigManager(metaclass=Singleton):
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger_type: %s",
             gesture, device, key_action, threshold, trigger_type)
 
-        # Remove duplicate keybinds
+        # Remove duplicate keybindings
         self.remove_temp_keyboard_binding(device, key_action, gesture)
 
         # Assign
@@ -235,16 +246,16 @@ class ConfigManager(metaclass=Singleton):
             f"remove_temp_keyboard_binding for device: {device}, key: {key_action} or gesture {gesture}"
         )
 
-        out_keybinds = {}
+        out_keybindings = {}
         for ges, vals in self.temp_keyboard_bindings.items():
-            if (gesture == ges):
+            if gesture == ges:
                 continue
-            if (key_action == vals[1]):
+            if key_action == vals[1]:
                 continue
 
-            out_keybinds[ges] = vals
+            out_keybindings[ges] = vals
 
-        self.temp_keyboard_bindings = out_keybinds
+        self.temp_keyboard_bindings = out_keybindings
 
         self.unsave_keyboard_bindings = True
         return
@@ -257,7 +268,7 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_keyboard_bindings = False
 
     def write_keyboard_bindings_file(self):
-        keyboard_bindings_file = Path(self.curr_profile_path,
+        keyboard_bindings_file = Path(self.current_profile_path,
                                       "keyboard_bindings.json")
         logger.info(f"Writing keyboard bindings file {keyboard_bindings_file}")
 
@@ -272,4 +283,4 @@ class ConfigManager(metaclass=Singleton):
         self.apply_keyboard_bindings()
 
     def destroy(self):
-        logger.info("Destory")
+        logger.info("Destroy")
