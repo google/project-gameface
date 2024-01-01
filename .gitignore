@@ -74,6 +74,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# VsCode
+.vscode/
+
 # PyCharm
 .idea/
 
@@ -132,3 +135,10 @@ dmypy.json
 .pyre/
 *.bat
 log.txt
+
+# Ruff
+.ruff/
+.ruff_cache/
+
+# Output directory
+output/
