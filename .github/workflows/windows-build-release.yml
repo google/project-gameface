@@ -5,7 +5,7 @@ on:
 
 permissions:
   contents: write
-  
+
 jobs:
 
   check:
@@ -64,6 +64,6 @@ jobs:
         files: |
           Output/Grimassist-Installer-${{github.ref_name}}.exe
           Grimassist-Portable-${{github.ref_name}}.zip
-        tag_name: github.ref_name
+        tag_name: ${{github.ref_name}}
         draft: false
         prerelease: false
