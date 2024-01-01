@@ -1,4 +1,3 @@
-
 import logging
 import tkinter
 from functools import partial
@@ -69,7 +68,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                                padx=(20, 0),
                                pady=5,
                                sticky="nw")
-        
+
         # Toggle switch
         self.toggle_switch = customtkinter.CTkSwitch(
             master=self,
@@ -190,7 +189,7 @@ class FrameSelectGesture(SafeDisposableFrame):
 
     def entry_changed_callback(self, div_name, slider_min, slider_max, var,
                                index, mode):
-        """Update value with entery text 
+        """Update value with entry text
         """
         is_valid_input = True
         div = self.divs[div_name]
