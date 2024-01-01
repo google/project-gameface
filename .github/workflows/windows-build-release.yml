@@ -61,9 +61,10 @@ jobs:
     - name: Get version from tag regex
       id: get-version
       run: |
-        if [[ ${{ github.ref_name }} =~ v([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-        fi
+        if ($env:github_ref_name -match 'v([0-9]+\.[0-9]+\.[0-9]+)') {
+          $version = $Matches[1]
+          Write-Host "version=$version" >> $env:GITHUB_OUTPUT
+        }
     - name: Zip Portable 
       shell: pwsh
       run: |
