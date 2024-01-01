@@ -58,7 +58,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          Output\Grimassist-Installer-${{github.ref_name}}.exe
+          Output/Grimassist-Installer-${{github.ref_name}}.exe
           Grimassist-Portable-${{github.ref_name}}.zip
         tag_name: github.ref_name
         draft: false
