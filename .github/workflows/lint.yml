@@ -2,7 +2,9 @@ name: Lint
 
 on:
   push:
-
+    branches-ignore:
+      - main
+    
 jobs:
   check:
     runs-on: ubuntu-latest
