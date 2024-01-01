@@ -31,8 +31,7 @@ jobs:
       id: get-version
       run: |
         if [[ ${{ github.ref_name }} =~ v([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-            echo "version=${BASH_REMATCH[1]}"
-            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
         fi
 
   test-variable:
@@ -41,4 +40,4 @@ jobs:
     steps:
     - name: Test variable
       run: |
-        echo "version=$version"
+        echo "version=${{needs.set-variables.outputs.version}}"
