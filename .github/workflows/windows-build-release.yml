@@ -38,30 +38,11 @@ jobs:
   build:
     runs-on: windows-latest
     needs: [set-variables]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Freeze Installer
-      run: |
-        pyinstaller build.spec 
-    - name: Build Installer
-      run: |
-        iscc installer.iss
-    - name: Freeze Portable
-      run: |
-        pyinstaller --distpath dist-portable build-portable.spec
-        
+    steps:        
     - name: Get version from tag regex
       id: get-version
       run: |
-        if (${{github.ref_name}} -match 'v([0-9]+\.[0-9]+\.[0-9]+)') {
+        if ("${{github.ref_name}}" -match 'v([0-9]+\.[0-9]+\.[0-9]+)') {
           $version = $Matches[1]
           Write-Host "version=$version" >> $env:GITHUB_OUTPUT
         }
