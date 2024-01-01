@@ -1,17 +1,30 @@
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Lint"]
+    workflows: [Lint]
     branches: [main]
-    types:
-      - completed
+    types: [completed]
 
 jobs:
+
+  get_workflow_conclusion:
+    name: Lookup Conclusion of Workflow_Run Event
+    runs-on: ubuntu-latest
+    outputs:
+      conclusion: ${{ fromJson(steps.get_conclusion.outputs.data).conclusion }}
+    steps:
+      - name: Get Workflow Run
+        uses: octokit/request-action@v2.1.0
+        id: get_conclusion
+        with:
+          route: GET /repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # The guard job checks if the workflow_run event was successful and if the branch starts with 'refs/tags/v'.
   # If the conditions are met, it sets a flag indicating a match.
   guard:
-    if: ${{ github.event.workflow_run.conclusion == 'completed'}}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.event.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
     - name: Check Tag
