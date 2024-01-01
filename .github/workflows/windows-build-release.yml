@@ -30,8 +30,9 @@ jobs:
     - name: Get version from tag regex
       id: get-version
       run: |
-        if [[ ${{ github.event.ref }} =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+        if [[ ${{ github.ref }} =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "version=${BASH_REMATCH[1]}"
         fi
 
   # The build job runs on a Windows machine and performs various build steps.
