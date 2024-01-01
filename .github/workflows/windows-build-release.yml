@@ -31,51 +31,14 @@ jobs:
       id: get-version
       run: |
         if [[ ${{ github.ref }} =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
-            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "version=${BASH_REMATCH[1]}"
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_ENV
         fi
 
-  # The build job runs on a Windows machine and performs various build steps.
-  build:
-    runs-on: windows-latest
-    needs: [set-variables]
+  test-variable:
+    runs-on: ubuntu-latest
+    needs: set-variables
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
+    - name: Test variable
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Freeze Installer
-      run: |
-        pyinstaller build.spec 
-    - name: Build Installer
-      run: |
-        iscc installer.iss
-    - name: Freeze Portable
-      run: |
-        pyinstaller --distpath dist-portable build-portable.spec
-    - name: Zip Portable 
-      shell: pwsh
-      run: |
-        Copy-Item -Path assets -Destination dist-portable\ -Recurse
-        Copy-Item -Path configs -Destination dist-portable\ -Recurse
-        Compress-Archive -Path dist-portable -DestinationPath Grimassist-$version-Portable.zip
-    - name: rename installer
-      run: |
-        Move-Item -Path Output\GrimassistInstaller.exe -Destination Output\Grimassist-$version-Installer.exe
-    
-    - name: release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          Output\Grimassist-$version-Installer.exe
-          Grimassist-$version-Portable.zip
-        tag_name: github.ref_name
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        echo "version=$version"
