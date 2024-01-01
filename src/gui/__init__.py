@@ -1,2 +1,2 @@
-
-from .main_gui import *
+__all__ = ['MainGui']
+from .main_gui import MainGui

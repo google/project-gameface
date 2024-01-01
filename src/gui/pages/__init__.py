@@ -1,6 +1,6 @@
-
-from .page_cursor import *
-from .page_home import *
-from .page_keyboard import *
-from .page_select_camera import *
-from .page_select_gestures import *
+__all__ = ['PageCursor', 'PageHome', 'PageKeyboard', 'PageSelectCamera', 'PageSelectGestures']
+from .page_cursor import PageCursor
+from .page_home import PageHome
+from .page_keyboard import PageKeyboard
+from .page_select_camera import PageSelectCamera
+from .page_select_gestures import PageSelectGestures
