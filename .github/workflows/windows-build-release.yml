@@ -24,37 +24,38 @@ jobs:
       run: |
         ruff check .
 
-  set-variables:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Get version from tag regex
-      id: get-version
-      run: |
-        if [[ ${{ github.ref_name }} =~ v([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-        fi
-
   # The build job runs on a Windows machine and performs various build steps.
   build:
     runs-on: windows-latest
-    needs: [set-variables]
-    steps:        
-    - name: Get version from tag regex
-      id: get-version
+    steps:    
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
       run: |
-        if ("${{github.ref_name}}" -match 'v([0-9]+\.[0-9]+\.[0-9]+)') {
-          $version = $Matches[1]
-          Write-Host "version=$version" >> $env:GITHUB_OUTPUT
-        }
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Freeze Installer
+      run: |
+        pyinstaller build.spec 
+    - name: Build Installer
+      run: |
+        iscc installer.iss
+    - name: Freeze Portable
+      run: |
+        pyinstaller --distpath dist-portable build-portable.spec
+        
     - name: Zip Portable 
       shell: pwsh
       run: |
         Copy-Item -Path assets -Destination dist-portable\ -Recurse
         Copy-Item -Path configs -Destination dist-portable\ -Recurse
-        Compress-Archive -Path dist-portable -DestinationPath Grimassist-${{steps.get-version.outputs.version}}-Portable.zip
+        Compress-Archive -Path dist-portable -DestinationPath Grimassist-${{github.ref_name}}-Portable.zip
     - name: rename installer
       run: |
-        Move-Item -Path Output\GrimassistInstaller.exe -Destination Output\Grimassist-${{steps.get-version.outputs.version}}-Installer.exe
+        Move-Item -Path Output\GrimassistInstaller.exe -Destination Output\Grimassist-Installer-${{github.ref_name}}.exe
     
     - name: release
       uses: softprops/action-gh-release@v1
