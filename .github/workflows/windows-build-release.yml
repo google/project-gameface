@@ -61,7 +61,7 @@ jobs:
     - name: Get version from tag regex
       id: get-version
       run: |
-        if ($env:github_ref_name -match 'v([0-9]+\.[0-9]+\.[0-9]+)') {
+        if (${{github.ref_name}} -match 'v([0-9]+\.[0-9]+\.[0-9]+)') {
           $version = $Matches[1]
           Write-Host "version=$version" >> $env:GITHUB_OUTPUT
         }
