@@ -63,20 +63,18 @@ jobs:
       run: |
         Copy-Item -Path assets -Destination dist-portable\ -Recurse
         Copy-Item -Path configs -Destination dist-portable\ -Recurse
-        Compress-Archive -Path dist-portable -DestinationPath Grimassist-${{env.version}}-Portable.zip
+        Compress-Archive -Path dist-portable -DestinationPath Grimassist-$version-Portable.zip
     - name: rename installer
       run: |
-        Move-Item -Path Output\GrimassistInstaller.exe -Destination Output\Grimassist-${{env.version}}-Installer.exe
+        Move-Item -Path Output\GrimassistInstaller.exe -Destination Output\Grimassist-$version-Installer.exe
     
     - name: release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          Output\Grimassist-${{env.version}}-Installer.exe
-          Grimassist-${{env.version}}-Portable.zip
+          Output\Grimassist-$version-Installer.exe
+          Grimassist-$version-Portable.zip
         tag_name: github.ref_name
-        body: |
-          Grimassist ${{env.version}}
         draft: false
         prerelease: false
       env:
