@@ -10,6 +10,7 @@ import tkinter as tk
 import src.shape_list as shape_list
 from src.config_manager import ConfigManager
 from src.singleton_meta import Singleton
+from src.utils.Trigger import Trigger
 
 logger = logging.getLogger("Keybinder")
 
@@ -23,6 +24,7 @@ class Keybinder(metaclass=Singleton):
     def __init__(self) -> None:
         self.delay_count = None
         self.key_states = None
+        self.schedule_state_change = None
         self.monitors = None
         self.screen_h = None
         self.screen_w = None
@@ -55,6 +57,7 @@ class Keybinder(metaclass=Singleton):
         for _, v in (ConfigManager().mouse_bindings |
                      ConfigManager().keyboard_bindings).items():
             self.key_states[v[0] + "_" + v[1]] = False
+            self.schedule_state_change[v[0] + "_" + v[1]] = False
         self.key_states["holding"] = False
         self.last_know_keybindings = copy.deepcopy(
             (ConfigManager().mouse_bindings |
@@ -91,19 +94,31 @@ class Keybinder(metaclass=Singleton):
 
         mode = "hold" if self.key_states["holding"] else "single"
 
-        if mode == "hold":
+        if mode == Trigger.TOGGLE.value:
             if (val > threshold) and (self.key_states[state_name] is False):
                 pydirectinput.mouseDown(action)
+                self.key_states[state_name] = True
+            if (val > threshold) and (self.key_states[state_name] is True):
+                if self.schedule_state_change[state_name] is True:
+                    pydirectinput.mouseUp(action)
+                    self.schedule_state_change[state_name] = False
+                    self.key_states[state_name] = False
 
+            if (val < threshold) and (self.key_states[state_name] is True):
+                self.schedule_state_change[state_name] = True
+
+        if mode == Trigger.HOLD.value:
+            if (val > threshold) and (self.key_states[state_name] is False):
+                pydirectinput.mouseDown(action)
                 self.key_states[state_name] = True
 
             elif (val < threshold) and (self.key_states[state_name] is True):
                 pydirectinput.mouseUp(action)
                 self.key_states[state_name] = False
 
-        elif mode == "single":
+        elif mode == Trigger.SINGLE.value:
             if val > threshold:
-                if not self.key_states[state_name]:
+                if self.key_states[state_name] is False:
                     pydirectinput.click(button=action)
                     self.start_hold_ts = time.time()
 
