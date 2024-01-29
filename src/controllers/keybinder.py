@@ -140,6 +140,9 @@ class Keybinder(metaclass=Singleton):
             if (val < threshold) and (self.key_states[state_name] is True):
                 self.schedule_state_change[state_name] = True
 
+        elif mode == Trigger.RAPID:
+            pass
+
 
     def keyboard_action(self, val, keysym, threshold, mode):
 
