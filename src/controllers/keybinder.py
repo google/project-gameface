@@ -84,7 +84,7 @@ class Keybinder(metaclass=Singleton):
         x, y = pydirectinput.position()
         for mon_id, mon in enumerate(self.monitors):
             if x >= mon["x1"] and x <= mon["x2"] and y >= mon[
-                    "y1"] and y <= mon["y2"]:
+                "y1"] and y <= mon["y2"]:
                 return mon_id
         # raise Exception("Monitor not found")
         return 0
@@ -92,9 +92,42 @@ class Keybinder(metaclass=Singleton):
     def mouse_action(self, val, action, threshold, mode) -> None:
         state_name = "mouse_" + action
 
-        mode = "hold" if self.key_states["holding"] else "single"
+        # TODO: Figure out why this is always set to single
+        mode = Trigger.HOLD if self.key_states["holding"] else Trigger.SINGLE
 
-        if mode == Trigger.TOGGLE.value:
+        if mode == Trigger.HOLD:
+            if (val > threshold) and (self.key_states[state_name] is False):
+                pydirectinput.mouseDown(action)
+                self.key_states[state_name] = True
+
+            elif (val < threshold) and (self.key_states[state_name] is True):
+                pydirectinput.mouseUp(action)
+                self.key_states[state_name] = False
+
+        elif mode == Trigger.SINGLE:
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    pydirectinput.click(button=action)
+                    self.start_hold_ts = time.time()
+
+                self.key_states[state_name] = True
+
+                if not self.holding and (
+                        ((time.time() - self.start_hold_ts) * 1000) >=
+                        ConfigManager().config["hold_trigger_ms"]):
+                    pydirectinput.mouseDown(button=action)
+                    self.holding = True
+
+            elif (val < threshold) and (self.key_states[state_name] is True):
+
+                self.key_states[state_name] = False
+
+                if self.holding:
+                    pydirectinput.mouseUp(button=action)
+                    self.holding = False
+                    self.start_hold_ts = math.inf
+
+        elif mode == Trigger.TOGGLE:
             if (val > threshold) and (self.key_states[state_name] is False):
                 pydirectinput.mouseDown(action)
                 self.key_states[state_name] = True
@@ -107,38 +140,6 @@ class Keybinder(metaclass=Singleton):
             if (val < threshold) and (self.key_states[state_name] is True):
                 self.schedule_state_change[state_name] = True
 
-        if mode == Trigger.HOLD.value:
-            if (val > threshold) and (self.key_states[state_name] is False):
-                pydirectinput.mouseDown(action)
-                self.key_states[state_name] = True
-
-            elif (val < threshold) and (self.key_states[state_name] is True):
-                pydirectinput.mouseUp(action)
-                self.key_states[state_name] = False
-
-        elif mode == Trigger.SINGLE.value:
-            if val > threshold:
-                if self.key_states[state_name] is False:
-                    pydirectinput.click(button=action)
-                    self.start_hold_ts = time.time()
-
-                self.key_states[state_name] = True
-
-                if not self.holding and (
-                    ((time.time() - self.start_hold_ts) * 1000) >=
-                        ConfigManager().config["hold_trigger_ms"]):
-
-                    pydirectinput.mouseDown(button=action)
-                    self.holding = True
-
-            elif (val < threshold) and (self.key_states[state_name] is True):
-
-                self.key_states[state_name] = False
-
-                if self.holding:
-                    pydirectinput.mouseUp(button=action)
-                    self.holding = False
-                    self.start_hold_ts = math.inf
 
     def keyboard_action(self, val, keysym, threshold, mode):
 
@@ -166,15 +167,16 @@ class Keybinder(metaclass=Singleton):
             return
 
         if (ConfigManager().mouse_bindings |
-                ConfigManager().keyboard_bindings) != self.last_know_keybindings:
+            ConfigManager().keyboard_bindings) != self.last_know_keybindings:
             self.init_states()
 
         for shape_name, v in (ConfigManager().mouse_bindings |
                               ConfigManager().keyboard_bindings).items():
             if shape_name not in shape_list.blendshape_names:
                 continue
-            device, action, thres, mode = v
 
+            device, action, thres, mode = v
+            mode = Trigger(mode.lower())
             # Get blendshape value
             idx = shape_list.blendshape_indices[shape_name]
             val = blendshape_values[idx]
