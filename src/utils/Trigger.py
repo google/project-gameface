@@ -6,3 +6,4 @@ class Trigger(Enum):
     SINGLE = "single"
     HOLD = "hold"
     TOGGLE = "toggle"
+    DYNAMIC = "dynamic"

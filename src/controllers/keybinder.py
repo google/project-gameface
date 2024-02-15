@@ -92,10 +92,17 @@ class Keybinder(metaclass=Singleton):
     def mouse_action(self, val, action, threshold, mode) -> None:
         state_name = "mouse_" + action
 
-        # TODO: Figure out why this is always set to single
-        mode = Trigger.HOLD if self.key_states["holding"] else Trigger.SINGLE
+        # TODO: Figure out why this is always set to single.
+        mode = Trigger.HOLD if self.key_states["holding"] else Trigger.DYNAMIC
 
-        if mode == Trigger.HOLD:
+        if mode == Trigger.SINGLE:
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    pydirectinput.click(button=action)
+                    self.start_hold_ts = time.time()
+                    self.key_states[state_name] = True
+
+        elif mode == Trigger.HOLD:
             if (val > threshold) and (self.key_states[state_name] is False):
                 pydirectinput.mouseDown(action)
                 self.key_states[state_name] = True
@@ -104,13 +111,12 @@ class Keybinder(metaclass=Singleton):
                 pydirectinput.mouseUp(action)
                 self.key_states[state_name] = False
 
-        elif mode == Trigger.SINGLE:
+        elif mode == Trigger.DYNAMIC:
             if val > threshold:
                 if self.key_states[state_name] is False:
                     pydirectinput.click(button=action)
                     self.start_hold_ts = time.time()
-
-                self.key_states[state_name] = True
+                    self.key_states[state_name] = True
 
                 if not self.holding and (
                         ((time.time() - self.start_hold_ts) * 1000) >=
