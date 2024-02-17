@@ -24,15 +24,14 @@ class Keybinder(metaclass=Singleton):
     def __init__(self) -> None:
         self.delay_count = None
         self.key_states = None
-        self.schedule_state_change = None
+        self.schedule_state_change = {}
         self.monitors = None
         self.screen_h = None
         self.screen_w = None
         logger.info("Initialize Keybinder singleton")
         self.top_count = 0
-        self.triggered = False
-        self.start_hold_ts = math.inf
-        self.holding = False
+        self.start_hold_ts ={}
+        self.holding = {}
         self.is_started = False
         self.last_know_keybindings = {}
         self.is_active = None
@@ -54,10 +53,15 @@ class Keybinder(metaclass=Singleton):
         """
         # keep states for all registered keys.
         self.key_states = {}
+        self.start_hold_ts = {}
         for _, v in (ConfigManager().mouse_bindings |
                      ConfigManager().keyboard_bindings).items():
-            self.key_states[v[0] + "_" + v[1]] = False
-            self.schedule_state_change[v[0] + "_" + v[1]] = False
+            state_name = v[0]+"_"+v[1]
+            self.key_states[state_name] = False
+            self.schedule_state_change[state_name] = False
+            self.start_hold_ts[state_name] = math.inf
+            self.holding[state_name] = False
+
         self.key_states["holding"] = False
         self.last_know_keybindings = copy.deepcopy(
             (ConfigManager().mouse_bindings |
@@ -99,8 +103,9 @@ class Keybinder(metaclass=Singleton):
             if val > threshold:
                 if self.key_states[state_name] is False:
                     pydirectinput.click(button=action)
-                    self.start_hold_ts = time.time()
                     self.key_states[state_name] = True
+            if val < threshold:
+                self.key_states[state_name] = False
 
         elif mode == Trigger.HOLD:
             if (val > threshold) and (self.key_states[state_name] is False):
@@ -118,20 +123,20 @@ class Keybinder(metaclass=Singleton):
                     self.start_hold_ts = time.time()
                     self.key_states[state_name] = True
 
-                if not self.holding and (
-                        ((time.time() - self.start_hold_ts) * 1000) >=
+                if self.holding[state_name] is False and (
+                        ((time.time() - self.start_hold_ts[state_name]) * 1000) >=
                         ConfigManager().config["hold_trigger_ms"]):
                     pydirectinput.mouseDown(button=action)
-                    self.holding = True
+                    self.holding[state_name] = True
 
             elif (val < threshold) and (self.key_states[state_name] is True):
 
                 self.key_states[state_name] = False
 
-                if self.holding:
+                if self.holding[state_name]:
                     pydirectinput.mouseUp(button=action)
-                    self.holding = False
-                    self.start_hold_ts = math.inf
+                    self.holding[state_name] = False
+                    self.start_hold_ts[state_name] = math.inf
 
         elif mode == Trigger.TOGGLE:
             if (val > threshold) and (self.key_states[state_name] is False):
