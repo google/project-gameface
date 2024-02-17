@@ -152,8 +152,23 @@ class Keybinder(metaclass=Singleton):
                 self.schedule_state_change[state_name] = True
 
         elif mode == Trigger.RAPID:
-            pass
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    pydirectinput.click(button=action)
+                    self.key_states[state_name] = True
+                    self.start_hold_ts[state_name] = time.time()
 
+                if self.key_states[state_name] is True:
+                    if (((time.time() - self.start_hold_ts[state_name]) * 1000)
+                            >= ConfigManager().config["rapid_fire_delay"]):
+                        pydirectinput.click(button=action)
+                        self.holding[state_name] = True
+                        self.start_hold_ts[state_name] = time.time()
+
+            if val < threshold:
+                if self.key_states[state_name] is True:
+                    self.key_states[state_name] = False
+                    self.start_hold_ts[state_name] = math.inf
 
     def keyboard_action(self, val, keysym, threshold, mode):
 
