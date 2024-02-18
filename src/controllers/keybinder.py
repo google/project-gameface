@@ -22,6 +22,7 @@ pydirectinput.FAILSAFE = False
 class Keybinder(metaclass=Singleton):
 
     def __init__(self) -> None:
+        self.forced_mode = None
         self.delay_count = None
         self.key_states = None
         self.schedule_state_change = {}
@@ -62,7 +63,7 @@ class Keybinder(metaclass=Singleton):
             self.start_hold_ts[state_name] = math.inf
             self.holding[state_name] = False
 
-        self.key_states["holding"] = False
+        self.forced_mode = Trigger.DYNAMIC
         self.last_know_keybindings = copy.deepcopy(
             (ConfigManager().mouse_bindings |
              ConfigManager().keyboard_bindings))
@@ -96,8 +97,8 @@ class Keybinder(metaclass=Singleton):
     def mouse_action(self, val, action, threshold, mode) -> None:
         state_name = "mouse_" + action
 
-        # TODO: Figure out why this is always set to single.
-        mode = Trigger.HOLD if self.key_states["holding"] else Trigger.DYNAMIC
+        # TODO: Figure out why this is always set to dynamic.
+        mode = self.forced_mode
 
         if mode == Trigger.SINGLE:
             if val > threshold:
@@ -120,7 +121,7 @@ class Keybinder(metaclass=Singleton):
             if val > threshold:
                 if self.key_states[state_name] is False:
                     pydirectinput.click(button=action)
-                    self.start_hold_ts = time.time()
+                    self.start_hold_ts[state_name] = time.time()
                     self.key_states[state_name] = True
 
                 if self.holding[state_name] is False and (
