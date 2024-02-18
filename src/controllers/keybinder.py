@@ -97,7 +97,7 @@ class Keybinder(metaclass=Singleton):
     def mouse_action(self, val, action, threshold, mode) -> None:
         state_name = "mouse_" + action
 
-        # TODO: Figure out why this is always set to dynamic.
+        # TODO: un-hardcode this
         mode = self.forced_mode
 
         if mode == Trigger.SINGLE:
@@ -175,13 +175,79 @@ class Keybinder(metaclass=Singleton):
 
         state_name = "keyboard_" + keysym
 
-        if (self.key_states[state_name] is False) and (val > threshold):
-            pydirectinput.keyDown(keysym)
-            self.key_states[state_name] = True
+        # TODO: un-hardcode this
+        mode = self.forced_mode
 
-        elif (self.key_states[state_name] is True) and (val < threshold):
-            pydirectinput.keyUp(keysym)
-            self.key_states[state_name] = False
+        if mode == Trigger.SINGLE:
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    pydirectinput.press(button=keysym)
+                    self.key_states[state_name] = True
+            if val < threshold:
+                self.key_states[state_name] = False
+
+        elif mode == Trigger.HOLD:
+            if (val > threshold) and (self.key_states[state_name] is False):
+                pydirectinput.keyDown(keysym)
+                self.key_states[state_name] = True
+
+            elif (val < threshold) and (self.key_states[state_name] is True):
+                pydirectinput.keyUp(keysym)
+                self.key_states[state_name] = False
+
+        elif mode == Trigger.DYNAMIC:
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    pydirectinput.press(button=keysym)
+                    self.start_hold_ts[state_name] = time.time()
+                    self.key_states[state_name] = True
+
+                if self.holding[state_name] is False and (
+                        ((time.time() - self.start_hold_ts[state_name]) * 1000) >=
+                        ConfigManager().config["hold_trigger_ms"]):
+                    pydirectinput.keyDown(button=keysym)
+                    self.holding[state_name] = True
+
+            elif (val < threshold) and (self.key_states[state_name] is True):
+
+                self.key_states[state_name] = False
+
+                if self.holding[state_name]:
+                    pydirectinput.keyUp(button=keysym)
+                    self.holding[state_name] = False
+                    self.start_hold_ts[state_name] = math.inf
+
+        elif mode == Trigger.TOGGLE:
+            if (val > threshold) and (self.key_states[state_name] is False):
+                pydirectinput.keyDown(keysym)
+                self.key_states[state_name] = True
+            if (val > threshold) and (self.key_states[state_name] is True):
+                if self.schedule_state_change[state_name] is True:
+                    pydirectinput.keyUp(keysym)
+                    self.schedule_state_change[state_name] = False
+                    self.key_states[state_name] = False
+
+            if (val < threshold) and (self.key_states[state_name] is True):
+                self.schedule_state_change[state_name] = True
+
+        elif mode == Trigger.RAPID:
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    pydirectinput.press(button=keysym)
+                    self.key_states[state_name] = True
+                    self.start_hold_ts[state_name] = time.time()
+
+                if self.key_states[state_name] is True:
+                    if (((time.time() - self.start_hold_ts[state_name]) * 1000)
+                            >= ConfigManager().config["rapid_fire_delay"]):
+                        pydirectinput.press(button=keysym)
+                        self.holding[state_name] = True
+                        self.start_hold_ts[state_name] = time.time()
+
+            if val < threshold:
+                if self.key_states[state_name] is True:
+                    self.key_states[state_name] = False
+                    self.start_hold_ts[state_name] = math.inf
 
     def act(self, blendshape_values) -> None:
         """Trigger devices action base on blendshape values
