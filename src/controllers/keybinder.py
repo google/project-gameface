@@ -142,7 +142,7 @@ class Keybinder(metaclass=Singleton):
                     self.start_hold_ts[state_name] = math.inf
 
         elif mode == Trigger.TOGGLE:
-            if (val > threshold):
+            if val > threshold:
                 if self.key_states[state_name] is False:
                     if self.schedule_toggle_on[state_name] is True:
                         pydirectinput.mouseDown(button=action)
@@ -153,8 +153,7 @@ class Keybinder(metaclass=Singleton):
                         pydirectinput.mouseUp(button=action)
                         self.key_states[state_name] = False
 
-
-            if (val < threshold):
+            if val < threshold:
                 if self.key_states[state_name] is True:
                     self.schedule_toggle_off[state_name] = True
                     self.schedule_toggle_on[state_name] = False
@@ -228,17 +227,24 @@ class Keybinder(metaclass=Singleton):
                     self.start_hold_ts[state_name] = math.inf
 
         elif mode == Trigger.TOGGLE:
-            if (val > threshold) and (self.key_states[state_name] is False):
-                pydirectinput.keyDown(key=keysym)
-                self.key_states[state_name] = True
-            if (val > threshold) and (self.key_states[state_name] is True):
-                if self.schedule_toggle_off[state_name] is True:
-                    pydirectinput.keyUp(key=keysym)
-                    self.schedule_toggle_off[state_name] = False
-                    self.key_states[state_name] = False
+            if val > threshold:
+                if self.key_states[state_name] is False:
+                    if self.schedule_toggle_on[state_name] is True:
+                        pydirectinput.keyDown(key=keysym)
+                        self.key_states[state_name] = True
 
-            if (val < threshold) and (self.key_states[state_name] is True):
-                self.schedule_toggle_off[state_name] = True
+                if self.key_states[state_name] is True:
+                    if self.schedule_toggle_off[state_name] is True:
+                        pydirectinput.keyUp(key=keysym)
+                        self.key_states[state_name] = False
+
+            if val < threshold:
+                if self.key_states[state_name] is True:
+                    self.schedule_toggle_off[state_name] = True
+                    self.schedule_toggle_on[state_name] = False
+                if self.key_states[state_name] is False:
+                    self.schedule_toggle_on[state_name] = True
+                    self.schedule_toggle_off[state_name] = False
 
         elif mode == Trigger.RAPID:
             if val > threshold:
