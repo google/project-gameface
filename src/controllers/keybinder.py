@@ -359,4 +359,15 @@ class Keybinder(metaclass=Singleton):
 
     def destroy(self):
         """Destroy the keybinder"""
+        logger.info("releasing all keys...")
+        for state_name in self.key_states:
+            # TODO: too many python shenanigans. Might break if you look wrong at it
+            device, action = state_name.split("_")
+            if device == "mouse":
+                logger.info(f"releasing {state_name}")
+                pydirectinput.mouseUp(button=action)
+            if device == "keyboard":
+                logger.info(f"releasing {state_name}")
+                pydirectinput.keyUp(key=action)
+
         return
