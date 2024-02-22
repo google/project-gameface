@@ -25,13 +25,14 @@ class Keybinder(metaclass=Singleton):
         self.forced_mode = None
         self.delay_count = None
         self.key_states = None
-        self.schedule_state_change = {}
+        self.schedule_toggle_off = {}
+        self.schedule_toggle_on = {}
         self.monitors = None
         self.screen_h = None
         self.screen_w = None
         logger.info("Initialize Keybinder singleton")
         self.top_count = 0
-        self.start_hold_ts ={}
+        self.start_hold_ts = {}
         self.holding = {}
         self.is_started = False
         self.last_know_keybindings = {}
@@ -59,7 +60,8 @@ class Keybinder(metaclass=Singleton):
                      ConfigManager().keyboard_bindings).items():
             state_name = v[0]+"_"+v[1]
             self.key_states[state_name] = False
-            self.schedule_state_change[state_name] = False
+            self.schedule_toggle_off[state_name] = False
+            self.schedule_toggle_on[state_name] = True
             self.start_hold_ts[state_name] = math.inf
             self.holding[state_name] = False
 
@@ -98,7 +100,7 @@ class Keybinder(metaclass=Singleton):
         state_name = "mouse_" + action
 
         # TODO: un-hardcode this
-        mode = self.forced_mode
+        #mode = self.forced_mode
 
         if mode == Trigger.SINGLE:
             if val > threshold:
@@ -110,11 +112,11 @@ class Keybinder(metaclass=Singleton):
 
         elif mode == Trigger.HOLD:
             if (val > threshold) and (self.key_states[state_name] is False):
-                pydirectinput.mouseDown(action)
+                pydirectinput.mouseDown(button=action)
                 self.key_states[state_name] = True
 
             elif (val < threshold) and (self.key_states[state_name] is True):
-                pydirectinput.mouseUp(action)
+                pydirectinput.mouseUp(button=action)
                 self.key_states[state_name] = False
 
         elif mode == Trigger.DYNAMIC:
@@ -140,17 +142,25 @@ class Keybinder(metaclass=Singleton):
                     self.start_hold_ts[state_name] = math.inf
 
         elif mode == Trigger.TOGGLE:
-            if (val > threshold) and (self.key_states[state_name] is False):
-                pydirectinput.mouseDown(action)
-                self.key_states[state_name] = True
-            if (val > threshold) and (self.key_states[state_name] is True):
-                if self.schedule_state_change[state_name] is True:
-                    pydirectinput.mouseUp(action)
-                    self.schedule_state_change[state_name] = False
-                    self.key_states[state_name] = False
+            if (val > threshold):
+                if self.key_states[state_name] is False:
+                    if self.schedule_toggle_on[state_name] is True:
+                        pydirectinput.mouseDown(button=action)
+                        self.key_states[state_name] = True
 
-            if (val < threshold) and (self.key_states[state_name] is True):
-                self.schedule_state_change[state_name] = True
+                if self.key_states[state_name] is True:
+                    if self.schedule_toggle_off[state_name] is True:
+                        pydirectinput.mouseUp(button=action)
+                        self.key_states[state_name] = False
+
+
+            if (val < threshold):
+                if self.key_states[state_name] is True:
+                    self.schedule_toggle_off[state_name] = True
+                    self.schedule_toggle_on[state_name] = False
+                if self.key_states[state_name] is False:
+                    self.schedule_toggle_on[state_name] = True
+                    self.schedule_toggle_off[state_name] = False
 
         elif mode == Trigger.RAPID:
             if val > threshold:
@@ -161,7 +171,7 @@ class Keybinder(metaclass=Singleton):
 
                 if self.key_states[state_name] is True:
                     if (((time.time() - self.start_hold_ts[state_name]) * 1000)
-                            >= ConfigManager().config["rapid_fire_delay"]):
+                            >= ConfigManager().config["rapid_fire_interval"]):
                         pydirectinput.click(button=action)
                         self.holding[state_name] = True
                         self.start_hold_ts[state_name] = time.time()
@@ -176,36 +186,36 @@ class Keybinder(metaclass=Singleton):
         state_name = "keyboard_" + keysym
 
         # TODO: un-hardcode this
-        mode = self.forced_mode
+       # mode = self.forced_mode
 
         if mode == Trigger.SINGLE:
             if val > threshold:
                 if self.key_states[state_name] is False:
-                    pydirectinput.press(button=keysym)
+                    pydirectinput.press(keys=keysym)
                     self.key_states[state_name] = True
             if val < threshold:
                 self.key_states[state_name] = False
 
         elif mode == Trigger.HOLD:
             if (val > threshold) and (self.key_states[state_name] is False):
-                pydirectinput.keyDown(keysym)
+                pydirectinput.keyDown(key=keysym)
                 self.key_states[state_name] = True
 
             elif (val < threshold) and (self.key_states[state_name] is True):
-                pydirectinput.keyUp(keysym)
+                pydirectinput.keyUp(key=keysym)
                 self.key_states[state_name] = False
 
         elif mode == Trigger.DYNAMIC:
             if val > threshold:
                 if self.key_states[state_name] is False:
-                    pydirectinput.press(button=keysym)
+                    pydirectinput.press(keys=keysym)
                     self.start_hold_ts[state_name] = time.time()
                     self.key_states[state_name] = True
 
                 if self.holding[state_name] is False and (
                         ((time.time() - self.start_hold_ts[state_name]) * 1000) >=
                         ConfigManager().config["hold_trigger_ms"]):
-                    pydirectinput.keyDown(button=keysym)
+                    pydirectinput.keyDown(key=keysym)
                     self.holding[state_name] = True
 
             elif (val < threshold) and (self.key_states[state_name] is True):
@@ -213,34 +223,34 @@ class Keybinder(metaclass=Singleton):
                 self.key_states[state_name] = False
 
                 if self.holding[state_name]:
-                    pydirectinput.keyUp(button=keysym)
+                    pydirectinput.keyUp(key=keysym)
                     self.holding[state_name] = False
                     self.start_hold_ts[state_name] = math.inf
 
         elif mode == Trigger.TOGGLE:
             if (val > threshold) and (self.key_states[state_name] is False):
-                pydirectinput.keyDown(keysym)
+                pydirectinput.keyDown(key=keysym)
                 self.key_states[state_name] = True
             if (val > threshold) and (self.key_states[state_name] is True):
-                if self.schedule_state_change[state_name] is True:
-                    pydirectinput.keyUp(keysym)
-                    self.schedule_state_change[state_name] = False
+                if self.schedule_toggle_off[state_name] is True:
+                    pydirectinput.keyUp(key=keysym)
+                    self.schedule_toggle_off[state_name] = False
                     self.key_states[state_name] = False
 
             if (val < threshold) and (self.key_states[state_name] is True):
-                self.schedule_state_change[state_name] = True
+                self.schedule_toggle_off[state_name] = True
 
         elif mode == Trigger.RAPID:
             if val > threshold:
                 if self.key_states[state_name] is False:
-                    pydirectinput.press(button=keysym)
+                    pydirectinput.press(keys=keysym)
                     self.key_states[state_name] = True
                     self.start_hold_ts[state_name] = time.time()
 
                 if self.key_states[state_name] is True:
                     if (((time.time() - self.start_hold_ts[state_name]) * 1000)
-                            >= ConfigManager().config["rapid_fire_delay"]):
-                        pydirectinput.press(button=keysym)
+                            >= ConfigManager().config["rapid_fire_interval"]):
+                        pydirectinput.press(keys=keysym)
                         self.holding[state_name] = True
                         self.start_hold_ts[state_name] = time.time()
 

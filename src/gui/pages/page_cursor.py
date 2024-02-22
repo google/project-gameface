@@ -56,8 +56,8 @@ class FrameSelectGesture(SafeDisposableFrame):
                 "Controls how long the user should\nhold a gesture in milliseconds\nfor an action to trigger",
                 1, MAX_HOLD_TRIG
             ],
-            "(Advanced) Rapid fire trigger delay(ms)": [
-                "rapid_fire_delay",
+            "(Advanced) Rapid fire trigger interval(ms)": [
+                "rapid_fire_interval",
                 "Controls how much time should pass\nbetween each individual\ntriggering of the action",
                 1, MAX_HOLD_TRIG
             ]
