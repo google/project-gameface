@@ -22,7 +22,6 @@ pydirectinput.FAILSAFE = False
 class Keybinder(metaclass=Singleton):
 
     def __init__(self) -> None:
-        self.forced_mode = None
         self.delay_count = None
         self.key_states = None
         self.schedule_toggle_off = {}
@@ -65,7 +64,6 @@ class Keybinder(metaclass=Singleton):
             self.start_hold_ts[state_name] = math.inf
             self.holding[state_name] = False
 
-        self.forced_mode = Trigger.DYNAMIC
         self.last_know_keybindings = copy.deepcopy(
             (ConfigManager().mouse_bindings |
              ConfigManager().keyboard_bindings))

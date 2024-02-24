@@ -9,6 +9,7 @@ from pathlib import Path
 
 from src.singleton_meta import Singleton
 from src.task_killer import TaskKiller
+from src.utils.Trigger import Trigger
 
 VERSION = "0.4.0"
 
@@ -175,18 +176,18 @@ class ConfigManager(metaclass=Singleton):
     # ------------------------------ MOUSE BINDINGS CONFIG ----------------------------- #
 
     def set_temp_mouse_binding(self, gesture, device: str, action: str,
-                               threshold: float, trigger_type: str):
+                               threshold: float, trigger):
 
         logger.info(
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger_type: %s",
-            gesture, device, action, threshold, trigger_type)
+            gesture, device, action, threshold, trigger)
 
         # Remove duplicate keybindings
         self.remove_temp_mouse_binding(device, action)
 
         # Assign
         self.temp_mouse_bindings[gesture] = [
-            device, action, float(threshold), trigger_type
+            device, action, float(threshold), trigger
         ]
         self.unsave_mouse_bindings = True
 
