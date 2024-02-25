@@ -221,10 +221,10 @@ class ConfigManager(metaclass=Singleton):
 
     def set_temp_keyboard_binding(self, device: str, key_action: str,
                                   gesture: str, threshold: float,
-                                  trigger: str):
+                                  trigger: Trigger):
         logger.info(
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger: %s",
-            gesture, device, key_action, threshold, trigger)
+            gesture, device, key_action, threshold, trigger.value)
 
         # Remove duplicate keybindings
         self.remove_temp_keyboard_binding(device, key_action, gesture)
@@ -232,7 +232,7 @@ class ConfigManager(metaclass=Singleton):
         # Assign
         self.temp_keyboard_bindings[gesture] = [
             device, key_action,
-            float(threshold), trigger
+            float(threshold), trigger.value
         ]
         self.unsave_keyboard_bindings = True
 
