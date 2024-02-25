@@ -197,9 +197,8 @@ class FrameSelectGesture(SafeDisposableFrame):
                               sticky="nw")
             subtle_label.grid_remove()
 
-
             # Trigger dropdown
-            trigger_list=[t.value for t in Trigger]
+            trigger_list = [t.value for t in Trigger]
             trigger_dropdown = customtkinter.CTkOptionMenu(master=self,
                                                            values=trigger_list,
                                                            width=240,
@@ -211,7 +210,6 @@ class FrameSelectGesture(SafeDisposableFrame):
                                   padx=(20, 20),
                                   pady=(156, 10),
                                   sticky="nw")
-            # self.shared_dropdown.register_widget(drop, action_name)
 
             out_dict[action_name] = {
                 "label": label,
