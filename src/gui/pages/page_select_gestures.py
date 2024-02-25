@@ -240,7 +240,7 @@ class FrameSelectGesture(SafeDisposableFrame):
         # change int [0,100] to float [0,1]
         thres_value = div["slider"].get() / 100
 
-        trigger = div["trigger_dropdown"].get()
+        trigger = Trigger(div["trigger_dropdown"].get())
 
 
         ConfigManager().set_temp_mouse_binding(
@@ -272,7 +272,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             div["subtle_label"].grid()
             div["trigger_dropdown"].grid()
             thres_value = div["slider"].get() / 100
-            trigger = div["trigger_dropdown"].get()
+            trigger = Trigger(div["trigger_dropdown"].get())
 
             ConfigManager().set_temp_mouse_binding(
                 target_gesture,

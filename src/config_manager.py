@@ -176,18 +176,18 @@ class ConfigManager(metaclass=Singleton):
     # ------------------------------ MOUSE BINDINGS CONFIG ----------------------------- #
 
     def set_temp_mouse_binding(self, gesture, device: str, action: str,
-                               threshold: float, trigger):
+                               threshold: float, trigger: Trigger):
 
         logger.info(
-            "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger_type: %s",
-            gesture, device, action, threshold, trigger)
+            "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger: %s",
+            gesture, device, action, threshold, trigger.value)
 
         # Remove duplicate keybindings
         self.remove_temp_mouse_binding(device, action)
 
         # Assign
         self.temp_mouse_bindings[gesture] = [
-            device, action, float(threshold), trigger
+            device, action, float(threshold), trigger.value
         ]
         self.unsave_mouse_bindings = True
 
