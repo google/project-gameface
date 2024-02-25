@@ -94,6 +94,52 @@ class Keybinder(metaclass=Singleton):
         # raise Exception("Monitor not found")
         return 0
 
+    def meta_action(self, val, action, threshold, is_active: bool) -> None:
+        state_name = "meta_" + action
+
+        if action == "pause":
+
+            if (val > threshold) and (self.key_states[state_name] is False):
+                mon_id = self.get_current_monitor()
+                if mon_id is None:
+                    return
+
+                self.toggle_active()
+
+                self.key_states[state_name] = True
+            elif (val < threshold) and (self.key_states[state_name] is True):
+                self.key_states[state_name] = False
+
+        if is_active:
+
+            if action == "reset":
+                if (val > threshold) and (self.key_states[state_name] is
+                                      False):
+                    mon_id = self.get_current_monitor()
+                    if mon_id is None:
+                        return
+
+                    pydirectinput.moveTo(
+                        self.monitors[mon_id]["center_x"],
+                        self.monitors[mon_id]["center_y"])
+                    self.key_states[state_name] = True
+                elif (val < threshold) and (self.key_states[state_name] is
+                                        True):
+                    self.key_states[state_name] = False
+
+            elif action == "cycle":
+                if (val > threshold) and (self.key_states[state_name] is
+                                      False):
+                    mon_id = self.get_current_monitor()
+                    next_mon_id = (mon_id + 1) % len(self.monitors)
+                    pydirectinput.moveTo(
+                        self.monitors[next_mon_id]["center_x"],
+                        self.monitors[next_mon_id]["center_y"])
+                    self.key_states[state_name] = True
+                elif (val < threshold) and (self.key_states[state_name] is
+                                        True):
+                    self.key_states[state_name] = False
+
     def mouse_action(self, val, action, threshold, mode) -> None:
         state_name = "mouse_" + action
 
@@ -285,65 +331,22 @@ class Keybinder(metaclass=Singleton):
             if shape_name not in shape_list.blendshape_names:
                 continue
 
-            device, action, thres, mode = v
+            device, action, threshold, mode = v
             mode = Trigger(mode.lower())
             # Get blendshape value
             idx = shape_list.blendshape_indices[shape_name]
             val = blendshape_values[idx]
 
-            if (device == "mouse") and (action == "pause"):
-                state_name = "mouse_" + action
+            if device == "meta":
+                self.meta_action(val, action, threshold, self.is_active.get())
 
-                if (val > thres) and (self.key_states[state_name] is False):
-                    mon_id = self.get_current_monitor()
-                    if mon_id is None:
-                        return
-
-                    self.toggle_active()
-
-                    self.key_states[state_name] = True
-                elif (val < thres) and (self.key_states[state_name] is True):
-                    self.key_states[state_name] = False
-
-            elif self.is_active.get():
+            if self.is_active.get():
 
                 if device == "mouse":
-
-                    if action == "reset":
-                        state_name = "mouse_" + action
-                        if (val > thres) and (self.key_states[state_name] is
-                                              False):
-                            mon_id = self.get_current_monitor()
-                            if mon_id is None:
-                                return
-
-                            pydirectinput.moveTo(
-                                self.monitors[mon_id]["center_x"],
-                                self.monitors[mon_id]["center_y"])
-                            self.key_states[state_name] = True
-                        elif (val < thres) and (self.key_states[state_name] is
-                                                True):
-                            self.key_states[state_name] = False
-
-                    elif action == "cycle":
-                        state_name = "mouse_" + action
-                        if (val > thres) and (self.key_states[state_name] is
-                                              False):
-                            mon_id = self.get_current_monitor()
-                            next_mon_id = (mon_id + 1) % len(self.monitors)
-                            pydirectinput.moveTo(
-                                self.monitors[next_mon_id]["center_x"],
-                                self.monitors[next_mon_id]["center_y"])
-                            self.key_states[state_name] = True
-                        elif (val < thres) and (self.key_states[state_name] is
-                                                True):
-                            self.key_states[state_name] = False
-
-                    else:
-                        self.mouse_action(val, action, thres, mode)
+                    self.mouse_action(val, action, threshold, mode)
 
                 elif device == "keyboard":
-                    self.keyboard_action(val, action, thres, mode)
+                    self.keyboard_action(val, action, threshold, mode)
 
     def set_active(self, flag: bool) -> None:
         self.is_active.set(flag)
@@ -367,5 +370,7 @@ class Keybinder(metaclass=Singleton):
             if device == "keyboard":
                 logger.info(f"releasing {state_name}")
                 pydirectinput.keyUp(key=action)
+            elif device == "meta":
+                pass
 
         return
