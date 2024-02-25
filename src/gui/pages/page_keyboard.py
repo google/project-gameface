@@ -305,7 +305,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
             key_action=div["selected_key_action"],
             gesture=div["selected_gesture"],
             threshold=thres_value,
-            trigger_type=DEFAULT_TRIGGER_TYPE)
+            trigger=DEFAULT_TRIGGER_TYPE)
         ConfigManager().apply_keyboard_bindings()
 
     def wait_for_key(self, div_name: str, entry_button, keydown: tk.Event):

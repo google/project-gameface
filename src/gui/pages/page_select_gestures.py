@@ -240,7 +240,7 @@ class FrameSelectGesture(SafeDisposableFrame):
         # change int [0,100] to float [0,1]
         thres_value = div["slider"].get() / 100
 
-        trigger_value = div["trigger_dropdown"].get()
+        trigger = div["trigger_dropdown"].get()
 
 
         ConfigManager().set_temp_mouse_binding(
@@ -248,7 +248,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             device=target_device,
             action=target_action,
             threshold=thres_value,
-            trigger=trigger_value)
+            trigger=trigger)
         ConfigManager().apply_mouse_bindings()
 
     def dropdown_callback(self, caller_name: str, target_gesture: str):
@@ -272,14 +272,14 @@ class FrameSelectGesture(SafeDisposableFrame):
             div["subtle_label"].grid()
             div["trigger_dropdown"].grid()
             thres_value = div["slider"].get() / 100
-            trigger_value = div["trigger_dropdown"].get()
+            trigger = div["trigger_dropdown"].get()
 
             ConfigManager().set_temp_mouse_binding(
                 target_gesture,
                 device=target_device,
                 action=target_action,
                 threshold=thres_value,
-                trigger=trigger_value)
+                trigger=trigger)
 
         # Remove keybind if "None"
         else:
