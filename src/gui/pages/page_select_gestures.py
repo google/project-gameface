@@ -110,7 +110,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             # Action label
             label = customtkinter.CTkLabel(master=self,
                                            text=action_name,
-                                           height=175,
+                                           height=200,
                                            width=300,
                                            anchor='nw',
                                            justify=tk.LEFT)
@@ -209,7 +209,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             trigger_dropdown.grid(row=row,
                                   column=column,
                                   padx=(20, 20),
-                                  pady=(142, 10),
+                                  pady=(156, 10),
                                   sticky="nw")
             # self.shared_dropdown.register_widget(drop, action_name)
 
