@@ -66,7 +66,7 @@ class FrameSelectGesture(SafeDisposableFrame):
         self.toggle_label = customtkinter.CTkLabel(master=self,
                                                    compound='right',
                                                    text="Cursor control",
-                                                   justify=tkinter.RIGHT)
+                                                   justify=tkinter.LEFT)
         self.toggle_label.cget("font").configure(weight='bold')
         self.toggle_label.grid(row=0,
                                column=0,
@@ -281,8 +281,8 @@ class PageCursor(SafeDisposableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.grid_rowconfigure(2, weight=1)
-        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=0)
+        self.grid_columnconfigure(0, weight=0)
         self.is_active = False
         self.task = {}
 
