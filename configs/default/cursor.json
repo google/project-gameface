@@ -13,7 +13,7 @@
     "shape_smooth": 10, 
     "tick_interval_ms": 16, 
     "hold_trigger_ms": 500,
-    "rapid_fire_delay": 500,
+    "rapid_fire_interval_ms": 100,
     "auto_play": false, 
     "enable": 1, 
     "mouse_acceleration": false, 

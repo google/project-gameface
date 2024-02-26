@@ -214,7 +214,7 @@ class Keybinder(metaclass=Singleton):
 
                 if self.key_states[state_name] is True:
                     if (((time.time() - self.start_hold_ts[state_name]) * 1000)
-                            >= ConfigManager().config["rapid_fire_interval"]):
+                            >= ConfigManager().config["rapid_fire_interval_ms"]):
                         pydirectinput.click(button=action)
                         self.holding[state_name] = True
                         self.start_hold_ts[state_name] = time.time()
@@ -299,7 +299,7 @@ class Keybinder(metaclass=Singleton):
 
                 if self.key_states[state_name] is True:
                     if (((time.time() - self.start_hold_ts[state_name]) * 1000)
-                            >= ConfigManager().config["rapid_fire_interval"]):
+                            >= ConfigManager().config["rapid_fire_interval_ms"]):
                         pydirectinput.press(keys=keysym)
                         self.holding[state_name] = True
                         self.start_hold_ts[state_name] = time.time()
