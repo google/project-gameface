@@ -206,6 +206,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                                            dynamic_resizing=False,
                                            state="disabled")
         drop.grid(row=row, column=0, padx=PAD_X, pady=(64, 10), sticky="nw")
+        drop.grid_remove()
         self.shared_dropdown.register_widget(drop, div_name)
 
         # Label ?
@@ -221,6 +222,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                         padx=PAD_X,
                         pady=(92, 10),
                         sticky="nw")
+        tips_label.grid_remove()
         self.shared_info_balloon.register_widget(tips_label, BALLOON_TXT)
 
         # Volume bar
@@ -234,6 +236,8 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                         padx=PAD_X,
                         pady=(122, 10),
                         sticky="nw")
+
+        volume_bar.grid_remove()
 
         # Slider
         slider = customtkinter.CTkSlider(master=self,
@@ -256,6 +260,8 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                     pady=(142, 10),
                     sticky="nw")
 
+        slider.grid_remove()
+
         # Subtle, Exaggerated
         subtle_label = customtkinter.CTkLabel(master=self,
                                               text="Subtle\t\t\t   Exaggerated",
@@ -267,6 +273,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                           padx=PAD_X,
                           pady=(158, 10),
                           sticky="nw")
+        subtle_label.grid_remove()
 
         # Trigger dropdown
         trigger_list = [t.value for t in Trigger]
@@ -274,7 +281,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                                                        values=trigger_list,
                                                        width=240,
                                                        dynamic_resizing=False,
-                                                       state="normal"
+                                                       state="normal",
                                                        )
         trigger_dropdown.grid(row=row,
                               column=0,
@@ -282,12 +289,6 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                               pady=(186, 10),
                               sticky="nw")
 
-        # Hide element related to gesture
-        drop.grid_remove()
-        tips_label.grid_remove()
-        slider.grid_remove()
-        volume_bar.grid_remove()
-        subtle_label.grid_remove()
         trigger_dropdown.grid_remove()
 
         return {
@@ -356,7 +357,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
             div["volume_bar"].grid_remove()
             div["tips_label"].grid_remove()
             div["subtle_label"].grid_remove()
-            div["trigger_dropdown"].grid()
+            div["trigger_dropdown"].grid_remove()
             self.set_new_keyboard_binding(div)
 
         # Valid key
