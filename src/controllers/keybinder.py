@@ -143,9 +143,6 @@ class Keybinder(metaclass=Singleton):
     def mouse_action(self, val, action, threshold, mode) -> None:
         state_name = "mouse_" + action
 
-        # TODO: un-hardcode this
-        #mode = self.forced_mode
-
         if mode == Trigger.SINGLE:
             if val > threshold:
                 if self.key_states[state_name] is False:
@@ -227,9 +224,6 @@ class Keybinder(metaclass=Singleton):
     def keyboard_action(self, val, keysym, threshold, mode):
 
         state_name = "keyboard_" + keysym
-
-        # TODO: un-hardcode this
-       # mode = self.forced_mode
 
         if mode == Trigger.SINGLE:
             if val > threshold:
