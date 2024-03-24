@@ -61,17 +61,19 @@ pip install -r requirements.txt
 |-----------|---------------------------------------|
 | camera_id | Default camera index on your machine. |
 | tracking_vert_idxs | Tracking points for controlling cursor ([see](assets/images/uv_unwrap_full.png)) |
-| camera_id | Default camera index on your machine. |
 | spd_up    | Cursor speed in the upward direction  |
 | spd_down  | Cursor speed in downward direction    |
 | spd_left  | Cursor speed in left direction        |
 | spd_right | Cursor speed in right direction       |
-| pointer_smooth  | Amount of cursor smoothness           |
-| shape_smooth  | Reduces the flickering of the action           |
-| hold_trigger_ms  | Hold action trigger delay in milliseconds           |
-| auto_play  | Automatically begin playing when you launch the program           |
-| mouse_acceleration  | Make the cursor move faster when the head moves quickly        |
-| use_transformation_matrix  | Control cursor using head direction (tracking_vert_idxs will be ignored)   |
+| pointer_smooth | Amount of cursor smoothness           |
+| shape_smooth | Reduces the flickering of the action  |
+| tick_interval_ms | interval between each tick of the pipeline in milliseconds |
+| hold_trigger_ms | Hold action trigger delay in milliseconds |
+| rapid_fire_interval_ms | interval between each activation of the action in milliseconds |
+| auto_play | Automatically begin playing when you launch the program |
+| enable    | Enable cursor control                 |
+| mouse_acceleration | Make the cursor move faster when the head moves quickly |
+| use_transformation_matrix | Control cursor using head direction (tracking_vert_idxs will be ignored) |
  
 
 ## Keybinding configs
@@ -84,13 +86,13 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 ```
 
 
-|              |                                                                                           |
-|--------------|-------------------------------------------------------------------------------------------|
-| gesture_name | Face expression name, see the [list](src/shape_list.py#L16)       |
-| device_name  | "mouse" or "keyboard"                                                                     |
-| action_name  | "left", "right" and "middle" for mouse. "" for keyboard, for instance, "w" for the W key. |
-| threshold    | The action trigger threshold has values ranging from 0.0 to 1.0.        |
-| trigger_type | Action trigger type, use "single" for a single trigger, "hold" for ongoing action.                                 |
+|              |                                                                                                                                                                                                                                                                                                                                                                                       |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| gesture_name | Face expression name, see the [list](src/shape_list.py#L16)                                                                                                                                                                                                                                                                                                                           |
+| device_name  | "meta", "mouse", or "keyboard"                                                                                                                                                                                                                                                                                                                                                        |
+| action_name  | name of the action e.g. "left" for mouse. <br/>e.g. "ctrl" for keyboard<br/> e.g. "pause" for meta                                                                                                                                                                                                                                                                                    |
+| threshold    | The action trigger threshold has values ranging from 0.0 to 1.0.                                                                                                                                                                                                                                                                                                                      |
+| trigger_type | "single" for a single trigger<br/> "hold" for ongoing action. <br/> "dynamic" for a mixture of single and hold. It first acts like single and after passing the amount of miliseconds from hold_trigger_ms like hold. Note: this is the default behaviour for mouse buttons<br/> "toggle" to switch an action on and off<br/>"rapid" trigger an action every "rapid_fire_interval_ms" |
 
 
 
