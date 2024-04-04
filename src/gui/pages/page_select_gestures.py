@@ -10,11 +10,12 @@ from src.detectors import FaceMesh
 from src.gui.balloon import Balloon
 from src.gui.dropdown import Dropdown
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
+from src.utils.Trigger import Trigger
 
 MAX_ROWS = 2
 HELP_ICON_SIZE = (18, 18)
 DIV_WIDTH = 240
-DEFAULT_TRIGGER_TYPE = "single"
+DEFAULT_TRIGGER_TYPE = "dynamic"
 GREEN = "#34A853"
 YELLOW = "#FABB05"
 
@@ -62,17 +63,22 @@ class FrameSelectGesture(SafeDisposableFrame):
         div["subtle_label"].grid_remove()
         div["slider"].grid_remove()
         div["volume_bar"].grid_remove()
+        div["trigger_dropdown"].set(DEFAULT_TRIGGER_TYPE)
+        div["trigger_dropdown"].grid_remove()
 
-    def set_div_active(self, div, gesture_name, thres):
+    def set_div_active(self, div, gesture_name, thres, trigger):
         div["selected_gesture"] = gesture_name
         div["combobox"].set(gesture_name)
         div["slider"].set(int(thres * 100))
         div["slider"].configure(state="normal")
+        div["trigger_dropdown"].configure(state="normal")
+        div["trigger_dropdown"].set(trigger)
 
         div["tips_label"].grid()
         div["subtle_label"].grid()
         div["slider"].grid()
         div["volume_bar"].grid()
+        div["trigger_dropdown"].grid()
 
     def load_initial_keybindings(self):
         """Load default from config and set the UI
@@ -90,7 +96,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                 [device, action_key])
             target_action_name = shape_list.available_actions_keys[action_idx]
             div = self.divs[target_action_name]
-            self.set_div_active(div, gesture_name, thres)
+            self.set_div_active(div, gesture_name, thres, trigger_type)
             self.shared_dropdown.disable_item(gesture_name)
         self.shared_dropdown.refresh_items()
 
@@ -104,7 +110,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             # Action label
             label = customtkinter.CTkLabel(master=self,
                                            text=action_name,
-                                           height=175,
+                                           height=200,
                                            width=300,
                                            anchor='nw',
                                            justify=tk.LEFT)
@@ -191,6 +197,20 @@ class FrameSelectGesture(SafeDisposableFrame):
                               sticky="nw")
             subtle_label.grid_remove()
 
+            # Trigger dropdown
+            trigger_list = [t.value for t in Trigger]
+            trigger_dropdown = customtkinter.CTkOptionMenu(master=self,
+                                                           values=trigger_list,
+                                                           width=240,
+                                                           dynamic_resizing=False,
+                                                           state="disabled"
+                                                           )
+            trigger_dropdown.grid(row=row,
+                                  column=column,
+                                  padx=(20, 20),
+                                  pady=(156, 10),
+                                  sticky="nw")
+
             out_dict[action_name] = {
                 "label": label,
                 "combobox": drop,
@@ -199,6 +219,7 @@ class FrameSelectGesture(SafeDisposableFrame):
                 "volume_bar": volume_bar,
                 "subtle_label": subtle_label,
                 "selected_gesture": gesture_list[0],
+                "trigger_dropdown": trigger_dropdown
             }
 
         return out_dict
@@ -217,12 +238,15 @@ class FrameSelectGesture(SafeDisposableFrame):
         # change int [0,100] to float [0,1]
         thres_value = div["slider"].get() / 100
 
+        trigger = Trigger(div["trigger_dropdown"].get())
+
+
         ConfigManager().set_temp_mouse_binding(
             div["selected_gesture"],
             device=target_device,
             action=target_action,
             threshold=thres_value,
-            trigger_type=DEFAULT_TRIGGER_TYPE)
+            trigger=trigger)
         ConfigManager().apply_mouse_bindings()
 
     def dropdown_callback(self, caller_name: str, target_gesture: str):
@@ -244,13 +268,16 @@ class FrameSelectGesture(SafeDisposableFrame):
             div["volume_bar"].grid()
             div["tips_label"].grid()
             div["subtle_label"].grid()
+            div["trigger_dropdown"].grid()
             thres_value = div["slider"].get() / 100
+            trigger = Trigger(div["trigger_dropdown"].get())
+
             ConfigManager().set_temp_mouse_binding(
                 target_gesture,
                 device=target_device,
                 action=target_action,
                 threshold=thres_value,
-                trigger_type=DEFAULT_TRIGGER_TYPE)
+                trigger=trigger)
 
         # Remove keybind if "None"
         else:
@@ -259,6 +286,7 @@ class FrameSelectGesture(SafeDisposableFrame):
             div["volume_bar"].grid_remove()
             div["tips_label"].grid_remove()
             div["subtle_label"].grid_remove()
+            div["trigger_dropdown"].grid_remove()
             ConfigManager().remove_temp_mouse_binding(device=target_device,
                                                       action=target_action)
 

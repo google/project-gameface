@@ -5,16 +5,17 @@
     "tracking_vert_idxs": [
         8
     ], 
-    "spd_up": 42, 
-    "spd_down": 42, 
-    "spd_left": 42, 
-    "spd_right": 42, 
-    "pointer_smooth": 15, 
-    "shape_smooth": 10, 
-    "tick_interval_ms": 16, 
-    "hold_trigger_ms": 500, 
-    "auto_play": false, 
-    "enable": 1, 
-    "mouse_acceleration": false, 
+    "spd_up": 40,
+    "spd_down": 40,
+    "spd_left": 40,
+    "spd_right": 40,
+    "pointer_smooth": 6,
+    "shape_smooth": 10,
+    "tick_interval_ms": 16,
+    "hold_trigger_ms": 500,
+    "rapid_fire_interval_ms": 100,
+    "auto_play": false,
+    "enable": 1,
+    "mouse_acceleration": false,
     "use_transformation_matrix": false
 }

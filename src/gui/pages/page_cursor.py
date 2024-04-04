@@ -55,13 +55,18 @@ class FrameSelectGesture(SafeDisposableFrame):
                 "hold_trigger_ms",
                 "Controls how long the user should\nhold a gesture in milliseconds\nfor an action to trigger",
                 1, MAX_HOLD_TRIG
+            ],
+            "(Advanced) Rapid fire interval(ms)": [
+                "rapid_fire_interval_ms",
+                "Controls how much time should pass\nbetween each individual\ntriggering of the action",
+                1, MAX_HOLD_TRIG
             ]
         })
         # Toggle label
         self.toggle_label = customtkinter.CTkLabel(master=self,
                                                    compound='right',
                                                    text="Cursor control",
-                                                   justify=tkinter.RIGHT)
+                                                   justify=tkinter.LEFT)
         self.toggle_label.cget("font").configure(weight='bold')
         self.toggle_label.grid(row=0,
                                column=0,
@@ -276,8 +281,8 @@ class PageCursor(SafeDisposableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.grid_rowconfigure(2, weight=1)
-        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=0)
+        self.grid_columnconfigure(0, weight=0)
         self.is_active = False
         self.task = {}
 

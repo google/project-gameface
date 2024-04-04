@@ -13,7 +13,7 @@ from src.gui.balloon import Balloon
 from src.gui.dropdown import Dropdown
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 from src.gui.frames.safe_disposable_scrollable_frame import SafeDisposableScrollableFrame
-
+from src.utils.Trigger import Trigger
 
 logger = logging.getLogger("PageKeyboard")
 
@@ -105,6 +105,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
             div["subtle_label"].grid()
             div["slider"].grid()
             div["volume_bar"].grid()
+            div["trigger_dropdown"].grid()
             self.shared_dropdown.disable_item(gesture_name)
             self.divs[div_name] = div
             self.next_empty_row += 1
@@ -205,6 +206,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                                            dynamic_resizing=False,
                                            state="disabled")
         drop.grid(row=row, column=0, padx=PAD_X, pady=(64, 10), sticky="nw")
+        drop.grid_remove()
         self.shared_dropdown.register_widget(drop, div_name)
 
         # Label ?
@@ -220,6 +222,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                         padx=PAD_X,
                         pady=(92, 10),
                         sticky="nw")
+        tips_label.grid_remove()
         self.shared_info_balloon.register_widget(tips_label, BALLOON_TXT)
 
         # Volume bar
@@ -233,6 +236,8 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                         padx=PAD_X,
                         pady=(122, 10),
                         sticky="nw")
+
+        volume_bar.grid_remove()
 
         # Slider
         slider = customtkinter.CTkSlider(master=self,
@@ -255,6 +260,8 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                     pady=(142, 10),
                     sticky="nw")
 
+        slider.grid_remove()
+
         # Subtle, Exaggerated
         subtle_label = customtkinter.CTkLabel(master=self,
                                               text="Subtle\t\t\t   Exaggerated",
@@ -266,13 +273,23 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                           padx=PAD_X,
                           pady=(158, 10),
                           sticky="nw")
-
-        # Hide element related to gesture
-        drop.grid_remove()
-        tips_label.grid_remove()
-        slider.grid_remove()
-        volume_bar.grid_remove()
         subtle_label.grid_remove()
+
+        # Trigger dropdown
+        trigger_list = [t.value for t in Trigger]
+        trigger_dropdown = customtkinter.CTkOptionMenu(master=self,
+                                                       values=trigger_list,
+                                                       width=240,
+                                                       dynamic_resizing=False,
+                                                       state="normal",
+                                                       )
+        trigger_dropdown.grid(row=row,
+                              column=0,
+                              padx=PAD_X,
+                              pady=(186, 10),
+                              sticky="nw")
+
+        trigger_dropdown.grid_remove()
 
         return {
             "entry_field": entry_field,
@@ -283,7 +300,8 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
             "subtle_label": subtle_label,
             "selected_gesture": gesture_name,
             "selected_key_action": key_action,
-            "remove_button": remove_button
+            "remove_button": remove_button,
+            "trigger_dropdown": trigger_dropdown
         }
 
     def set_new_keyboard_binding(self, div):
@@ -300,12 +318,13 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
 
         # Set the keybinding
         thres_value = div["slider"].get() / 100
+        trigger = Trigger(div["trigger_dropdown"].get())
         ConfigManager().set_temp_keyboard_binding(
             device="keyboard",
             key_action=div["selected_key_action"],
             gesture=div["selected_gesture"],
             threshold=thres_value,
-            trigger_type=DEFAULT_TRIGGER_TYPE)
+            trigger=trigger)
         ConfigManager().apply_keyboard_bindings()
 
     def wait_for_key(self, div_name: str, entry_button, keydown: tk.Event):
@@ -338,6 +357,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
             div["volume_bar"].grid_remove()
             div["tips_label"].grid_remove()
             div["subtle_label"].grid_remove()
+            div["trigger_dropdown"].grid_remove()
             self.set_new_keyboard_binding(div)
 
         # Valid key
@@ -358,6 +378,7 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
                 div["volume_bar"].grid()
                 div["tips_label"].grid()
                 div["subtle_label"].grid()
+                div["trigger_dropdown"].grid()
 
         if self.wait_for_key_bind_id is not None:
             self.waiting_button.unbind("<KeyPress>", self.wait_for_key_bind_id)
@@ -397,11 +418,13 @@ class FrameSelectKeyboard(SafeDisposableScrollableFrame):
             div["volume_bar"].grid()
             div["tips_label"].grid()
             div["subtle_label"].grid()
+            div["trigger_dropdown"].grid()
         else:
             div["slider"].grid_remove()
             div["volume_bar"].grid_remove()
             div["tips_label"].grid_remove()
             div["subtle_label"].grid_remove()
+            div["trigger_dropdown"].grid_remove()
 
         self.set_new_keyboard_binding(div)
         self.refresh_scrollbar()

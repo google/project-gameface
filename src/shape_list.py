@@ -73,9 +73,9 @@ available_actions = {
     "Mouse left click": ["mouse", "left"],
     "Mouse right click": ["mouse", "right"],
     "Mouse middle click": ["mouse", "middle"],
-    "Mouse pause / unpause": ["mouse", "pause"],
-    "Reset cursor to center": ["mouse", "reset"],
-    "Switch focus between monitors": ["mouse", "cycle"]
+    "Mouse pause / unpause": ["meta", "pause"],
+    "Reset cursor to center": ["meta", "reset"],
+    "Switch focus between monitors": ["meta", "cycle"]
 }
 available_actions_keys = list(available_actions.keys())
 available_actions_values = list(available_actions.values())

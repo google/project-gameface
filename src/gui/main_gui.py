@@ -19,10 +19,10 @@ class MainGui():
         super().__init__()
         self.tk_root = tk_root
 
-        self.tk_root.geometry("1024x658")
+        self.tk_root.geometry("1024x800")
         self.tk_root.title(f"Grimassist {ConfigManager().version}")
         self.tk_root.iconbitmap("assets/images/icon.ico")
-        self.tk_root.resizable(width=False, height=False)
+        self.tk_root.resizable(width=True, height=True)
 
         self.tk_root.grid_rowconfigure(1, weight=1)
         self.tk_root.grid_columnconfigure(1, weight=1)
