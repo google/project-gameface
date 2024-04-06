@@ -11,7 +11,7 @@ from src.singleton_meta import Singleton
 from src.task_killer import TaskKiller
 from src.utils.Trigger import Trigger
 
-VERSION = "0.4.0"
+VERSION = "0.5.0"
 
 DEFAULT_JSON = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default.json")
 BACKUP_PROFILE = Path(f"C:/Users/{os.getlogin()}/Grimassist/configs/default")
