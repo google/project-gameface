@@ -18,7 +18,6 @@ MAX_ROWS = 10
 
 
 class PageSelectCamera(SafeDisposableFrame):
-
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
@@ -28,12 +27,7 @@ class PageSelectCamera(SafeDisposableFrame):
         # Top text
         top_label = customtkinter.CTkLabel(master=self, text="Camera")
         top_label.cget("font").configure(size=24)
-        top_label.grid(row=0,
-                       column=0,
-                       padx=20,
-                       pady=20,
-                       sticky="nw",
-                       columnspan=2)
+        top_label.grid(row=0, column=0, padx=20, pady=20, sticky="nw", columnspan=2)
 
         # Label
         self.label = customtkinter.CTkLabel(master=self, text="Select a Camera")
@@ -46,31 +40,26 @@ class PageSelectCamera(SafeDisposableFrame):
         self.radio_buttons = []
 
         # Camera canvas
-        self.placeholder_im = Image.open(
-            "assets/images/placeholder.png").resize(
-                (CANVAS_WIDTH, CANVAS_HEIGHT))
+        self.placeholder_im = Image.open("assets/images/placeholder.png").resize(
+            (CANVAS_WIDTH, CANVAS_HEIGHT)
+        )
         self.placeholder_im = ImageTk.PhotoImage(self.placeholder_im)
-        self.canvas = tkinter.Canvas(master=self,
-                                     width=CANVAS_WIDTH,
-                                     height=CANVAS_HEIGHT)
-        self.canvas.grid(row=1,
-                         column=1,
-                         padx=(10, 50),
-                         pady=10,
-                         sticky="e",
-                         rowspan=MAX_ROWS)
+        self.canvas = tkinter.Canvas(
+            master=self, width=CANVAS_WIDTH, height=CANVAS_HEIGHT
+        )
+        self.canvas.grid(
+            row=1, column=1, padx=(10, 50), pady=10, sticky="e", rowspan=MAX_ROWS
+        )
 
         # Set first image.
-        self.canvas_im = self.canvas.create_image(0,
-                                                  0,
-                                                  image=self.placeholder_im,
-                                                  anchor=tkinter.NW)
+        self.canvas_im = self.canvas.create_image(
+            0, 0, image=self.placeholder_im, anchor=tkinter.NW
+        )
         self.new_photo = None
         self.latest_camera_list = []
 
     def update_radio_buttons(self):
-        """ Update radio_buttons to match CameraManager
-        """
+        """Update radio_buttons to match CameraManager"""
         new_camera_list = CameraManager().get_camera_list()
         if len(self.latest_camera_list) != len(new_camera_list):
             self.latest_camera_list = new_camera_list
@@ -86,11 +75,13 @@ class PageSelectCamera(SafeDisposableFrame):
                 if cam_name is not None:
                     radio_text = f"{radio_text}: {cam_name}"
 
-                radio_button = customtkinter.CTkRadioButton(master=self,
-                                                     text=radio_text,
-                                                     command=self.radiobutton_event,
-                                                     variable=self.radio_var,
-                                                     value=cam_id)
+                radio_button = customtkinter.CTkRadioButton(
+                    master=self,
+                    text=radio_text,
+                    command=self.radiobutton_event,
+                    variable=self.radio_var,
+                    value=cam_id,
+                )
 
                 radio_button.grid(row=row_i + 2, column=0, padx=50, pady=10, sticky="w")
                 radio_buttons.append(radio_button)
@@ -123,19 +114,17 @@ class PageSelectCamera(SafeDisposableFrame):
             return
 
         if self.is_active:
-
             frame_rgb = CameraManager().get_raw_frame()
             # Assign ref to avoid garbage collected
             self.new_photo = ImageTk.PhotoImage(
-                image=Image.fromarray(frame_rgb).resize((CANVAS_WIDTH,
-                                                         CANVAS_HEIGHT)))
+                image=Image.fromarray(frame_rgb).resize((CANVAS_WIDTH, CANVAS_HEIGHT))
+            )
             self.canvas.itemconfig(self.canvas_im, image=self.new_photo)
             self.canvas.update()
-            
+
             CameraManager().thread_cameras.assign_done_flag.wait()
             self.update_radio_buttons()
-            self.after(ConfigManager().config["tick_interval_ms"],
-                       self.page_loop)
+            self.after(ConfigManager().config["tick_interval_ms"], self.page_loop)
 
     def enter(self):
         super().enter()

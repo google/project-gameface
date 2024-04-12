@@ -39,7 +39,6 @@ if not os.path.isdir(f"C:/Users/{os.getlogin()}/Grimassist/configs/default"):
 
 
 class ConfigManager(metaclass=Singleton):
-
     def __init__(self):
         self.temp_keyboard_bindings = None
         self.temp_mouse_bindings = None
@@ -96,22 +95,21 @@ class ConfigManager(metaclass=Singleton):
         # Random name base on local timestamp
         new_profile_name = "profile_z" + str(hex(int(time.time() * 1000)))[2:]
         logger.info(f"Add profile {new_profile_name}")
-        shutil.copytree(BACKUP_PROFILE,
-                        Path(DEFAULT_JSON.parent, new_profile_name))
+        shutil.copytree(BACKUP_PROFILE, Path(DEFAULT_JSON.parent, new_profile_name))
         self.profiles.append(new_profile_name)
         logger.info(f"Current profiles: {self.profiles}")
 
     def rename_profile(self, old_profile_name, new_profile_name):
         logger.info(f"Rename profile {old_profile_name} to {new_profile_name}")
-        shutil.move(Path(DEFAULT_JSON.parent, old_profile_name),
-                    Path(DEFAULT_JSON.parent, new_profile_name))
+        shutil.move(
+            Path(DEFAULT_JSON.parent, old_profile_name),
+            Path(DEFAULT_JSON.parent, new_profile_name),
+        )
         self.profiles.remove(old_profile_name)
         self.profiles.append(new_profile_name)
 
         if self.current_profile_name.get() == old_profile_name:
             self.current_profile_name.set(new_profile_name)
-
-
 
     def load_profile(self, profile_name: str):
         profile_path = Path(DEFAULT_JSON.parent, profile_name)
@@ -121,9 +119,11 @@ class ConfigManager(metaclass=Singleton):
         mouse_bindings_file = Path(profile_path, "mouse_bindings.json")
         keyboard_bindings_file = Path(profile_path, "keyboard_bindings.json")
 
-        if (not cursor_config_file.is_file()) or (
-                not mouse_bindings_file.is_file()) or (
-                    not keyboard_bindings_file.is_file()):
+        if (
+            (not cursor_config_file.is_file())
+            or (not mouse_bindings_file.is_file())
+            or (not keyboard_bindings_file.is_file())
+        ):
             logger.critical(
                 f"{profile_path.as_posix()} Invalid configuration files or missing files, exit program..."
             )
@@ -164,8 +164,8 @@ class ConfigManager(metaclass=Singleton):
     def write_config_file(self):
         cursor_config_file = Path(self.current_profile_path, "cursor.json")
         logger.info(f"Writing config file {cursor_config_file}")
-        with open(cursor_config_file, 'w') as f:
-            json.dump(self.config, f, indent=4, separators=(', ', ': '))
+        with open(cursor_config_file, "w") as f:
+            json.dump(self.config, f, indent=4, separators=(", ", ": "))
 
     def apply_config(self):
         logger.info("Applying config")
@@ -175,25 +175,32 @@ class ConfigManager(metaclass=Singleton):
 
     # ------------------------------ MOUSE BINDINGS CONFIG ----------------------------- #
 
-    def set_temp_mouse_binding(self, gesture, device: str, action: str,
-                               threshold: float, trigger: Trigger):
-
+    def set_temp_mouse_binding(
+        self, gesture, device: str, action: str, threshold: float, trigger: Trigger
+    ):
         logger.info(
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger: %s",
-            gesture, device, action, threshold, trigger.value)
+            gesture,
+            device,
+            action,
+            threshold,
+            trigger.value,
+        )
 
         # Remove duplicate keybindings
         self.remove_temp_mouse_binding(device, action)
 
         # Assign
         self.temp_mouse_bindings[gesture] = [
-            device, action, float(threshold), trigger.value
+            device,
+            action,
+            float(threshold),
+            trigger.value,
         ]
         self.unsave_mouse_bindings = True
 
     def remove_temp_mouse_binding(self, device: str, action: str):
-        logger.info(
-            f"remove_temp_mouse_binding for device: {device}, key: {action}")
+        logger.info(f"remove_temp_mouse_binding for device: {device}, key: {action}")
         out_keybindings = {}
         for key, vals in self.temp_mouse_bindings.items():
             if (device == vals[0]) and (action == vals[1]):
@@ -209,39 +216,48 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_mouse_bindings = False
 
     def write_mouse_bindings_file(self):
-        mouse_bindings_file = Path(self.current_profile_path,
-                                   "mouse_bindings.json")
+        mouse_bindings_file = Path(self.current_profile_path, "mouse_bindings.json")
         logger.info(f"Writing keybindings file {mouse_bindings_file}")
 
-        with open(mouse_bindings_file, 'w') as f:
+        with open(mouse_bindings_file, "w") as f:
             out_json = dict(sorted(self.mouse_bindings.items()))
-            json.dump(out_json, f, indent=4, separators=(', ', ': '))
+            json.dump(out_json, f, indent=4, separators=(", ", ": "))
 
     # ------------------------------ KEYBOARD BINDINGS CONFIG ----------------------------- #
 
-    def set_temp_keyboard_binding(self, device: str, key_action: str,
-                                  gesture: str, threshold: float,
-                                  trigger: Trigger):
+    def set_temp_keyboard_binding(
+        self,
+        device: str,
+        key_action: str,
+        gesture: str,
+        threshold: float,
+        trigger: Trigger,
+    ):
         logger.info(
             "setting keybind for gesture: %s, device: %s, key: %s, threshold: %s, trigger: %s",
-            gesture, device, key_action, threshold, trigger.value)
+            gesture,
+            device,
+            key_action,
+            threshold,
+            trigger.value,
+        )
 
         # Remove duplicate keybindings
         self.remove_temp_keyboard_binding(device, key_action, gesture)
 
         # Assign
         self.temp_keyboard_bindings[gesture] = [
-            device, key_action,
-            float(threshold), trigger.value
+            device,
+            key_action,
+            float(threshold),
+            trigger.value,
         ]
         self.unsave_keyboard_bindings = True
 
-    def remove_temp_keyboard_binding(self,
-                                     device: str,
-                                     key_action: str = "None",
-                                     gesture: str = "None"):
-        """Remove binding from config by providing either key_action or gesture.
-        """
+    def remove_temp_keyboard_binding(
+        self, device: str, key_action: str = "None", gesture: str = "None"
+    ):
+        """Remove binding from config by providing either key_action or gesture."""
 
         logger.info(
             f"remove_temp_keyboard_binding for device: {device}, key: {key_action} or gesture {gesture}"
@@ -269,13 +285,14 @@ class ConfigManager(metaclass=Singleton):
         self.unsave_keyboard_bindings = False
 
     def write_keyboard_bindings_file(self):
-        keyboard_bindings_file = Path(self.current_profile_path,
-                                      "keyboard_bindings.json")
+        keyboard_bindings_file = Path(
+            self.current_profile_path, "keyboard_bindings.json"
+        )
         logger.info(f"Writing keyboard bindings file {keyboard_bindings_file}")
 
-        with open(keyboard_bindings_file, 'w') as f:
+        with open(keyboard_bindings_file, "w") as f:
             out_json = dict(sorted(self.keyboard_bindings.items()))
-            json.dump(out_json, f, indent=4, separators=(', ', ': '))
+            json.dump(out_json, f, indent=4, separators=(", ", ": "))
 
     # ---------------------------------------------------------------------------- #
     def apply_all(self):

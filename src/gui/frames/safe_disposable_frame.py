@@ -4,7 +4,6 @@ import customtkinter
 
 
 class SafeDisposableFrame(customtkinter.CTkFrame):
-
     def __init__(self, master, logger_name: str = "", **kwargs):
         super().__init__(master, **kwargs)
         self.is_active = False
@@ -29,5 +28,3 @@ class SafeDisposableFrame(customtkinter.CTkFrame):
         self.canvas_im = None
         self.new_photo = None
         self.placeholder_im = None
-
-

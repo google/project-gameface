@@ -1,2 +1,2 @@
-__all__ = ['FaceMesh']
+__all__ = ["FaceMesh"]
 from .facemesh import FaceMesh

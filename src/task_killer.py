@@ -11,8 +11,7 @@ logger = logging.getLogger("TaskKiller")
 
 
 class TaskKiller(metaclass=Singleton):
-    """Singleton class for softly killing the process and freeing the memory
-    """
+    """Singleton class for softly killing the process and freeing the memory"""
 
     def __init__(self):
         logger.info("Initialize TaskKiller singleton")
@@ -25,16 +24,20 @@ class TaskKiller(metaclass=Singleton):
 
             # Start singletons
             from src.config_manager import ConfigManager
+
             ConfigManager().start()
 
             from src.camera_manager import CameraManager
+
             CameraManager().start()
 
             from src.controllers import Keybinder, MouseController
+
             MouseController().start()
             Keybinder().start()
 
             from src.detectors import FaceMesh
+
             FaceMesh().start()
 
             self.is_started = True
@@ -58,7 +61,6 @@ class TaskKiller(metaclass=Singleton):
         logging.info(f"Kill {parent}, {children}")
         for c in children:
             try:
-
                 c.send_signal(signal.SIGTERM)
             except psutil.NoSuchProcess:
                 pass

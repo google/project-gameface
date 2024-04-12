@@ -8,7 +8,9 @@ import customtkinter
 from PIL import Image
 
 from src.config_manager import ConfigManager
-from src.gui.frames.safe_disposable_scrollable_frame import SafeDisposableScrollableFrame
+from src.gui.frames.safe_disposable_scrollable_frame import (
+    SafeDisposableScrollableFrame,
+)
 from src.task_killer import TaskKiller
 
 logger = logging.getLogger("FrameProfileEditor")
@@ -34,7 +36,6 @@ def random_name(row):
 
 
 class ItemProfileEditor(SafeDisposableScrollableFrame):
-
     def __init__(
         self,
         owner_frame,
@@ -42,7 +43,6 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         main_gui_callback,
         **kwargs,
     ):
-
         super().__init__(top_level, **kwargs)
         self.main_gui_callback = main_gui_callback
         self.is_active = False
@@ -52,18 +52,18 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         self.edit_image = customtkinter.CTkImage(
             Image.open("assets/images/rename.png").resize(EDIT_ICON_SIZE),
-            size=EDIT_ICON_SIZE)
+            size=EDIT_ICON_SIZE,
+        )
 
         self.bin_image = customtkinter.CTkImage(
             Image.open("assets/images/bin.png").resize(BIN_ICON_SIZE),
-            size=BIN_ICON_SIZE)
+            size=BIN_ICON_SIZE,
+        )
 
         self.divs = self.load_initial_profiles()
 
-
     def load_initial_profiles(self):
-        """Create div according to profiles in config
-        """
+        """Create div according to profiles in config"""
         profile_names = ConfigManager().list_profile()
 
         divs = {}
@@ -78,8 +78,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         return divs
 
     def get_div_id(self, profile_name: str):
-        """Get div unique id from profile name
-        """
+        """Get div unique id from profile name"""
         for div_id, div in self.divs.items():
             if div["profile_name"] == profile_name:
                 return div_id
@@ -92,8 +91,8 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         for widget in div.values():
             if isinstance(
-                    widget, customtkinter.windows.widgets.core_widget_classes.
-                    CTkBaseClass):
+                widget, customtkinter.windows.widgets.core_widget_classes.CTkBaseClass
+            ):
                 widget.grid_forget()
                 widget.destroy()
         self.refresh_scrollbar()
@@ -104,15 +103,12 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         self.divs = {}
 
     def refresh_frame(self):
-        """Refresh the divs if profile directory has changed
-        """
+        """Refresh the divs if profile directory has changed"""
 
         logger.info("Refresh frame_profile")
 
         # Check if folders same as divs
         name_list = [div["profile_name"] for _, div in self.divs.items()]
-
-        
 
         if set(ConfigManager().list_profile()) == set(name_list):
             return
@@ -126,10 +122,8 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         # Check if selected profile exist
         new_name_list = [div["profile_name"] for _, div in self.divs.items()]
         if current_profile not in new_name_list:
-            logger.critical(
-                f"Profile {current_profile} not found in {new_name_list}")
+            logger.critical(f"Profile {current_profile} not found in {new_name_list}")
             TaskKiller().exit()
-
 
         self.refresh_scrollbar()
         logger.info(f"Current selected profile {current_profile}")
@@ -142,16 +136,14 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
             hdiv["edit_button"].grid_remove()
 
         div["is_editing"] = True
-        div["entry"].configure(state="normal",
-                               border_width=2,
-                               border_color=LIGHT_GREEN,
-                               fg_color="white")
+        div["entry"].configure(
+            state="normal", border_width=2, border_color=LIGHT_GREEN, fg_color="white"
+        )
         div["entry"].focus_set()
         div["entry"].icursor("end")
 
-
     def check_profile_name_valid(self, div, var, index, mode):
-        pattern = re.compile(r'^[a-zA-Z0-9_-]+$')
+        pattern = re.compile(r"^[a-zA-Z0-9_-]+$")
         is_valid_input = bool(pattern.match(div["entry_var"].get()))
 
         # Change border color
@@ -163,7 +155,6 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         return is_valid_input
 
     def finish_rename(self, div, event):
-
         if not self.check_profile_name_valid(div, None, None, None):
             logger.warning("Invalid profile name")
             return
@@ -172,8 +163,7 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
         div["entry"].configure(state="disabled", border_width=0)
 
-        ConfigManager().rename_profile(div["profile_name"],
-                                       div["entry_var"].get())
+        ConfigManager().rename_profile(div["profile_name"], div["entry_var"].get())
 
         div["profile_name"] = div["entry_var"].get()
 
@@ -198,84 +188,86 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
 
     def create_div(self, row: int, div_id: str, profile_name) -> dict:
         # Box wrapper
-        wrap_label = customtkinter.CTkLabel(self,
-                                            text="",
-                                            height=54,
-                                            fg_color="white",
-                                            corner_radius=10)
+        wrap_label = customtkinter.CTkLabel(
+            self, text="", height=54, fg_color="white", corner_radius=10
+        )
         wrap_label.grid(row=row, column=0, padx=10, pady=4, sticky="new")
 
         # Edit button
         if profile_name != BACKUP_PROFILE_NAME:
-            edit_button = customtkinter.CTkButton(self,
-                                                  text="",
-                                                  width=20,
-                                                  border_width=0,
-                                                  corner_radius=0,
-                                                  image=self.edit_image,
-                                                  hover=False,
-                                                  compound="right",
-                                                  fg_color="transparent",
-                                                  anchor="e",
-                                                  command=None)
+            edit_button = customtkinter.CTkButton(
+                self,
+                text="",
+                width=20,
+                border_width=0,
+                corner_radius=0,
+                image=self.edit_image,
+                hover=False,
+                compound="right",
+                fg_color="transparent",
+                anchor="e",
+                command=None,
+            )
 
-            edit_button.grid(row=row,
-                             column=0,
-                             padx=(0, 55),
-                             pady=(20, 0),
-                             sticky="ne",
-                             columnspan=10,
-                             rowspan=10)
+            edit_button.grid(
+                row=row,
+                column=0,
+                padx=(0, 55),
+                pady=(20, 0),
+                sticky="ne",
+                columnspan=10,
+                rowspan=10,
+            )
         else:
             edit_button = None
 
         # Bin button
         if profile_name != BACKUP_PROFILE_NAME:
-            bin_button = customtkinter.CTkButton(self,
-                                                 text="",
-                                                 width=20,
-                                                 border_width=0,
-                                                 corner_radius=0,
-                                                 image=self.bin_image,
-                                                 hover=False,
-                                                 compound="right",
-                                                 fg_color="transparent",
-                                                 anchor="e",
-                                                 command=None)
+            bin_button = customtkinter.CTkButton(
+                self,
+                text="",
+                width=20,
+                border_width=0,
+                corner_radius=0,
+                image=self.bin_image,
+                hover=False,
+                compound="right",
+                fg_color="transparent",
+                anchor="e",
+                command=None,
+            )
 
-            bin_button.grid(row=row,
-                            column=0,
-                            padx=(0, 20),
-                            pady=(20, 0),
-                            sticky="ne",
-                            columnspan=10,
-                            rowspan=10)
+            bin_button.grid(
+                row=row,
+                column=0,
+                padx=(0, 20),
+                pady=(20, 0),
+                sticky="ne",
+                columnspan=10,
+                rowspan=10,
+            )
         else:
             bin_button = None
 
         # Entry
         entry_var = tk.StringVar()
         entry_var.set(profile_name)
-        entry = customtkinter.CTkEntry(self,
-                                       textvariable=entry_var,
-                                       placeholder_text="",
-                                       width=170,
-                                       height=30,
-                                       corner_radius=0,
-                                       state="disabled",
-                                       border_width=0,
-                                       insertborderwidth=0,
-                                       fg_color="white")
+        entry = customtkinter.CTkEntry(
+            self,
+            textvariable=entry_var,
+            placeholder_text="",
+            width=170,
+            height=30,
+            corner_radius=0,
+            state="disabled",
+            border_width=0,
+            insertborderwidth=0,
+            fg_color="white",
+        )
         entry.cget("font").configure(size=16)
-        entry.grid(row=row,
-                   column=0,
-                   padx=20,
-                   pady=20,
-                   ipadx=10,
-                   ipady=0,
-                   sticky="nw")
+        entry.grid(row=row, column=0, padx=20, pady=20, ipadx=10, ipady=0, sticky="nw")
 
-        sep = tk.ttk.Separator(wrap_label, orient='horizontal')
+        sep = tk.ttk.Separator(wrap_label, orient="horizontal")
         sep.grid(row=row, column=0, padx=0, pady=0, sticky="sew")
 
         div = {
@@ -286,21 +278,18 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
             "entry_var": entry_var,
             "edit_button": edit_button,
             "bin_button": bin_button,
-            "is_editing": False
+            "is_editing": False,
         }
 
         # Bin button :  remove div function
         if bin_button is not None:
-            bin_button.configure(
-                command=partial(self.remove_button_callback, div))
+            bin_button.configure(command=partial(self.remove_button_callback, div))
 
         # Edit button : rename profile function
         if edit_button is not None:
-            edit_button.configure(
-                command=partial(self.rename_button_callback, div))
-        entry_var.trace(
-            "w", partial(self.check_profile_name_valid, div))
-        entry.bind('<Return>', command=partial(self.finish_rename, div))
+            edit_button.configure(command=partial(self.rename_button_callback, div))
+        entry_var.trace("w", partial(self.check_profile_name_valid, div))
+        entry.bind("<Return>", command=partial(self.finish_rename, div))
 
         return div
 
@@ -313,21 +302,19 @@ class ItemProfileEditor(SafeDisposableScrollableFrame):
         super().leave()
 
 
-class FrameProfileEditor():
-
+class FrameProfileEditor:
     def __init__(self, root_window, main_gui_callback: callable, **kwargs):
-
         self.root_window = root_window
         self.main_gui_callback = main_gui_callback
         self.float_window = customtkinter.CTkToplevel(root_window)
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
         self.float_window.wm_attributes("-disabled", True)
-        self.float_window.wm_attributes('-toolwindow', 'True')
+        self.float_window.wm_attributes("-toolwindow", "True")
         self.float_window.grid_rowconfigure(3, weight=1)
         self.float_window.grid_columnconfigure(0, weight=1)
         self.float_window.configure(fg_color="white")
-        #self.float_window.attributes('-topmost', True)
+        # self.float_window.attributes('-topmost', True)
         self.float_window.geometry(
             f"{POPUP_SIZE[0]}x{POPUP_SIZE[1]}+{POPUP_OFFSET[0]}+{POPUP_OFFSET[1]}"
         )
@@ -338,72 +325,71 @@ class FrameProfileEditor():
         self.shadow_window.wm_attributes("-alpha", 0.7)
         self.shadow_window.wm_overrideredirect(True)
         self.shadow_window.lift()
-        self.shadow_window.wm_attributes('-toolwindow', 'True')
-        #self.shadow_window.attributes('-topmost', True)
+        self.shadow_window.wm_attributes("-toolwindow", "True")
+        # self.shadow_window.attributes('-topmost', True)
         self.shadow_window.geometry(
             f"{self.root_window.winfo_width()}x{self.root_window.winfo_height()}"
         )
 
         # Label
-        top_label = customtkinter.CTkLabel(master=self.float_window,
-                                           text="User profiles")
+        top_label = customtkinter.CTkLabel(
+            master=self.float_window, text="User profiles"
+        )
         top_label.cget("font").configure(size=24)
-        top_label.grid(row=0,
-                       column=0,
-                       padx=20,
-                       pady=20,
-                       sticky="nw",
-                       columnspan=1)
+        top_label.grid(row=0, column=0, padx=20, pady=20, sticky="nw", columnspan=1)
 
         # Description label
         des_label = customtkinter.CTkLabel(
             master=self.float_window,
-            text=
-            "With profile manager you can create and manage multiple profiles for each usage, so that you can easily switch between them.",
+            text="With profile manager you can create and manage multiple profiles for each usage, so that you can easily switch between them.",
             wraplength=300,
-            justify=tk.LEFT)
+            justify=tk.LEFT,
+        )
         des_label.cget("font").configure(size=14)
         des_label.grid(row=1, column=0, padx=20, pady=10, sticky="nw")
 
         # Close button
         self.close_icon = customtkinter.CTkImage(
             Image.open("assets/images/close.png").resize(CLOSE_ICON_SIZE),
-            size=CLOSE_ICON_SIZE)
+            size=CLOSE_ICON_SIZE,
+        )
 
-        close_btn = customtkinter.CTkButton(master=self.float_window,
-                                            text="",
-                                            image=self.close_icon,
-                                            fg_color="white",
-                                            hover_color="white",
-                                            border_width=0,
-                                            corner_radius=4,
-                                            width=24,
-                                            command=self.hide_window)
-        close_btn.grid(row=0,
-                       column=0,
-                       padx=10,
-                       pady=10,
-                       sticky="ne",
-                       columnspan=1,
-                       rowspan=1)
+        close_btn = customtkinter.CTkButton(
+            master=self.float_window,
+            text="",
+            image=self.close_icon,
+            fg_color="white",
+            hover_color="white",
+            border_width=0,
+            corner_radius=4,
+            width=24,
+            command=self.hide_window,
+        )
+        close_btn.grid(
+            row=0, column=0, padx=10, pady=10, sticky="ne", columnspan=1, rowspan=1
+        )
 
         # Add  button
         add_prof_image = customtkinter.CTkImage(
-            Image.open("assets/images/add_prof.png"), size=(16, 12))
-        add_button = customtkinter.CTkButton(master=self.float_window,
-                                             text="Add profile",
-                                             image=add_prof_image,
-                                             fg_color="white",
-                                             width=100,
-                                             text_color=DARK_BLUE,
-                                             command=self.add_button_callback)
+            Image.open("assets/images/add_prof.png"), size=(16, 12)
+        )
+        add_button = customtkinter.CTkButton(
+            master=self.float_window,
+            text="Add profile",
+            image=add_prof_image,
+            fg_color="white",
+            width=100,
+            text_color=DARK_BLUE,
+            command=self.add_button_callback,
+        )
         add_button.grid(row=2, column=0, padx=15, pady=5, sticky="nw")
 
         # Inner scrollable frame
         self.inner_frame = ItemProfileEditor(
             owner_frame=self,
             top_level=self.float_window,
-            main_gui_callback=main_gui_callback)
+            main_gui_callback=main_gui_callback,
+        )
         self.inner_frame.grid(row=3, column=0, padx=5, pady=5, sticky="nswe")
 
         self._displayed = True
@@ -416,14 +402,12 @@ class FrameProfileEditor():
         self.inner_frame.refresh_frame()
 
     def lift_window(self, event):
-        """Lift windows when root window get focus
-        """
+        """Lift windows when root window get focus"""
         self.shadow_window.lift()
         self.float_window.lift()
 
     def follow_window(self, event):
-        """Move profile window when root window is moved
-        """
+        """Move profile window when root window is moved"""
         if self.prev_event is None:
             self.prev_event = event
 
@@ -436,7 +420,8 @@ class FrameProfileEditor():
         shift_x = self.root_window.winfo_rootx()
         shift_y = self.root_window.winfo_rooty()
         self.float_window.geometry(
-            f"+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}")
+            f"+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}"
+        )
         self.shadow_window.geometry(f"+{shift_x}+{shift_y}")
         self.prev_event = event
 
@@ -467,31 +452,30 @@ class FrameProfileEditor():
             self.shadow_window.geometry(f"+{shift_x}+{shift_y}")
             self.shadow_window.deiconify()
             self.shadow_window.lift()
-            self.shadow_window.wm_attributes('-disabled', True)
+            self.shadow_window.wm_attributes("-disabled", True)
 
             # Popup
             self.float_window.geometry(
-                f"+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}")
+                f"+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}"
+            )
             self.float_window.deiconify()
             self.float_window.lift()
-            self.float_window.wm_attributes('-disabled', False)
+            self.float_window.wm_attributes("-disabled", False)
             self._displayed = True
 
     def hide_window(self, event=None):
-
         if self._displayed:
-
             self.root_window.unbind_all("<Configure>")
             self.root_window.unbind_all("<FocusIn>")
 
             logger.info("hide")
-            self.float_window.wm_attributes('-disabled', True)
+            self.float_window.wm_attributes("-disabled", True)
             self._displayed = False
 
             self.float_window.withdraw()
             self.shadow_window.withdraw()
 
-    def enter(self):    
+    def enter(self):
         self.inner_frame.enter()
         self.show_window()
         logger.info("enter")

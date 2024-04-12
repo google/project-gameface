@@ -6,12 +6,10 @@ from src.detectors import FaceMesh
 
 
 class Pipeline:
-
     def __init__(self):
         logging.info("Init Pipeline")
 
     def pipeline_tick(self) -> None:
-
         frame_rgb = CameraManager().get_raw_frame()
 
         # Detect landmarks (async) and save in its buffer
@@ -19,7 +17,7 @@ class Pipeline:
 
         # Get facial landmarks
         landmarks = FaceMesh().get_landmarks()
-        if (landmarks is None):
+        if landmarks is None:
             CameraManager().draw_overlay(tracking_location=None)
             return
 

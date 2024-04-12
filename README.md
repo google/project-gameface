@@ -109,3 +109,7 @@ gesture_name: [device_name, action_name, threshold, trigger_type]
 
 1. Install [inno6](https://jrsoftware.org/isdl.php#stable)
 2. Build using the `installer.iss` file  
+
+# Attribution
+Blink graphics in the user interface are based on
+[Eye icons created by Kiranshastry - Flaticon](https://www.flaticon.com/free-icons/eye).

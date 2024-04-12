@@ -23,7 +23,6 @@ N_BUFFER = 100
 
 
 class MouseController(metaclass=Singleton):
-
     def __init__(self):
         self.screen_h = None
         self.screen_w = None
@@ -88,8 +87,7 @@ class MouseController(metaclass=Singleton):
         self.current_tracking_location = tracking_location
 
     def main_loop(self) -> None:
-        """ Separate thread for mouse controller          
-        """
+        """Separate thread for mouse controller"""
 
         if self.is_destroyed:
             return
@@ -104,7 +102,8 @@ class MouseController(metaclass=Singleton):
 
             # Get latest x, y and smooth.
             smooth_px, smooth_py = utils.apply_smoothing(
-                self.buffer, self.smooth_kernel)
+                self.buffer, self.smooth_kernel
+            )
 
             vel_x = smooth_px - self.prev_x
             vel_y = smooth_py - self.prev_y

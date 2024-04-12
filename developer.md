@@ -49,3 +49,56 @@ Follow these instructions to get started as a developer for this project.
 
 The program should start. Its print logging should appear in the terminal or
 Powershell session.
+
+# Tips for Git on Windows
+Git for Windows can be installed with winget as described here.  
+[git-scm.com/download/win](https://git-scm.com/download/win)
+
+You can activate OpenSSH in Windows 10 as described here.  
+[stackoverflow.com/a/40720527/7657675](https://stackoverflow.com/a/40720527/7657675)
+
+You can then set up a private key for GitHub authentication and configure SSH in
+the usual way, by creating a `.ssh` sub-directory under your `users` directory,
+for example `C:\Users\Jim\.ssh`. For example, you could create a `config` file
+there with these settings.
+
+    Host github.com
+        IdentityFile ~/.ssh/<file you created with ssh-keygen here>
+        User <Your GitHub username here>
+
+    Host *
+        AddKeysToAgent yes
+
+That will cause the SSH identity you use for GitHub to be loaded in the agent so
+you don't have to retype the private key passcode every time.
+
+You can discover the OpenSSH executable path by running a Powershell command
+like this.
+
+    gcm ssh
+
+The output could be like this (spaces have been compressed).
+
+    CommandType     Name         Version    Source
+    -----------     ----         -------    ------
+    Application     ssh-add.exe  8.1.0.1    C:\Windows\System32\OpenSSH\ssh.exe
+
+You can configure Git to use OpenSSH in the current Powershell session by
+setting an environment variable, like this.
+
+    $env:GIT_SSH = "C:\Windows\System32\OpenSSH\ssh.exe"
+
+You can configure Git to use OpenSSH in all your future Powershell sessions by
+configuring a permanent environment variable, like this.
+
+    [Environment]::SetEnvironmentVariable(
+        "GIT_SSH", "C:\Windows\System32\OpenSSH\ssh.exe", "User")
+
+TOTH [stackoverflow.com/a/55389713/7657675](https://stackoverflow.com/a/55389713/7657675)  
+Looks like you have to exit the Powershell session in which you ran that
+command for it to take effect.
+
+You can check the value has been set by printing all environment variables. To
+do that run a command like this.
+
+    get-childitem env:

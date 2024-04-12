@@ -26,11 +26,7 @@ MEDIUM_BLUE = "#D0E1F9"
 DARK_BLUE = "#1A73E8"
 BACKUP_PROFILE_NAME = "default"
 
-DIV_COLORS = {
-    "default": "white",
-    "hovering": LIGHT_BLUE,
-    "selected": MEDIUM_BLUE
-}
+DIV_COLORS = {"default": "white", "hovering": LIGHT_BLUE, "selected": MEDIUM_BLUE}
 
 
 def random_name(row):
@@ -38,7 +34,6 @@ def random_name(row):
 
 
 class ItemProfileSwitcher(SafeDisposableFrame):
-
     def __init__(
         self,
         owner_frame,
@@ -46,7 +41,6 @@ class ItemProfileSwitcher(SafeDisposableFrame):
         main_gui_callback,
         **kwargs,
     ):
-
         super().__init__(top_level, **kwargs)
         self.owner_frame = owner_frame
         self.main_gui_callback = main_gui_callback
@@ -63,13 +57,12 @@ class ItemProfileSwitcher(SafeDisposableFrame):
         self.configure(border_color="gray60")
         self.configure(fg_color="transparent")
         self.configure(bg_color="transparent")
-        self.configure(background_corner_colors=[
-            "#000000", "#000000", "#000000", "#000000"
-        ])
+        self.configure(
+            background_corner_colors=["#000000", "#000000", "#000000", "#000000"]
+        )
 
     def load_initial_profiles(self):
-        """Create div according to profiles in config
-        """
+        """Create div according to profiles in config"""
         profile_names = ConfigManager().list_profile()
 
         divs = {}
@@ -84,26 +77,22 @@ class ItemProfileSwitcher(SafeDisposableFrame):
             row += 1
 
         # Create add profile button
-        drop_add_div_id = random_name(row )
+        drop_add_div_id = random_name(row)
         addp_div = self.create_add_profiles_div(row, drop_add_div_id)
         addp_div["wrap_label"].grid()
         divs[drop_add_div_id] = addp_div
-        row += 1  
+        row += 1
 
         # Create edit profile button
         edit_div_id = random_name(row)
         edit_div = self.create_edit_profiles_div(row, edit_div_id)
         edit_div["wrap_label"].grid()
         divs[edit_div_id] = edit_div
-        
 
         return divs
-    
-
 
     def get_div_id(self, profile_name: str):
-        """Get div unique id from profile name
-        """
+        """Get div unique id from profile name"""
         for div_id, div in self.divs.items():
             if div["profile_name"] == profile_name:
                 return div_id
@@ -132,23 +121,19 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
         div["is_hovering"] = False
 
-
- 
-
     def remove_div(self, div_name):
         logger.info(f"Remove {div_name}")
         div = self.divs[div_name]
 
         for widget in div.values():
             if isinstance(
-                    widget, customtkinter.windows.widgets.core_widget_classes.
-                    CTkBaseClass):
+                widget, customtkinter.windows.widgets.core_widget_classes.CTkBaseClass
+            ):
                 widget.grid_forget()
                 widget.destroy()
 
     def refresh_frame(self):
-        """Refresh the divs if profile directory has changed
-        """
+        """Refresh the divs if profile directory has changed"""
 
         logger.info("Refresh frame_profile")
 
@@ -191,55 +176,53 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
     def create_div(self, row: int, div_id: str, profile_name) -> dict:
         prefix_icon = customtkinter.CTkImage(
-            Image.open("assets/images/proj_icon_blank.png"),
-            size=PREFIX_ICON_SIZE)
+            Image.open("assets/images/proj_icon_blank.png"), size=PREFIX_ICON_SIZE
+        )
 
         # Box
         entry_var = tk.StringVar()
         entry_var.set(profile_name)
-        wrap_label = customtkinter.CTkLabel(self,
-                                            text="",
-                                            textvariable=entry_var,
-                                            height=40,
-                                            image=prefix_icon,
-                                            compound="left",
-                                            anchor="w",
-                                            cursor="hand2",
-                                            fg_color="white",
-                                            corner_radius=0)
+        wrap_label = customtkinter.CTkLabel(
+            self,
+            text="",
+            textvariable=entry_var,
+            height=40,
+            image=prefix_icon,
+            compound="left",
+            anchor="w",
+            cursor="hand2",
+            fg_color="white",
+            corner_radius=0,
+        )
 
         top_pad = TOP_PAD if row == 0 else 0
-        wrap_label.grid(row=row,
-                        column=0,
-                        padx=(1, 2),
-                        pady=(top_pad, 0),
-                        ipadx=0,
-                        ipady=0,
-                        sticky="new")
+        wrap_label.grid(
+            row=row,
+            column=0,
+            padx=(1, 2),
+            pady=(top_pad, 0),
+            ipadx=0,
+            ipady=0,
+            sticky="new",
+        )
 
-        sep = tk.ttk.Separator(wrap_label, orient='horizontal')
-        sep.grid(row=row,
-                 column=0,
-                 padx=0,
-                 pady=0,
-                 ipadx=0,
-                 ipady=0,
-                 sticky="sew")
+        sep = tk.ttk.Separator(wrap_label, orient="horizontal")
+        sep.grid(row=row, column=0, padx=0, pady=0, ipadx=0, ipady=0, sticky="sew")
 
         div = {
             "div_id": div_id,
             "profile_name": profile_name,
             "wrap_label": wrap_label,
             "entry_var": entry_var,
-            "is_hovering": False
+            "is_hovering": False,
         }
 
         # Hover effect
         for widget in [wrap_label]:
             if widget is None:
                 continue
-            widget.bind('<Enter>', partial(self.hover_enter, div))
-            widget.bind('<Leave>', partial(self.hover_leave, div))
+            widget.bind("<Enter>", partial(self.hover_enter, div))
+            widget.bind("<Leave>", partial(self.hover_leave, div))
 
         # Click label : swap profile function
         for widget in [wrap_label]:
@@ -249,42 +232,47 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
     def create_edit_profiles_div(self, row: int, div_id: str) -> dict:
         prefix_icon = customtkinter.CTkImage(
-            Image.open("assets/images/edit.png"), size=PREFIX_ICON_SIZE)
+            Image.open("assets/images/edit.png"), size=PREFIX_ICON_SIZE
+        )
 
         # Box
-        wrap_label = customtkinter.CTkLabel(self,
-                                            text="Manage Profiles",
-                                            height=40,
-                                            image=prefix_icon,
-                                            compound="left",
-                                            justify="left",
-                                            anchor="w",
-                                            cursor="hand2",
-                                            fg_color="white",
-                                            corner_radius=0)
+        wrap_label = customtkinter.CTkLabel(
+            self,
+            text="Manage Profiles",
+            height=40,
+            image=prefix_icon,
+            compound="left",
+            justify="left",
+            anchor="w",
+            cursor="hand2",
+            fg_color="white",
+            corner_radius=0,
+        )
 
         top_pad = TOP_PAD if row == 0 else 0
-        wrap_label.grid(row=row,
-                        column=0,
-                        padx=(1, 2),
-                        pady=(top_pad, 0),
-                        ipadx=0,
-                        ipady=0,
-                        sticky="new")
+        wrap_label.grid(
+            row=row,
+            column=0,
+            padx=(1, 2),
+            pady=(top_pad, 0),
+            ipadx=0,
+            ipady=0,
+            sticky="new",
+        )
 
         div = {
             "div_id": div_id,
             "profile_name": "Manage Profiles",
             "wrap_label": wrap_label,
-            "is_hovering": False
+            "is_hovering": False,
         }
 
         # Hover effect
         for widget in [wrap_label]:
             if widget is None:
                 continue
-            widget.bind('<Enter>', partial(self.hover_enter, div))
-            widget.bind('<Leave>', partial(self.hover_leave, div))
+            widget.bind("<Enter>", partial(self.hover_enter, div))
+            widget.bind("<Leave>", partial(self.hover_leave, div))
 
         # Click label : swap profile function
         for widget in [wrap_label]:
@@ -294,42 +282,47 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
     def create_add_profiles_div(self, row: int, div_id: str) -> dict:
         prefix_icon = customtkinter.CTkImage(
-            Image.open("assets/images/add_drop.png"), size=PREFIX_ICON_SIZE)
+            Image.open("assets/images/add_drop.png"), size=PREFIX_ICON_SIZE
+        )
 
         # Box
-        wrap_label = customtkinter.CTkLabel(self,
-                                            text="Add Profile",
-                                            height=40,
-                                            image=prefix_icon,
-                                            compound="left",
-                                            justify="left",
-                                            anchor="w",
-                                            cursor="hand2",
-                                            fg_color="white",
-                                            corner_radius=0)
+        wrap_label = customtkinter.CTkLabel(
+            self,
+            text="Add Profile",
+            height=40,
+            image=prefix_icon,
+            compound="left",
+            justify="left",
+            anchor="w",
+            cursor="hand2",
+            fg_color="white",
+            corner_radius=0,
+        )
 
         top_pad = TOP_PAD if row == 0 else 0
-        wrap_label.grid(row=row,
-                        column=0,
-                        padx=(1, 2),
-                        pady=(top_pad, 0),
-                        ipadx=0,
-                        ipady=0,
-                        sticky="new")
+        wrap_label.grid(
+            row=row,
+            column=0,
+            padx=(1, 2),
+            pady=(top_pad, 0),
+            ipadx=0,
+            ipady=0,
+            sticky="new",
+        )
 
         div = {
             "div_id": div_id,
             "profile_name": "Add Profile",
             "wrap_label": wrap_label,
-            "is_hovering": False
+            "is_hovering": False,
         }
 
         # Hover effect
         for widget in [wrap_label]:
             if widget is None:
                 continue
-            widget.bind('<Enter>', partial(self.hover_enter, div))
-            widget.bind('<Leave>', partial(self.hover_leave, div))
+            widget.bind("<Enter>", partial(self.hover_enter, div))
+            widget.bind("<Leave>", partial(self.hover_leave, div))
 
         # Click label : swap profile function
         for widget in [wrap_label]:
@@ -337,33 +330,29 @@ class ItemProfileSwitcher(SafeDisposableFrame):
 
         return div
 
-
     def enter(self):
-        super().enter()        
+        super().enter()
         self.refresh_frame()
-      
 
     def leave(self):
         super().leave()
 
 
-class FrameProfileSwitcher():
-
+class FrameProfileSwitcher:
     def __init__(self, root_window, main_gui_callback: callable, **kwargs):
-
         self.root_window = root_window
         self.main_gui_callback = main_gui_callback
         self.float_window = customtkinter.CTkToplevel(root_window)
         self.float_window.wm_overrideredirect(True)
         self.float_window.lift()
         self.float_window.wm_attributes("-disabled", True)
-        self.float_window.wm_attributes('-toolwindow', 'True')
+        self.float_window.wm_attributes("-toolwindow", "True")
         self.float_window.grid_rowconfigure(3, weight=1)
         self.float_window.grid_columnconfigure(0, weight=1)
         self.float_window.configure(fg_color="white")
         self._displayed = True
         # Rounded corner
-        self.float_window.config(background='#000000')
+        self.float_window.config(background="#000000")
         self.float_window.attributes("-transparentcolor", "#000000")
 
         # Custom border
@@ -378,7 +367,8 @@ class FrameProfileSwitcher():
         self.inner_frame = ItemProfileSwitcher(
             owner_frame=self,
             top_level=self.float_window,
-            main_gui_callback=main_gui_callback)
+            main_gui_callback=main_gui_callback,
+        )
         self.inner_frame.grid(row=3, column=0, padx=5, pady=5, sticky="nswe")
 
         self.hide_window()
@@ -394,7 +384,6 @@ class FrameProfileSwitcher():
         self.pages["page_keyboard"].refresh_profile()
 
     def show_window(self):
-       
         self.root_window.bind("<Configure>", self.hide_window)
         shift_x = self.root_window.winfo_rootx()
         shift_y = self.root_window.winfo_rooty()
@@ -402,23 +391,21 @@ class FrameProfileSwitcher():
         # Popup
         n_rows = len(ConfigManager().profiles) + 2
 
-       
-
         self.float_window.geometry(
             f"{PROFILE_ITEM_SIZE[0]}x{PROFILE_ITEM_SIZE[1]*n_rows+EXTEND_PAD}+{POPUP_OFFSET[0]+shift_x}+{POPUP_OFFSET[1]+shift_y}"
         )
 
         self.float_window.deiconify()
         self.float_window.lift()
-        self.float_window.wm_attributes('-disabled', False)
+        self.float_window.wm_attributes("-disabled", False)
         self._displayed = True
 
-    def hide_window(self, event=None):        
+    def hide_window(self, event=None):
         if self._displayed:
             logger.info("hide")
             self.root_window.unbind_all("<Configure>")
 
-            self.float_window.wm_attributes('-disabled', True)
+            self.float_window.wm_attributes("-disabled", True)
             self._displayed = False
 
             self.float_window.withdraw()
@@ -427,15 +414,12 @@ class FrameProfileSwitcher():
         self.hide_window()
         self.main_gui_callback("show_profile_editor")
 
-
     def dropdown_add_profile(self, event, **kwargs):
         ConfigManager().add_profile()
         self.inner_frame.refresh_frame()
         self.show_window()
-        
 
     def enter(self):
-       
         # refresh UI
         self.inner_frame.enter()
         self.show_window()

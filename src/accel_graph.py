@@ -3,7 +3,6 @@ import math
 
 
 class AccelGraph(metaclass=abc.ABCMeta):
-
     def __init__(self):
         pass
 
@@ -13,7 +12,6 @@ class AccelGraph(metaclass=abc.ABCMeta):
 
 
 class SigmoidAccel(AccelGraph):
-
     def __init__(self, shift_x=5, slope=0.3, multiply=1.2):
         super().__init__()
         self.shift_x = shift_x

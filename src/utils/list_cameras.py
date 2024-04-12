@@ -11,7 +11,6 @@ logger = logging.getLogger("ListCamera")
 
 
 def __open_camera_task(i):
-
     logger.info(f"Try opening camera: {i}")
 
     try:
@@ -54,9 +53,7 @@ def assign_cameras_unblock(cameras, i):
 
 
 def assign_cameras_queue(cameras, done_callback: callable, max_search: int):
-
     for i in range(max_search):
-
         # block
         ret, _, camera = __open_camera_task(i)
         if not ret:
@@ -68,8 +65,7 @@ def assign_cameras_queue(cameras, done_callback: callable, max_search: int):
 
 
 def open_camera(cameras, i):
-    """For swapping camera
-    """
+    """For swapping camera"""
     pool = futures.ThreadPoolExecutor(max_workers=1)
     pool.submit(assign_cameras_unblock, cameras, i)
 

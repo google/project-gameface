@@ -1,4 +1,10 @@
-__all__ = ['FrameCamPreview', 'FrameMenu', 'FrameProfileEditor', 'FrameProfileSwitcher', 'SafeDisposableFrame']
+__all__ = [
+    "FrameCamPreview",
+    "FrameMenu",
+    "FrameProfileEditor",
+    "FrameProfileSwitcher",
+    "SafeDisposableFrame",
+]
 from .frame_cam_preview import FrameCamPreview
 from .frame_menu import FrameMenu
 from .frame_profile_editor import FrameProfileEditor

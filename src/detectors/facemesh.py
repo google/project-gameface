@@ -26,7 +26,6 @@ np.set_printoptions(precision=2, suppress=True)
 
 
 class FaceMesh(metaclass=Singleton):
-
     def __init__(self):
         self.smooth_kernel = None
         logger.info("Initialize FaceMesh singleton")
@@ -51,16 +50,20 @@ class FaceMesh(metaclass=Singleton):
                 output_facial_transformation_matrixes=True,
                 running_mode=mp.tasks.vision.RunningMode.LIVE_STREAM,
                 num_faces=1,
-                result_callback=self.mp_callback)
+                result_callback=self.mp_callback,
+            )
             self.model = vision.FaceLandmarker.create_from_options(options)
 
             self.calc_smooth_kernel()
 
     def calc_smooth_kernel(self):
         self.smooth_kernel = utils.calc_smooth_kernel(
-            ConfigManager().config["shape_smooth"])
+            ConfigManager().config["shape_smooth"]
+        )
 
-    def calculate_tracking_location(self, mp_result, use_transformation_matrix=False) -> ndarray[Any, dtype[Any]]:
+    def calculate_tracking_location(
+        self, mp_result, use_transformation_matrix=False
+    ) -> ndarray[Any, dtype[Any]]:
         screen_w = ConfigManager().config["fix_width"]
         screen_h = ConfigManager().config["fix_height"]
         landmarks = mp_result.face_landmarks[0]
@@ -93,30 +96,35 @@ class FaceMesh(metaclass=Singleton):
 
         return np.array([x_pixel, y_pixel], np.float32)
 
-    def mp_callback(self, mp_result: FaceLandmarkerResult, output_image: mediapipe_image.Image, timestamp_ms: int) -> None:
-        if len(mp_result.face_landmarks) >= 1 and len(
-                mp_result.face_blendshapes) >= 1:
+    def mp_callback(
+        self,
+        mp_result: FaceLandmarkerResult,
+        output_image: mediapipe_image.Image,
+        timestamp_ms: int,
+    ) -> None:
+        if len(mp_result.face_landmarks) >= 1 and len(mp_result.face_blendshapes) >= 1:
             self.mp_landmarks = mp_result.face_landmarks[0]
             # Point for moving pointer
             self.tracking_location = self.calculate_tracking_location(
                 mp_result,
-                use_transformation_matrix=ConfigManager(
-                ).config["use_transformation_matrix"])
-            self.blendshapes_buffer = np.roll(self.blendshapes_buffer,
-                                              shift=-1,
-                                              axis=0)
+                use_transformation_matrix=ConfigManager().config[
+                    "use_transformation_matrix"
+                ],
+            )
+            self.blendshapes_buffer = np.roll(self.blendshapes_buffer, shift=-1, axis=0)
 
             self.blendshapes_buffer[-1] = np.array(
-                [b.score for b in mp_result.face_blendshapes[0]])
+                [b.score for b in mp_result.face_blendshapes[0]]
+            )
             self.smooth_blendshapes = utils.apply_smoothing(
-                self.blendshapes_buffer, self.smooth_kernel)
+                self.blendshapes_buffer, self.smooth_kernel
+            )
 
         else:
             self.mp_landmarks = None
             self.tracking_location = None
 
     def detect_frame(self, frame_np: npt.ArrayLike):
-
         t_ms = int(time.time() * 1000)
         if t_ms <= self.latest_time_ms:
             return

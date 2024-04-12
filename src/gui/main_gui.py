@@ -4,7 +4,13 @@ import customtkinter
 from src.gui import frames
 from src.config_manager import ConfigManager
 from src.controllers import Keybinder, MouseController
-from src.gui.pages import PageSelectCamera, PageCursor, PageSelectGestures, PageKeyboard
+from src.gui.pages import (
+    PageSelectCamera,
+    PageCursor,
+    PageSelectGestures,
+    PageKeyboard,
+    PageAbout,
+)
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("assets/themes/google_theme.json")
@@ -12,8 +18,7 @@ customtkinter.set_default_color_theme("assets/themes/google_theme.json")
 logger = logging.getLogger("MainGUi")
 
 
-class MainGui():
-
+class MainGui:
     def __init__(self, tk_root):
         logger.info("Init MainGui")
         super().__init__()
@@ -28,64 +33,60 @@ class MainGui():
         self.tk_root.grid_columnconfigure(1, weight=1)
 
         # Create menu frame and assign callbacks
-        self.frame_menu = frames.FrameMenu(self.tk_root,
-                                           self.root_function_callback,
-                                           height=360,
-                                           width=260,
-                                           logger_name="frame_menu")
-        self.frame_menu.grid(row=0,
-                             column=0,
-                             padx=0,
-                             pady=0,
-                             sticky="nsew",
-                             columnspan=1,
-                             rowspan=3)
+        self.frame_menu = frames.FrameMenu(
+            self.tk_root,
+            self.root_function_callback,
+            height=360,
+            width=260,
+            logger_name="frame_menu",
+        )
+        self.frame_menu.grid(
+            row=0, column=0, padx=0, pady=0, sticky="nsew", columnspan=1, rowspan=3
+        )
 
         # Create Preview frame
-        self.frame_preview = frames.FrameCamPreview(self.tk_root,
-                                                    self.cam_preview_callback,
-                                                    logger_name="frame_preview")
-        self.frame_preview.grid(row=1,
-                                column=0,
-                                padx=0,
-                                pady=0,
-                                sticky="sew",
-                                columnspan=1)
+        self.frame_preview = frames.FrameCamPreview(
+            self.tk_root, self.cam_preview_callback, logger_name="frame_preview"
+        )
+        self.frame_preview.grid(
+            row=1, column=0, padx=0, pady=0, sticky="sew", columnspan=1
+        )
         self.frame_preview.enter()
 
         # Create all wizard pages and grid them.
         self.pages = [
-                PageSelectCamera(
-                    master=self.tk_root,
-                ),
-                PageCursor(
-                    master=self.tk_root,
-                ),
-                PageSelectGestures(
-                    master=self.tk_root,
-                ),
-                PageKeyboard(
-                    master=self.tk_root,
-                )
+            PageSelectCamera(
+                master=self.tk_root,
+            ),
+            PageCursor(
+                master=self.tk_root,
+            ),
+            PageSelectGestures(
+                master=self.tk_root,
+            ),
+            PageKeyboard(
+                master=self.tk_root,
+            ),
+            PageAbout(
+                master=self.tk_root,
+            ),
         ]
 
         self.current_page_name = None
         for page in self.pages:
-            page.grid(row=0,
-                      column=1,
-                      padx=5,
-                      pady=5,
-                      sticky="nsew",
-                      rowspan=2,
-                      columnspan=1)
+            page.grid(
+                row=0, column=1, padx=5, pady=5, sticky="nsew", rowspan=2, columnspan=1
+            )
 
         self.change_page(PageSelectCamera.__name__)
 
         # Profile UI
         self.frame_profile_switcher = frames.FrameProfileSwitcher(
-            self.tk_root, main_gui_callback=self.root_function_callback)
+            self.tk_root, main_gui_callback=self.root_function_callback
+        )
         self.frame_profile_editor = frames.FrameProfileEditor(
-            self.tk_root, main_gui_callback=self.root_function_callback)
+            self.tk_root, main_gui_callback=self.root_function_callback
+        )
 
     def root_function_callback(self, function_name, args: dict = {}, **kwargs):
         logger.info(f"root_function_callback {function_name} with {args}")
@@ -121,7 +122,6 @@ class MainGui():
             MouseController().set_active(False)
 
     def change_page(self, target_page_name: str):
-
         if self.current_page_name == target_page_name:
             return
 

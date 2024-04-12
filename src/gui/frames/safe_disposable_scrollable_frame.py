@@ -4,7 +4,6 @@ import customtkinter
 
 
 class SafeDisposableScrollableFrame(customtkinter.CTkScrollableFrame):
-
     def __init__(self, master, logger_name: str = "", **kwargs):
         super().__init__(master, **kwargs)
         self.is_active = False
