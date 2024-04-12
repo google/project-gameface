@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Grimassist"
-#define MyAppVersion "0.5.0"
+#define MyAppVersion "0.5.1"
 #define MyAppExeName "grimassist.exe"
 
 [Setup]
