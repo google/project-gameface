@@ -28,7 +28,7 @@ from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 logger = logging.getLogger("PageCursor")
 MAX_ROWS = 3
 HELP_ICON_SIZE = (18, 18)
-MAX_HOLD_TRIG = 2000
+MAX_HOLD_TRIG = 5000
 
 
 class FrameSelectGesture(SafeDisposableFrame):
@@ -52,10 +52,10 @@ class FrameSelectGesture(SafeDisposableFrame):
 
         # Slider divs
         self.divs = self.create_divs({
-            "Move up": ["spd_up", "", 1, 100],
-            "Move down": ["spd_down", "", 1, 100],
-            "Move right": ["spd_right", "", 1, 100],
-            "Move left": ["spd_left", "", 1, 100],
+            "Move up": ["spd_up", "", 0, 100],
+            "Move down": ["spd_down", "", 0, 100],
+            "Move right": ["spd_right", "", 0, 100],
+            "Move left": ["spd_left", "", 0, 100],
             "(Advanced) Smooth pointer": [
                 "pointer_smooth",
                 "Controls the smoothness of the\nmouse cursor. Enables the user\nto reduce jitteriness",
@@ -82,7 +82,7 @@ class FrameSelectGesture(SafeDisposableFrame):
 
             cfg_value = int(
                 np.clip(ConfigManager().config[cfg_name],
-                        a_min=1,
+                        a_min=0,
                         a_max=MAX_HOLD_TRIG))
             div["slider"].set(cfg_value)
             # Temporary remove trace, adjust the value and put it back
