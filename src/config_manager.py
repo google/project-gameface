@@ -23,7 +23,7 @@ from pathlib import Path
 from src.singleton_meta import Singleton
 from src.task_killer import TaskKiller
 
-VERSION = "0.3.33"
+VERSION = "0.3.34"
 
 DEFAULT_JSON = Path("configs/default.json")
 BACKUP_PROFILE = Path("configs/default")
