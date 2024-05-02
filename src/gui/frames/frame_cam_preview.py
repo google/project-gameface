@@ -1,16 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import tkinter
 
@@ -19,7 +6,7 @@ from PIL import Image, ImageTk
 
 from src.camera_manager import CameraManager
 from src.config_manager import ConfigManager
-from src.controllers import MouseController
+from src.controllers import Keybinder
 from src.gui.frames.safe_disposable_frame import SafeDisposableFrame
 
 CANVAS_WIDTH = 216
@@ -72,7 +59,7 @@ class FrameCamPreview(SafeDisposableFrame):
             border_color="transparent",
             switch_height=18,
             switch_width=32,
-            variable=MouseController().is_active,
+            variable=Keybinder().is_active,
             command=lambda: master_callback(
                 "toggle_switch", {"switch_status": self.toggle_switch.get()}),
             onvalue=1,
@@ -87,7 +74,7 @@ class FrameCamPreview(SafeDisposableFrame):
                                 pady=5,
                                 sticky="nw")
 
-        # Toggle label
+        # Toggle description label
         self.toggle_label = customtkinter.CTkLabel(
             master=self,
             compound='right',
