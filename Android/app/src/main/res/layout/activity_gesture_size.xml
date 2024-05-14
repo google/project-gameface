@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2024 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gestureSizeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".GestureSizeActivity">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Perform the gesture to adjust the sensitive."
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/cameraBoxPlaceHolder"
+        android:layout_width="333dp"
+        android:layout_height="224dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="#E9F1FC"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"></LinearLayout>
+
+    <TextView
+        android:id="@+id/gestureSizeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Gesture size"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/targetGesture" />
+
+    <TextView
+        android:id="@+id/gestureSizeDescription"
+        android:layout_width="345dp"
+        android:layout_height="64dp"
+        android:lines="3"
+        android:text="When you perform the gesture, it will register below. To find the right sensitivity for you, adjust the slider to match the length of the green line."
+        android:textColor="#868686"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gestureSizeTitle" />
+
+    <ProgressBar
+        android:id="@+id/gestureSizeBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:progressDrawable="@drawable/custom_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gestureSizeDescription" />
+
+    <SeekBar
+        android:id="@+id/gestureSizeSeekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="3dp"
+        android:progressDrawable="@drawable/custom_seekbar"
+        android:thumbTint="#1a73e8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gestureSizeBar" />
+
+    <TextView
+        android:id="@+id/Smaller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/textview_custom"
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:text="Smaller"
+        android:textColor="#444746"
+        app:layout_constraintStart_toStartOf="@+id/gestureSizeSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/gestureSizeSeekBar" />
+
+    <TextView
+        android:id="@+id/Bigger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/textview_custom"
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:text="Bigger"
+        android:textColor="#444746"
+        app:layout_constraintEnd_toEndOf="@+id/gestureSizeSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/gestureSizeSeekBar" />
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_button"
+        android:text="Done"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_button_w"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="#1967d2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/targetGesture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Perform &quot;Open mouth&quot;"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/cameraBoxPlaceHolder"
+        app:layout_constraintStart_toStartOf="@+id/cameraBoxPlaceHolder"
+        app:layout_constraintTop_toBottomOf="@+id/cameraBoxPlaceHolder" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
