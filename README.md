@@ -2,7 +2,7 @@
 Project Gameface helps gamers control their mouse cursor using their head movement and facial gestures.
 
 
-Project Gameface available in two platforms:
+Project Gameface is available on two platforms:
 - [Windows](/Windows/)
 - [Android](/Android/)
 
