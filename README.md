@@ -19,7 +19,7 @@ MediaPipe Face Landmark Detection API [Task Guide](https://developers.google.com
 - Intended users are people who choose to use face-control and head movement for gaming purposes.
 
 # Out-of-Scope Applications
-* This project is not intended for human life-critical decisions 
+* This project is not intended for human life-critical decisions. 
 * Predicted face landmarks do not provide facial recognition or identification and do not store any unique face representation.
 
 
