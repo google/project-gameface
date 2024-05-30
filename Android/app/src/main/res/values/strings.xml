@@ -45,6 +45,23 @@
     </string-array>
 
     <string name="project_name">Project Gameface</string>
+    
+    /**
+    * Common words e.g. buttons
+    **/
+    <string name="button_next">Next</string>
+    <string name="button_back">Back</string>
+
+    <string name="gesture_open_mouth">Open mouth</string>
+    <string name="gesture_mouth_left">Mouth left</string>
+    <string name="gesture_mouth_right">Mouth right</string>
+    <string name="gesture_roll_lower_mouth">Roll lower mouth</string>
+    <string name="gesture_raise_right_eyebrow">Raise right eyebrow</string>
+    <string name="gesture_raise_left_eyebrow">Raise left eyebrow</string>
+    <string name="gesture_lower_right_eyebrow">Lower right eyebrow</string>
+    <string name="gesture_lower_left_eyebrow">Lower left eyebrow</string>
+    <string name="gesture_none">None</string>
+
     <string name="main_use_game_face">Use GameFace</string>
     <string name="main_set_up_gestures">Set up gestures</string>
     <string name="main_set_up_gestures_desc">Select which facial gesture you want to use for each action</string>
@@ -52,12 +69,27 @@
     <string name="main_adjust_cursor_speed_desc">Your cursor will follow your head movement</string>
     <string name="main_watch_tutorial">Watch the tutorial</string>
 
+    <string name="tutorial_first_title">Control your phone with your facial gestures</string>
+    <string name="tutorial_desc">Project Gameface helps you control your phone using facial gestures and head movements. You can learn how to set up gestures in the tutorial video.<
+    <string name="tutorial_video_footer">You can also watch the tutorial anytime after setup</string>
 
+    <string name="tutorial_phone_title">Put your phone in front of you</string>
+    <string name="tutorial_phone_desc">Make sure the camera is stable, with a clear view of your face.</string>
 
+    <string name="choose_gesture_desc">Choose a facial gesture that will select items on your phone, like apps, text, buttons, and more</string>
 
+    <string name="cursor_binding_desc">Choose facial gesture for each action. You can also adjust the gesture's sensitivity.</string>
+    <string name="cursor_binding_item_cursor_touch">Select</string>
+    <string name="cursor_binding_item_home">Home</string>
+    <string name="cursor_binding_item_back">Back</string>
+    <string name="cursor_binding_item_show_notification">Notifications</string>
+    <string name="cursor_binding_item_cursor_pause">Pause / Unpause</string>
+    <string name="cursor_binding_item_cursor_reset">Reset Cursor to center</string>
+    <string name="cursor_binding_item_drag_toggle">Touch and hold</string>
+    <string name="cursor_binding_item_show_apps">All Apps</string>
 
-
-
+    <string name="cursor_binding_button_add">Add</string>
+    <string name="cursor_binding_button_no_binding">No binding</string>
 
 
 </resources>

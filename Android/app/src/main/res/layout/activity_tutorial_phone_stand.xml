@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:text="Put your phone in front of you"
+        android:text="@string/tutorial_phone_title"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/androidImg"
         app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:singleLine="false"
-        android:text="Make sure the camera is stable, with a clear view of your face."
+        android:text="@string/tutorial_phone_desc"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -62,7 +62,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/round_button"
-        android:text="Next"
+        android:text="@string/button_next"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -74,7 +74,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/round_button_w"
-        android:text="Back"
+        android:text="@string/button_back"
         android:textColor="#1967d2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

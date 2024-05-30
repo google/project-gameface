@@ -35,7 +35,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:text="Choose facial gesture for each action. You can also adjust the gesture's sensitivity."
+            android:text="@string/cursor_binding_desc"
             android:textColor="#7A7A7A"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
                 android:id="@id/mouseTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select"
+                android:text="@string/cursor_binding_item_cursor_touch"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/mouseTxt"
                 app:layout_constraintTop_toBottomOf="@+id/mouseTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -111,7 +111,7 @@
                 android:id="@id/homeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="@string/cursor_binding_item_home"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/homeTxt"
                 app:layout_constraintTop_toBottomOf="@+id/homeTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -169,7 +169,7 @@
                 android:id="@id/backTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back"
+                android:text="@string/cursor_binding_item_back"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -210,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/backTxt"
                 app:layout_constraintTop_toBottomOf="@+id/backTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -227,7 +227,7 @@
                 android:id="@id/notificationTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notifications"
+                android:text="@string/cursor_binding_item_show_notification"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -268,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/notificationTxt"
                 app:layout_constraintTop_toBottomOf="@+id/notificationTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -285,7 +285,7 @@
                 android:id="@id/pauseTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pause / Unpause"
+                android:text="@string/cursor_binding_item_cursor_pause"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -316,7 +316,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -326,7 +326,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/pauseTxt"
                 app:layout_constraintTop_toBottomOf="@+id/pauseTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -343,7 +343,7 @@
                 android:id="@id/resetTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reset Cursor to center"
+                android:text="@string/cursor_binding_item_cursor_reset"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -374,7 +374,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -384,7 +384,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/resetTxt"
                 app:layout_constraintTop_toBottomOf="@+id/resetTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -402,7 +402,7 @@
                 android:id="@id/dragTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Touch and hold"
+                android:text="@string/cursor_binding_item_drag_toggle"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -432,7 +432,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -442,7 +442,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/dragTxt"
                 app:layout_constraintTop_toBottomOf="@+id/dragTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -459,7 +459,7 @@
                 android:id="@id/allAppTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All Apps"
+                android:text="@string/cursor_binding_item_show_apps"
                 android:textColor="#3C4043"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -490,7 +490,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
-                    android:text="Add"
+                    android:text="@string/cursor_binding_button_add"
                     android:textStyle="bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -500,7 +500,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#5F6368"
-                android:text="No binding"
+                android:text="@string/cursor_binding_button_no_binding"
                 app:layout_constraintStart_toStartOf="@id/allAppTxt"
                 app:layout_constraintTop_toBottomOf="@+id/allAppTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>

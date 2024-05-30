@@ -30,7 +30,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button"
-        android:text="Next"
+        android:text="@string/button_next"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -42,7 +42,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button_w"
-        android:text="Back"
+        android:text="@string/button_back"
         android:textAllCaps="false"
         android:textColor="#1967d2"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:lines="2"
-        android:text="Choose a facial gesture that will select items on your phone, like apps, text, buttons, and more"
+        android:text="@string/choose_gesture_desc"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Open mouth"
+                        android:text="@string/gesture_open_mouth"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
 
@@ -140,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Mouth left"
+                        android:text="@string/gesture_mouth_left"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -168,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Mouth right"
+                        android:text="@string/gesture_mouth_right"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -195,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Roll lower mouth"
+                        android:text="@string/gesture_roll_lower_mouth"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -223,7 +223,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Raise right eyebrow"
+                        android:text="@string/gesture_raise_right_eyebrow"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -250,7 +250,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Raise left eyebrow"
+                        android:text="@string/gesture_raise_left_eyebrow"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -278,7 +278,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Lower right eyebrow"
+                        android:text="@string/gesture_lower_right_eyebrow"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -305,7 +305,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="Lower left eyebrow"
+                        android:text="@string/gesture_lower_left_eyebrow"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -332,7 +332,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="text_view_gesture_name"
-                        android:text="None"
+                        android:text="@string/gesture_none"
                         android:textColor="#0B57D0"
                         android:textSize="16sp" />
                 </LinearLayout>

@@ -45,6 +45,23 @@
     </string-array>
 
     <string name="project_name">Project Gameface</string>
+
+    /**
+    * Common words e.g. buttons
+    **/
+    <string name="button_next">Next</string>
+    <string name="button_back">Back</string>
+
+    <string name="gesture_open_mouth">Open mouth</string>
+    <string name="gesture_mouth_left">Mouth left</string>
+    <string name="gesture_mouth_right">Mouth right</string>
+    <string name="gesture_roll_lower_mouth">Roll lower mouth</string>
+    <string name="gesture_raise_right_eyebrow">Raise right eyebrow</string>
+    <string name="gesture_raise_left_eyebrow">Raise left eyebrow</string>
+    <string name="gesture_lower_right_eyebrow">Lower right eyebrow</string>
+    <string name="gesture_lower_left_eyebrow">Lower left eyebrow</string>
+    <string name="gesture_none">None</string>
+
     <string name="main_use_game_face">GameFace 사용</string>
     <string name="main_set_up_gestures">제스처 설정</string>
     <string name="main_set_up_gestures_desc">각 동작에 사용할 얼굴 제스처를 선택하세요</string>
@@ -52,13 +69,27 @@
     <string name="main_adjust_cursor_speed_desc">커서는 머리 움직임에 따라 움직입니다</string>
     <string name="main_watch_tutorial">튜토리얼 보기</string>
 
+    <string name="tutorial_first_title">얼굴 제스처로 휴대폰을 조작하세요</string>
+    <string name="tutorial_desc">Project Gameface는 얼굴 제스처와 머리 움직임을 사용하여 휴대폰을 제어하는 데 도움을 줍니다. 튜토리얼 비디오에서 제스처 설정 방법을 배울 수 있습니다.</string>
+    <string name="tutorial_video_footer">설정 후에도 언제든지 튜토리얼을 시청할 수 있습니다</string>
 
+    <string name="tutorial_phone_title">휴대폰을 당신 앞에 두세요</string>
+    <string name="tutorial_phone_desc">카메라가 안정적이고 얼굴이 잘 보이도록 확인하세요.</string>
 
+    <string name="choose_gesture_desc">앱, 텍스트, 버튼 등 휴대폰의 항목을 선택할 얼굴 제스처를 선택하세요</string>
 
+    <string name="cursor_binding_desc">각 동작에 대한 얼굴 제스처를 선택하세요. 제스처의 민감도도 조절할 수 있습니다.</string>
+    <string name="cursor_binding_item_cursor_touch">선택</string>
+    <string name="cursor_binding_item_home">홈</string>
+    <string name="cursor_binding_item_back">뒤로</string>
+    <string name="cursor_binding_item_show_notification">알림</string>
+    <string name="cursor_binding_item_cursor_pause">일시 정지 / 재개</string>
+    <string name="cursor_binding_item_cursor_reset">커서를 중앙으로 재설정</string>
+    <string name="cursor_binding_item_drag_toggle">터치 및 유지</string>
+    <string name="cursor_binding_item_show_apps">모든 앱</string>
 
-
-
-
+    <string name="cursor_binding_button_add">추가</string>
+    <string name="cursor_binding_button_no_binding">바인딩 없음</string>
 
 
 </resources>

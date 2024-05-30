@@ -152,7 +152,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button_w"
-        android:text="Back"
+        android:text="@string/button_back"
         android:textAllCaps="false"
         android:textColor="#1967d2"
         app:layout_constraintBottom_toBottomOf="parent"
