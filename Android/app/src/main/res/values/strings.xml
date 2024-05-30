@@ -44,7 +44,13 @@
 
     </string-array>
 
-
+    <string name="project_name">Project Gameface</string>
+    <string name="main_use_game_face">Use GameFace</string>
+    <string name="main_set_up_gestures">Set up gestures</string>
+    <string name="main_set_up_gestures_desc">Select which facial gesture you want to use for each action</string>
+    <string name="main_adjust_cursor_speed">Adjust cursor speed</string>
+    <string name="main_adjust_cursor_speed_desc">Your cursor will follow your head movement</string>
+    <string name="main_watch_tutorial">Watch the tutorial</string>
 
 
 

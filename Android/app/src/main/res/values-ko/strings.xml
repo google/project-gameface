@@ -1,0 +1,64 @@
+<!--
+ Copyright 2024 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<resources>
+    <string name="app_name">GameFace</string>
+
+
+
+    <string-array name="event_type_description_keys">
+        <item>CURSOR_TOUCH</item>
+        <item>HOME</item>
+        <item>BACK</item>
+        <item>SHOW_NOTIFICATION</item>
+        <item>CURSOR_PAUSE</item>
+        <item>CURSOR_RESET</item>
+        <item>DRAG_TOGGLE</item>
+        <item>SHOW_APPS</item>
+    </string-array>
+
+
+
+    <string-array name="event_type_description_keys_values">
+        <item>앱, 텍스트, 버튼 등을 선택하는 얼굴 제스처를 선택하세요</item>
+        <item>휴대폰의 홈 화면을 여는 얼굴 제스처를 선택하세요</item>
+        <item>이전 화면으로 돌아가는 얼굴 제스처를 선택하세요</item>
+        <item>알림을 여는 얼굴 제스처를 선택하세요</item>
+        <item>커서를 일시 정지하거나 다시 시작하는 얼굴 제스처를 선택하세요</item>
+        <item>커서 위치를 재설정하는 얼굴 제스처를 선택하세요</item>
+        <item>터치 및 홀드(길게 누르기)를 하는 얼굴 제스처를 선택하세요</item>
+        <item>앱 목록을 여는 얼굴 제스처를 선택하세요</item>
+        
+    </string-array>
+
+    <string name="project_name">Project Gameface</string>
+    <string name="main_use_game_face">GameFace 사용</string>
+    <string name="main_set_up_gestures">제스처 설정</string>
+    <string name="main_set_up_gestures_desc">각 동작에 사용할 얼굴 제스처를 선택하세요</string>
+    <string name="main_adjust_cursor_speed">커서 속도 조절</string>
+    <string name="main_adjust_cursor_speed_desc">커서는 머리 움직임에 따라 움직입니다</string>
+    <string name="main_watch_tutorial">튜토리얼 보기</string>
+
+
+
+
+
+
+
+
+
+
+</resources>
