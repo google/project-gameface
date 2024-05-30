@@ -196,7 +196,7 @@
                 android:id="@+id/textDescriptionCursor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="main_adjust_cursor_speed_desc"
+                android:text="@string/main_adjust_cursor_speed_desc"
                 app:layout_constraintEnd_toStartOf="@+id/settingSpeed"
                 app:layout_constraintStart_toStartOf="@+id/cursorTxt"
                 app:layout_constraintTop_toBottomOf="@+id/cursorTxt" />
@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:capitalize="none"
-                android:text="Watch the tutorial"
+                android:text="@string/main_watch_tutorial"
                 android:textAllCaps="false"
                 android:textColor="#0B57D0"
                 app:layout_constraintStart_toEndOf="@+id/questionMark"
