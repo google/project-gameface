@@ -27,7 +27,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grant access"
+        android:text="@string/grant_permission_title"
         android:textSize="24sp"
         android:layout_marginTop="100dp"
         android:layout_marginStart="38dp"
@@ -75,7 +75,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Exit"
+                android:text="@string/button_exit"
                 android:background="@color/white"
                 android:textColor="#1967D2"
                 android:textSize="14sp"/>
@@ -85,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Setting  >"
+                android:text="@string/button_setting_gt"
                 android:background="@color/white"
                 android:textColor="#1967D2"
                 android:textSize="14sp"/>

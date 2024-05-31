@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Perform the gesture to adjust the sensitive."
+        android:text="@string/gesture_size_title"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="16dp"
-        android:text="Gesture size"
+        android:text="@string/gesture_size_title"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/cameraBoxPlaceHolder"
@@ -68,7 +68,7 @@
         android:layout_marginStart="76dp"
         android:layout_marginTop="16dp"
         android:singleLine="false"
-        android:text="Set how prominent your gesture has to be in order to trigger the action."
+        android:text="@string/gesture_size_land_desc"
         android:textColor="#868686"
         app:layout_constraintStart_toEndOf="@+id/cameraBoxPlaceHolder"
         app:layout_constraintTop_toBottomOf="@+id/gestureSizeTitle" />
@@ -113,7 +113,7 @@
         android:paddingTop="4dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        android:text="Smaller"
+        android:text="@string/gesture_size_smaller"
         android:textColor="#444746"
         app:layout_constraintStart_toStartOf="@+id/gestureSizeSeekBar"
         app:layout_constraintTop_toBottomOf="@+id/gestureSizeSeekBar" />
@@ -128,7 +128,7 @@
         android:paddingTop="4dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        android:text="Bigger"
+        android:text="@string/gesture_size_bigger"
         android:textColor="#444746"
         app:layout_constraintEnd_toEndOf="@+id/gestureSizeSeekBar"
         app:layout_constraintTop_toBottomOf="@+id/gestureSizeSeekBar" />
@@ -140,7 +140,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button"
-        android:text="Done"
+        android:text="@string/button_done"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -162,7 +162,7 @@
         android:id="@+id/targetGesture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Perform &quot;Open mouth&quot;"
+        android:text="@string/perform_open_mouth"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/cameraBoxPlaceHolder"
         app:layout_constraintStart_toStartOf="@+id/cameraBoxPlaceHolder"

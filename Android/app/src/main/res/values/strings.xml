@@ -51,6 +51,9 @@
     **/
     <string name="button_next">Next</string>
     <string name="button_back">Back</string>
+    <string name="button_done">Done</string>
+    <string name="button_exit">Exit</string>
+    <string name="button_setting_gt">Setting  &gt;<string>
 
     <string name="gesture_open_mouth">Open mouth</string>
     <string name="gesture_mouth_left">Mouth left</string>
@@ -78,7 +81,7 @@
 
     <string name="choose_gesture_desc">Choose a facial gesture that will select items on your phone, like apps, text, buttons, and more</string>
 
-    <string name="cursor_binding_desc">Choose facial gesture for each action. You can also adjust the gesture's sensitivity.</string>
+    <string name="cursor_binding_desc">Choose facial gesture for each action. You can also adjust the gesture\'s sensitivity.</string>
     <string name="cursor_binding_item_cursor_touch">Select</string>
     <string name="cursor_binding_item_home">Home</string>
     <string name="cursor_binding_item_back">Back</string>
@@ -91,5 +94,25 @@
     <string name="cursor_binding_button_add">Add</string>
     <string name="cursor_binding_button_no_binding">No binding</string>
 
+    <string name="cursor_speed_desc">Your cursor will follow your head movement. You can adjust how quickly your cursor moves in each direction.</string>
+    <string name="cursor_speed_move_up">Move up</string>
+    <string name="cursor_speed_slower">Slower</string>
+    <string name="cursor_speed_faster">Faster</string>
+    <string name="cursor_speed_move_down">Move down</string>
+    <string name="cursor_speed_move_right">Move right</string>
+    <string name="cursor_speed_move_left">Move left</string>
+    <string name="cursor_speed_smooth_pointer">Smooth pointer</string>
+    <string name="cursor_speed_safety_trigger_delay">Safety Trigger Delay</string>
+    <string name="cursor_speed_hold_time">Hold time(ms)</string>
+
+    <string name="gesture_size_title">Perform the gesture to adjust the sensitive.</string>
+    <string name="gesture_size">Gesture size</string>
+    <string name="gesture_size_desc">When you perform the gesture, it will register below. To find the right sensitivity for you, adjust the slider to match the length of the green line.</string>
+    <string name="gesture_size_land_desc">Set how prominent your gesture has to be in order to trigger the action.</string>
+    <string name="gesture_size_smaller">Smaller</string>
+    <string name="gesture_size_bigger">Bigger</string>
+    <string name="perform_open_mouth">Perform &quot;Open mouth&quot;</string>
+
+    <string name="grant_permission_title">Grant access</string>
 
 </resources>
