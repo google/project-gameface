@@ -106,8 +106,8 @@ public class GestureSizeActivity extends AppCompatActivity {
 
         TextView targetGesture = findViewById(R.id.targetGesture);
 
-        String beautifyBlendshapeName = BlendshapeEventTriggerConfig.BEAUTIFY_BLENDSHAPE_NAME.get(selectedGesture);
-        targetGesture.setText("Perform \""+beautifyBlendshapeName+"\"");
+        String beautifyBlendshapeName = BlendshapeEventTriggerConfig.getBlendshapeName(this, selectedGesture);
+        targetGesture.setText(getResources().getString(R.string.gesture_size_activity_perform_something, beautifyBlendshapeName));
 
 
         stateReceiver = new BroadcastReceiver() {

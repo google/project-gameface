@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">GameFace</string>
 
 
@@ -44,16 +44,84 @@
 
     </string-array>
 
-    <string name="project_name">Project Gameface</string>
+    <string-array name="event_type_keys">
+        <item>NONE</item>
+        <item>CURSOR_TOUCH</item>
+        <item>CURSOR_PAUSE</item>
+        <item>CURSOR_RESET</item>
+        <item>SWIPE_LEFT</item>
+        <item>SWIPE_RIGHT</item>
+        <item>SWIPE_UP</item>
+        <item>SWIPE_DOWN</item>
+        <item>DRAG_TOGGLE</item>
+        <item>HOME</item>
+        <item>BACK</item>
+        <item>SHOW_NOTIFICATION</item>
+        <item>SHOW_APPS</item>
+    </string-array>
+
+    <string-array name="event_type_keys_values">
+        <item>None</item>
+        <item>@string/event_type_cursor_touch</item>
+        <item>@string/event_type_cursor_pause</item>
+        <item>@string/event_type_cursor_reset</item>
+        <item>Swipe left</item>
+        <item>Swipe right</item>
+        <item>Swipe up</item>
+        <item>Swipe down</item>
+        <item>@string/event_type_drag_toggle</item>
+        <item>@string/event_type_home</item>
+        <item>@string/event_type_back</item>
+        <item>@string/event_type_show_notification</item>
+        <item>@string/event_type_show_apps</item>
+    </string-array>
+
+    <string-array name="blendshape_keys">
+        <item>NONE</item>
+        <item>OPEN_MOUTH</item>
+        <item>MOUTH_LEFT</item>
+        <item>MOUTH_RIGHT</item>
+        <item>ROLL_LOWER_MOUTH</item>
+        <item>RAISE_RIGHT_EYEBROW</item>
+        <item>RAISE_LEFT_EYEBROW</item>
+        <item>LOWER_RIGHT_EYEBROW</item>
+        <item>LOWER_LEFT_EYEBROW</item>
+    </string-array>
+
+    <string-array name="blendshape_keys_values">
+        <item>@string/gesture_no_binding</item>
+        <item>@string/gesture_open_mouth</item>
+        <item>@string/gesture_mouth_left</item>
+        <item>@string/gesture_mouth_right</item>
+        <item>@string/gesture_roll_lower_mouth</item>
+        <item>@string/gesture_raise_right_eyebrow</item>
+        <item>@string/gesture_raise_left_eyebrow</item>
+        <item>@string/gesture_lower_right_eyebrow</item>
+        <item>@string/gesture_lower_left_eyebrow</item>
+    </string-array>
+
+    <string name="project_name" translatable="false">Project Gameface</string>
     
-    /**
-    * Common words e.g. buttons
-    **/
+   <!--Common words e.g. buttons -->
     <string name="button_next">Next</string>
     <string name="button_back">Back</string>
     <string name="button_done">Done</string>
     <string name="button_exit">Exit</string>
-    <string name="button_setting_gt">Setting  &gt;<string>
+    <string name="button_setting_gt">Setting  &gt;</string>
+    <string name="button_allow">Allow</string>
+    <string name="button_deny">Deny</string>
+
+    <string name="gesture_current">Current</string>
+    <string name="gesture_in_use">In use</string>
+
+    <string name="event_type_cursor_touch">Select</string>
+    <string name="event_type_home">Home</string>
+    <string name="event_type_back">Back</string>
+    <string name="event_type_show_notification">Notifications</string>
+    <string name="event_type_cursor_pause">Pause / Unpause</string>
+    <string name="event_type_cursor_reset">Reset Cursor to center</string>
+    <string name="event_type_drag_toggle">Touch and hold</string>
+    <string name="event_type_show_apps">All Apps</string>
 
     <string name="gesture_open_mouth">Open mouth</string>
     <string name="gesture_mouth_left">Mouth left</string>
@@ -64,7 +132,17 @@
     <string name="gesture_lower_right_eyebrow">Lower right eyebrow</string>
     <string name="gesture_lower_left_eyebrow">Lower left eyebrow</string>
     <string name="gesture_none">None</string>
+    <string name="gesture_no_binding">No binding</string>
 
+    <!-- Permission alerts -->
+    <string name="grant_permission_title">Grant access</string>
+    <string name="alert_permission_camera_title">Access Camera</string>
+    <string name="alert_permission_camera_msg">Allow <xliff:g id="project_name">%1$s</xliff:g> to access \\nthe camera?</string>
+    <!-- see https://cs.android.com/android/platform/superproject/main/+/main:packages/apps/Settings/res/values-ko/strings.xml -->
+    <string name="enable_service_title">Allow <xliff:g id="project_name">%1$s</xliff:g> to have full control of your device?</string>
+    <string name="accessibility_service_warning_description">Full control is appropriate for apps \\nthat help you with accessibility \\nneeds, but not for most apps.</string>
+
+    <!-- Main screen -->
     <string name="main_use_game_face">Use GameFace</string>
     <string name="main_set_up_gestures">Set up gestures</string>
     <string name="main_set_up_gestures_desc">Select which facial gesture you want to use for each action</string>
@@ -72,6 +150,7 @@
     <string name="main_adjust_cursor_speed_desc">Your cursor will follow your head movement</string>
     <string name="main_watch_tutorial">Watch the tutorial</string>
 
+    <!-- Tutorial screen -->
     <string name="tutorial_first_title">Control your phone with your facial gestures</string>
     <string name="tutorial_desc">Project Gameface helps you control your phone using facial gestures and head movements. You can learn how to set up gestures in the tutorial video.</string>
     <string name="tutorial_video_footer">You can also watch the tutorial anytime after setup</string>
@@ -82,16 +161,8 @@
     <string name="choose_gesture_desc">Choose a facial gesture that will select items on your phone, like apps, text, buttons, and more</string>
 
     <string name="cursor_binding_desc">Choose facial gesture for each action. You can also adjust the gesture\'s sensitivity.</string>
-    <string name="cursor_binding_item_cursor_touch">Select</string>
-    <string name="cursor_binding_item_home">Home</string>
-    <string name="cursor_binding_item_back">Back</string>
-    <string name="cursor_binding_item_show_notification">Notifications</string>
-    <string name="cursor_binding_item_cursor_pause">Pause / Unpause</string>
-    <string name="cursor_binding_item_cursor_reset">Reset Cursor to center</string>
-    <string name="cursor_binding_item_drag_toggle">Touch and hold</string>
-    <string name="cursor_binding_item_show_apps">All Apps</string>
-
     <string name="cursor_binding_button_add">Add</string>
+    <string name="cursor_binding_button_edit">Edit</string>
     <string name="cursor_binding_button_no_binding">No binding</string>
 
     <string name="cursor_speed_desc">Your cursor will follow your head movement. You can adjust how quickly your cursor moves in each direction.</string>
@@ -111,8 +182,6 @@
     <string name="gesture_size_land_desc">Set how prominent your gesture has to be in order to trigger the action.</string>
     <string name="gesture_size_smaller">Smaller</string>
     <string name="gesture_size_bigger">Bigger</string>
+    <string name="gesture_size_activity_perform_something">Perform \"<xliff:g id="blendshape">%1$s</xliff:g>\"</string>
     <string name="perform_open_mouth">Perform &quot;Open mouth&quot;</string>
-
-    <string name="grant_permission_title">Grant access</string>
-
 </resources>

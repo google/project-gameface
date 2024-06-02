@@ -41,9 +41,6 @@ public class ChooseGestureActivity extends AppCompatActivity {
     private static final String TAG = "ChooseGestureActivity";
     private LinearLayout unFocus;
 
-    private static final String CURRENT_TEXT = "\n(Current)";
-    private static final String IN_USE_TEXT = "\n(In use)";
-
     ConstraintLayout chooseGestureLayout;
 
     // What is the target action for this page.
@@ -75,9 +72,9 @@ public class ChooseGestureActivity extends AppCompatActivity {
 
 
         String newTextLabel = (String) gestureText.getText();
-        newTextLabel= newTextLabel.replace(IN_USE_TEXT, "");
-        newTextLabel = newTextLabel.replace(CURRENT_TEXT, "");
-        newTextLabel +=  IN_USE_TEXT;
+        newTextLabel= newTextLabel.replace("\n("+getResources().getString(R.string.gesture_in_use)+")", "");
+        newTextLabel = newTextLabel.replace("\n("+getResources().getString(R.string.gesture_current)+")", "");
+        newTextLabel += "\n("+getResources().getString(R.string.gesture_in_use)+")";
 
 
         gestureText.setText(newTextLabel);
@@ -101,9 +98,9 @@ public class ChooseGestureActivity extends AppCompatActivity {
         {return;}
 
         String newTextLabel = (String) gestureText.getText();
-        newTextLabel = newTextLabel.replace(IN_USE_TEXT, "");
-        newTextLabel = newTextLabel.replace(CURRENT_TEXT, "");
-        newTextLabel +=  CURRENT_TEXT;
+        newTextLabel = newTextLabel.replace("\n("+getResources().getString(R.string.gesture_in_use)+")", "");
+        newTextLabel = newTextLabel.replace("\n("+getResources().getString(R.string.gesture_current)+")", "");
+        newTextLabel += "\n("+getResources().getString(R.string.gesture_current)+")";
         gestureText.setText(newTextLabel);
         gestureText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
     }
@@ -122,8 +119,8 @@ public class ChooseGestureActivity extends AppCompatActivity {
         {return;}
 
         String newTextLabel = (String) gestureText.getText();
-        newTextLabel = newTextLabel.replace(IN_USE_TEXT, "");
-        newTextLabel = newTextLabel.replace(CURRENT_TEXT, "");
+        newTextLabel = newTextLabel.replace("\n("+getResources().getString(R.string.gesture_in_use)+")", "");
+        newTextLabel = newTextLabel.replace("\n("+getResources().getString(R.string.gesture_current)+")", "");
 
 
         gestureText.setText(newTextLabel);
@@ -231,7 +228,7 @@ public class ChooseGestureActivity extends AppCompatActivity {
 
 
         // Setting actionbar
-        String actionBarText = BlendshapeEventTriggerConfig.BEATIFY_EVENT_TYPE_NAME.get(pageEventType);
+        String actionBarText = BlendshapeEventTriggerConfig.getActionName(this, pageEventType);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(actionBarText);
 
@@ -303,10 +300,10 @@ public class ChooseGestureActivity extends AppCompatActivity {
                 selectedBlendshape = BlendshapeEventTriggerConfig.BLENDSHAPE_FROM_ORDER_IN_UI.get(position);
                 if(selectedBlendshape == BlendshapeEventTriggerConfig.Blendshape.NONE){
                     Button nextBtn = findViewById(R.id.nextBtn);
-                    nextBtn.setText("Done");
+                    nextBtn.setText(getResources().getText(R.string.button_done));
                 } else {
                     Button nextBtn = findViewById(R.id.nextBtn);
-                    nextBtn.setText("Next");
+                    nextBtn.setText(getResources().getText(R.string.button_next));
                 }
                 unFocus = (LinearLayout) childView;
 

@@ -56,39 +56,6 @@ public class BlendshapeEventTriggerConfig {
     SHOW_APPS
   }
 
-  // EventType string name used in title bar UI.
-  public static final HashMap<EventType, String> BEATIFY_EVENT_TYPE_NAME = new HashMap<EventType, String>() {{
-    put(EventType.NONE, "None");
-    put(EventType.CURSOR_TOUCH, "Select");
-    put(EventType.CURSOR_PAUSE, "Pause / Unpause");
-    put(EventType.CURSOR_RESET, "Reset");
-    put(EventType.SWIPE_LEFT, "Swipe left");
-    put(EventType.SWIPE_RIGHT, "Swipe right");
-    put(EventType.SWIPE_UP, "Swipe up");
-    put(EventType.SWIPE_DOWN, "Swipe down");
-    put(EventType.DRAG_TOGGLE, "Drag toggle");
-    put(EventType.HOME, "Home");
-    put(EventType.BACK, "Back");
-    put(EventType.SHOW_NOTIFICATION, "Notification");
-    put(EventType.SHOW_APPS, "All Apps");
-  }};
-
-
-  // String for display in the UI only.
-  public static final HashMap<Blendshape, String> BEAUTIFY_BLENDSHAPE_NAME = new HashMap<Blendshape, String>() {{
-    put(Blendshape.NONE, "No binding");
-    put(Blendshape.OPEN_MOUTH, "Open mouth");
-    put(Blendshape.MOUTH_LEFT, "Mouth left");
-    put(Blendshape.MOUTH_RIGHT, "Mouth right");
-    put(Blendshape.ROLL_LOWER_MOUTH, "Roll lower mouth");
-    put(Blendshape.RAISE_RIGHT_EYEBROW, "Raise right eyebrow");
-    put(Blendshape.RAISE_LEFT_EYEBROW, "Raise left eyebrow");
-    put(Blendshape.LOWER_RIGHT_EYEBROW, "Lower right eyebrow");
-    put(Blendshape.LOWER_LEFT_EYEBROW, "Lower left eyebrow");
-
-
-  }};
-
 
 
 
@@ -277,6 +244,18 @@ public class BlendshapeEventTriggerConfig {
   }
 
   /**
+   * Get UI text of event string name.
+   * @param eventType
+   */
+  public static String getActionName(Context context, EventType eventType) {
+    String[] keys = context.getResources().getStringArray(R.array.event_type_keys);
+    String[] values = context.getResources().getStringArray(R.array.event_type_keys_values);
+
+    int index = Arrays.asList(keys).indexOf(String.valueOf(eventType));
+    return values[index];
+  }
+
+  /**
    * Get description text of event action type.
    * @param eventType
    * @return
@@ -290,6 +269,20 @@ public class BlendshapeEventTriggerConfig {
     int index = Arrays.asList(keys).indexOf(String.valueOf(eventType));
     return values[index];
 
+  }
+
+  /**
+   * Get UI text of blendshape name.
+   * @param blendshape
+   */
+  public static String getBlendshapeName(Context context, BlendshapeEventTriggerConfig.Blendshape blendshape) {
+
+
+    String[] keys = context.getResources().getStringArray(R.array.blendshape_keys);
+    String[] values = context.getResources().getStringArray(R.array.blendshape_keys_values);
+
+    int index = Arrays.asList(keys).indexOf(String.valueOf(blendshape));
+    return values[index];
   }
 
 

@@ -88,9 +88,9 @@ public class CursorBinding extends AppCompatActivity {
                 BlendshapeEventTriggerConfig.BLENDSHAPE_FROM_ORDER_IN_UI.indexOf(
                 BlendshapeEventTriggerConfig.Blendshape.NONE)));
 
-        String addTxt = "Add";
-        String editTxt = "Edit";
-        String beautifyBlendshapeName = BlendshapeEventTriggerConfig.BEAUTIFY_BLENDSHAPE_NAME.get(savedBlendshape);
+        String addTxt = getString(R.string.cursor_binding_button_add);
+        String editTxt = getString(R.string.cursor_binding_button_edit);
+        String beautifyBlendshapeName = BlendshapeEventTriggerConfig.getBlendshapeName(this, savedBlendshape);
         textViewAction.setText(beautifyBlendshapeName);
 
 

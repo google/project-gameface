@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isServiceBound = false;
     private boolean keep = true;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -214,14 +212,14 @@ public class MainActivity extends AppCompatActivity {
         // Check Camera Permission
         if(!checkCameraPermission()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            String alertMsg = "Allow Project GameFace to access \nthe camera?";
-            builder.setTitle("Access Camera");
+            String alertMsg = getResources().getString(R.string.alert_permission_camera_msg, getResources().getString((R.string.project_name)));
+            builder.setTitle(getResources().getString(R.string.alert_permission_camera_title));
             builder.setMessage(alertMsg);
-            builder.setPositiveButton("Allow", (dialog, which) -> {
+            builder.setPositiveButton(getResources().getString(R.string.button_allow), (dialog, which) -> {
                 RequestCameraPermission();
                 dialog.dismiss();
             });
-            builder.setNegativeButton("Deny", (dialog, which) -> {
+            builder.setNegativeButton(getResources().getString(R.string.button_deny), (dialog, which) -> {
                 dialog.cancel();
                 Intent intent = new Intent(getBaseContext(), GrantPermissionActivity.class);
                 intent.putExtra("permission", "grantCamera");
@@ -249,14 +247,14 @@ public class MainActivity extends AppCompatActivity {
         // Check Accessibility Permission
         if(!checkAccessibilityPermission()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            String alertMsg = "Full control is appropriate for apps \nthat help you with accessibility \nneeds, but not for most apps.";
-            builder.setTitle("Allow Project GameFace to have full control of your device?");
+            String alertMsg = getResources().getString(R.string.accessibility_service_warning_description);
+            builder.setTitle(getResources().getString(R.string.enable_service_title, getResources().getString(R.string.project_name)));
             builder.setMessage(alertMsg);
-            builder.setPositiveButton("Allow", (dialog, which) -> {
+            builder.setPositiveButton(getResources().getString(R.string.button_allow), (dialog, which) -> {
                 RequestAccessibilityPermission();
                 dialog.dismiss();
             });
-            builder.setNegativeButton("Deny", (dialog, which) -> {
+            builder.setNegativeButton(getResources().getString(R.string.button_deny), (dialog, which) -> {
                 dialog.cancel();
                 Intent intent = new Intent(getBaseContext(), GrantPermissionActivity.class);
                 intent.putExtra("permission", "grantAccessibility");
